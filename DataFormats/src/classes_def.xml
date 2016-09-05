@@ -1,0 +1,42 @@
+<lcgdict>
+
+<class name="std::vector<pat::PackedCandidate>"/>
+<class name="edm::Ptr<pat::PackedCandidate>" />
+<class name="std::vector<edm::Ptr<pat::PackedCandidate> >"/>
+<class name="edm::Wrapper<std::vector<edm::Ptr<pat::PackedCandidate> > >"/>
+
+
+<class name="flashgg::DiLeptonDiJetCandidate"/>
+<class name="std::vector<flashgg::DiLeptonDiJetCandidate>"/>
+<class name="edm::Wrapper<std::vector<flashgg::DiLeptonDiJetCandidate> >"/>
+<class name="edm::Ptr<flashgg::DiLeptonDiJetCandidate>"/>
+<class name="edm::Wrapper<edm::Ptr<flashgg::DiLeptonDiJetCandidate> >"/>
+<class name="std::vector<edm::Ptr<flashgg::DiLeptonDiJetCandidate> >"/>
+<class name="edm::Wrapper<std::vector<edm::Ptr<flashgg::DiLeptonDiJetCandidate> > >"/>
+
+
+<class name="flashgg::DiLeptonDiJetTagBase" />
+<class name="std::vector<flashgg::DiLeptonDiJetTagBase>"/>
+<class name="edm::Wrapper<std::vector<flashgg::DiLeptonDiJetTagBase> >"/>
+<class name="edm::Ptr<flashgg::DiLeptonDiJetTagBase>"/>
+<class name="edm::Wrapper<edm::Ptr<flashgg::DiLeptonDiJetTagBase> >"/>
+<class name="edm::OwnVector<flashgg::DiLeptonDiJetTagBase, edm::ClonePolicy<flashgg::DiLeptonDiJetTagBase> >" />
+<class name="edm::Wrapper<edm::OwnVector<flashgg::DiLeptonDiJetTagBase, edm::ClonePolicy<flashgg::DiLeptonDiJetTagBase> > >" />
+
+<class name="flashgg::DiEleDiJetTag" />
+<class name="std::vector<flashgg::DiEleDiJetTag>"/>
+<class name="edm::Wrapper<std::vector<flashgg::DiEleDiJetTag> >"/>
+
+<class name="flashgg::DiMuDiJetTag" />
+<class name="std::vector<flashgg::DiMuDiJetTag>"/>
+<class name="edm::Wrapper<std::vector<flashgg::DiMuDiJetTag> >"/>
+
+<class name="flashgg::DiEleDiTrackTag" />
+<class name="std::vector<flashgg::DiEleDiTrackTag>"/>
+<class name="edm::Wrapper<std::vector<flashgg::DiEleDiTrackTag> >"/>
+
+<class name="flashgg::DiMuDiTrackTag" />
+<class name="std::vector<flashgg::DiMuDiTrackTag>"/>
+<class name="edm::Wrapper<std::vector<flashgg::DiMuDiTrackTag> >"/>
+
+</lcgdict>
