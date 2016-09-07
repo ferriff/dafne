@@ -39,9 +39,9 @@ flashggMicroAODSequenceDiLeptonDiJet = cms.Sequence(eventCount+weightsCount
                                        +flashggVertexMapUnique+flashggVertexMapNonUnique
                                        +electronMVAValueMapProducer*egmGsfElectronIDs*flashggElectrons*flashggSelectedElectrons
                                        +flashggMuons*flashggSelectedMuons
-                                       +flashggMicroAODGenSequence
-                                       +flashggPhotons * flashggRandomizedPhotons * flashggDiPhotons
-                                       +flashggVertexMapForCHS*flashggFinalJets
-                                       +flashggVertexMapForPUPPI*flashggFinalPuppiJets
+                                       # +flashggMicroAODGenSequence
+                                       #+flashggPhotons * flashggRandomizedPhotons #* flashggDiPhotons
+                                       # +flashggVertexMapForCHS*flashggFinalJets
+                                       # +flashggVertexMapForPUPPI*flashggFinalPuppiJets
                                        +flashggDiLeptonDiJet
                                        )
