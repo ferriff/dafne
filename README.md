@@ -50,7 +50,7 @@ Then, prepare a json file with the list of datasets to be processed, as in the e
 To generate the crab3 configuration run (see `./prepareCrabJobs.py --help` for the full list of options).
 ```
 ./prepareCrabJobs.py -p <parameterSet> \
-		     -C <microAODCampaginName> \
+		     -C <microAODCampaignName> \
 		     -s <jsonFileWithDatasetList> \
 		     --mkPilot
 ```
