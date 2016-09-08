@@ -39,4 +39,9 @@
 <class name="std::vector<flashgg::DiMuDiTrackTag>"/>
 <class name="edm::Wrapper<std::vector<flashgg::DiMuDiTrackTag> >"/>
 
+
+<class name="flashgg::DiLeptonDiJetTagCandidate" />
+<class name="std::vector<flashgg::DiLeptonDiJetTagCandidate>"/>
+<class name="edm::Wrapper<std::vector<flashgg::DiLeptonDiJetTagCandidate> >"/>
+
 </lcgdict>

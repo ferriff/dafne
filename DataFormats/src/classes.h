@@ -5,6 +5,7 @@
 #include "dafne/DataFormats/interface/DiMuDiJetTag.h"
 #include "dafne/DataFormats/interface/DiEleDiTrackTag.h"
 #include "dafne/DataFormats/interface/DiMuDiTrackTag.h"
+#include "dafne/DataFormats/interface/DiLeptonDiJetTagCandidate.h"
 
 
 #include <vector>
@@ -53,6 +54,10 @@ namespace  {
         std::vector<flashgg::DiMuDiTrackTag> vec_dmdt;
         edm::Wrapper<std::vector<flashgg::DiMuDiTrackTag> > wrp_vec_dmdt;
 
+        flashgg::DiLeptonDiJetTagCandidate                                        dldjtags;
+        edm::Wrapper<flashgg::DiLeptonDiJetTagCandidate>                      wrp_dldjtags;
+        std::vector<flashgg::DiLeptonDiJetTagCandidate>                       vec_dldjtags;
+        edm::Wrapper<std::vector<flashgg::DiLeptonDiJetTagCandidate> >    wrp_vec_dldjtags;
 
     };
 }
