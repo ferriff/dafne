@@ -58,7 +58,8 @@ namespace flashgg {
 		double maxMuEta_;
 		double minJetPt_;
 		double maxJetEta_;
-
+		double minTrackPt_;
+		double maxTrackEta_;
 
 	};
 
@@ -76,6 +77,8 @@ namespace flashgg {
 		maxMuEta_ = iConfig.getParameter<double>( "maxMuonEta" );
 		minJetPt_ = iConfig.getParameter<double>( "minJetPt" );
 		maxJetEta_ = iConfig.getParameter<double>( "maxJetEta" );
+		minTrackPt_ = iConfig.getParameter<double>( "minTrackPt" );
+		maxTrackEta_ = iConfig.getParameter<double>( "maxTrackEta" );		
 
 		produces<vector<flashgg::DiLeptonDiJetCandidate> >();
 	}
@@ -159,12 +162,12 @@ namespace flashgg {
 							Track_ptr track1 = trackPointers[l];
 							double pt_track1 = track1->pt();
 							double eta_track1 = track1->eta();
-							if( pt_track1 < minJetPt_ || fabs( eta_track1 ) > maxJetEta_ ) { continue; }
+							if( pt_track1 < minTrackPt_ || fabs( eta_track1 ) > maxTrackEta_ ) { continue; }
 							for( unsigned int h = l + 1 ; h < trackPointers.size() ; h++ ) {		
 								Track_ptr track2 = trackPointers[h];
 								double pt_track2 = track2->pt();
 								double eta_track2 = track2->eta();
-								if( pt_track2 < minJetPt_ || fabs( eta_track2 ) > maxJetEta_ ) { continue; }
+								if( pt_track2 < minTrackPt_ || fabs( eta_track2 ) > maxTrackEta_ ) { continue; }
 
 								DiLeptonDiJetCandidate DiEleDiTrack( electron1, electron2, track1, track2, pvx);  //create DiLeptonDiJetCandidate with 2ele and 2tracks
 
@@ -240,12 +243,12 @@ namespace flashgg {
 							Track_ptr track1 = trackPointers[l];
 							double pt_track1 = track1->pt();
 							double eta_track1 = track1->eta();
-							if( pt_track1 < minJetPt_ || fabs( eta_track1 ) > maxJetEta_ ) { continue; }
+							if( pt_track1 < minTrackPt_ || fabs( eta_track1 ) > maxTrackEta_ ) { continue; }
 							for( unsigned int h = l + 1 ; h < trackPointers.size() ; h++ ) {		
 								Track_ptr track2 = trackPointers[h];
 								double pt_track2 = track2->pt();
 								double eta_track2 = track2->eta();
-								if( pt_track2 < minJetPt_ || fabs( eta_track2 ) > maxJetEta_ ) { continue; }
+								if( pt_track2 < minTrackPt_ || fabs( eta_track2 ) > maxTrackEta_ ) { continue; }
 
 								DiLeptonDiJetCandidate DiMuonDiTrack( muon1, muon2, track1, track2, pvx);  //create DiLeptonDiJetCandidate with 2muons and 2jets
 

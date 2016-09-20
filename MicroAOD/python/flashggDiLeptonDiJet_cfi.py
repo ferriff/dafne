@@ -12,5 +12,7 @@ flashggDiLeptonDiJet = cms.EDProducer('FlashggDiLeptonDiJetProducer',
 									minMuonPt=cms.double(5.),
 									maxMuonEta=cms.double(2.4),
                                     minJetPt=cms.double(7.),
-                                    maxJetEta=cms.double(2.4)
+                                    maxJetEta=cms.double(2.4),
+                                    minTrackPt=cms.double(20.),
+                                    maxTrackEta=cms.double(2.4)
                                   )
