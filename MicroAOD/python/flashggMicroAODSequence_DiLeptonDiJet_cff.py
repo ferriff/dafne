@@ -34,14 +34,14 @@ weightsCount = cms.EDProducer("WeightsCountProducer",
                               maxTruePileup=cms.double(100.5),
                               nbinsTruePileup=cms.int32(101),
                               )
-
+ 
 flashggMicroAODSequenceDiLeptonDiJet = cms.Sequence(eventCount+weightsCount
                                        +flashggVertexMapUnique+flashggVertexMapNonUnique
                                        +electronMVAValueMapProducer*egmGsfElectronIDs*flashggElectrons*flashggSelectedElectrons
                                        +flashggMuons*flashggSelectedMuons
-                                       # +flashggMicroAODGenSequence
-                                       #+flashggPhotons * flashggRandomizedPhotons #* flashggDiPhotons
-                                       # +flashggVertexMapForCHS*flashggFinalJets
-                                       # +flashggVertexMapForPUPPI*flashggFinalPuppiJets
+                                       +flashggMicroAODGenSequence
+                                       +flashggPhotons * flashggRandomizedPhotons * flashggDiPhotons
+                                       +flashggVertexMapForCHS*flashggFinalJets
+                                       +flashggVertexMapForPUPPI*flashggFinalPuppiJets
                                        +flashggDiLeptonDiJet
                                        )
