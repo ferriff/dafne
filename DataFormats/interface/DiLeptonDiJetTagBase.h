@@ -57,13 +57,13 @@ namespace flashgg {
             otherTagIndices_.push_back(other.diLeptonDiJetIndex());
         }
 
-        // void addOtherTags( std::vector<std::tuple<DiLeptonDiJetTagBase::tag_t,int,int> > others ) { 
-        //     for (unsigned i = 0 ; i < others.size() ; i++) {
-        //         otherTagTypes_.push_back(std::get<0>(others[i]));
-        //         otherTagCategories_.push_back(std::get<1>(others[i]));
-        //         otherTagIndices_.push_back(std::get<2>(others[i]));
-        //     }
-        // }
+        void addOtherTags( std::vector<std::tuple<DiLeptonDiJetTagBase::tag_t,int,int> > others ) { 
+            for (unsigned i = 0 ; i < others.size() ; i++) {
+                otherTagTypes_.push_back(std::get<0>(others[i]));
+                otherTagCategories_.push_back(std::get<1>(others[i]));
+                otherTagIndices_.push_back(std::get<2>(others[i]));
+            }
+        }
 
         DiLeptonDiJetTagBase::tag_t otherTagType( unsigned i ) const { return otherTagTypes_[i]; }
 
@@ -79,7 +79,7 @@ namespace flashgg {
         edm::Ptr<TagTruthBase> truth_;
         string systLabel_;
         // bool isGold_;
-        // std::vector<std::tuple<DiPhotonTagBase::tag_t,int,int> > otherTags_; // (type,category,diphoton index)   
+        std::vector<std::tuple<DiLeptonDiJetTagBase::tag_t,int,int> > otherTags_; // (type,category,diphoton index)   
         std::vector<DiLeptonDiJetTagBase::tag_t> otherTagTypes_;
         std::vector<int> otherTagCategories_;
         std::vector<int> otherTagIndices_;
