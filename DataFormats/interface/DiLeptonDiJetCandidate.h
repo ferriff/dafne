@@ -118,6 +118,17 @@ namespace flashgg {
         Point genPV() const { return genPV_; }
 
 
+        float invMass() const; 
+		float diLeptonInvMass() const; 
+
+		float leadingLeptonPt() const; 
+		float subLeadingLeptonPt() const; 
+		float leadingLeptonEta() const;
+		float subLeadingLeptonEta() const; 		
+		float leadingLeptonPhi() const;
+		float subLeadingLeptonPhi() const; 	
+
+
 		float sumPt() const
 		{	
 			if (type_ == kEEJJ) return ( electron1()->pt() + electron2()->pt() + leadingJet()->pt() + subLeadingJet()->pt() );
@@ -129,6 +140,26 @@ namespace flashgg {
 
 		bool operator <( const DiLeptonDiJetCandidate &b ) const;
 		bool operator >( const DiLeptonDiJetCandidate &b ) const;
+
+		bool isEEJJ() const {
+			if (type_ == kEEJJ) return true;
+			else return false;
+		}
+
+		bool isEETT() const {
+			if (type_ == kEETT) return true;
+			else return false;
+		}
+
+		bool isMMJJ() const {
+			if (type_ == kMMJJ) return true;
+			else return false;
+		}
+
+		bool isMMTT() const {
+			if (type_ == kMMTT) return true;
+			else return false;
+		}
 
 		DiLeptonDiJetCandidate *clone() const { return ( new DiLeptonDiJetCandidate( *this ) ); }
 
@@ -159,6 +190,9 @@ namespace flashgg {
 		vector< Vertex_ptr > vVtxPtr_;
 		unsigned int jetCollectionIndex_; // index for which jet collection corresponds to the vertex choice in this diphoton
         Point genPV_;
+
+        float invMass_;
+        float diLeptonInvMass_;
 	};
 
 

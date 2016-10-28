@@ -144,13 +144,13 @@ namespace flashgg {
 
 								int ivtx = 0;
 								for( unsigned int k = 0; k < primaryVertices->size() ; k++ ) {
-								 	if( pvx == primaryVertices->ptrAt( k ) ) {
-							    		ivtx = k;
-							    		break;
-							    	}
-							    }
-								DiEleDiJet.setVertexIndex( ivtx );
-								
+									if( pvx == primaryVertices->ptrAt( k ) ) {
+										ivtx = k;
+										break;
+									}
+								}
+								DiEleDiJet.setVertexIndex( ivtx );               				
+
 								DiLeptonDiJetColl->push_back( DiEleDiJet );  // store the DiEleDiJet into the collection
 							}
 						}
@@ -175,12 +175,12 @@ namespace flashgg {
 
 								int ivtx = 0;
 								for( unsigned int k = 0; k < primaryVertices->size() ; k++ ) {
-								 	if( pvx == primaryVertices->ptrAt( k ) ) {
-							    		ivtx = k;
-							    		break;
-							    	}	
-							    }
-								DiEleDiTrack.setVertexIndex( ivtx );						
+									if( pvx == primaryVertices->ptrAt( k ) ) {
+										ivtx = k;
+										break;
+									}	
+								}
+								DiEleDiTrack.setVertexIndex( ivtx );				
 
 								DiLeptonDiJetColl->push_back( DiEleDiTrack );  // store the DiEleDiTrack into the collection
 							}
@@ -225,10 +225,10 @@ namespace flashgg {
 
 								int ivtx = 0;
 								for( unsigned int k = 0; k < primaryVertices->size() ; k++ ) {
-								 	if( pvx == primaryVertices->ptrAt( k ) ) {
-							    		ivtx = k;
-							    		break;
-							    	}	
+									if( pvx == primaryVertices->ptrAt( k ) ) {
+										ivtx = k;
+										break;
+									}	
 								}
 								DiMuonDiJet.setVertexIndex( ivtx );
 
@@ -256,10 +256,10 @@ namespace flashgg {
 
 								int ivtx = 0;
 								for( unsigned int k = 0; k < primaryVertices->size() ; k++ ) {
-								 	if( pvx == primaryVertices->ptrAt( k ) ) {
-							    		ivtx = k;
-							    		break;
-							    	}	
+									if( pvx == primaryVertices->ptrAt( k ) ) {
+										ivtx = k;
+										break;
+									}	
 								}
 								DiMuonDiTrack.setVertexIndex( ivtx );
 

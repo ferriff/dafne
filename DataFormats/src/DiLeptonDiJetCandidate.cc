@@ -265,11 +265,11 @@ const Jet_t *DiLeptonDiJetCandidate::subLeadingJet() const
 const Track_t *DiLeptonDiJetCandidate::leadingTrack() const
 {
 	if (type_ == kEETT || type_ == kMMTT) {	
-    	if( daughter( 2 )->pt() > daughter( 3 )->pt() ) {          //if( tracks_[0]->pt() > tracks_[1]->pt() ) {
-        	return dynamic_cast<const Track_t *>( daughter( 2 ) ); //return tracks_[0];
-	    } else {
-    	    return dynamic_cast<const Track_t *>( daughter( 3 ) ); //return tracks_[1];
-    	}
+		if( daughter( 2 )->pt() > daughter( 3 )->pt() ) {          //if( tracks_[0]->pt() > tracks_[1]->pt() ) {
+			return dynamic_cast<const Track_t *>( daughter( 2 ) ); //return tracks_[0];
+		} else {
+			return dynamic_cast<const Track_t *>( daughter( 3 ) ); //return tracks_[1];
+		}
 	} else return nullptr;
 }
 
@@ -277,12 +277,95 @@ const Track_t *DiLeptonDiJetCandidate::leadingTrack() const
 const Track_t *DiLeptonDiJetCandidate::subLeadingTrack() const
 {
 	if (type_ == kEETT || type_ == kMMTT) {	
-	    if( daughter( 2 )->pt() > daughter( 3 )->pt() ) {          //if( tracks_[0]->pt() > tracks_[1]->pt() ) {
-    	    return dynamic_cast<const Track_t *>( daughter( 3 ) ); //return tracks_[1];
-	    } else {
-    	    return dynamic_cast<const Track_t *>( daughter( 2 ) ); //return tracks_[0];
-    	}
-    } else return nullptr;
+		if( daughter( 2 )->pt() > daughter( 3 )->pt() ) {          //if( tracks_[0]->pt() > tracks_[1]->pt() ) {
+			return dynamic_cast<const Track_t *>( daughter( 3 ) ); //return tracks_[1];
+		} else {
+			return dynamic_cast<const Track_t *>( daughter( 2 ) ); //return tracks_[0];
+		}
+	} else return nullptr;
+}
+
+
+float DiLeptonDiJetCandidate::invMass() const {  
+	TLorentzVector l1, l2, j1, j2; 
+	l1.SetPxPyPzE( 0., 0., 0., 0. );
+	l2.SetPxPyPzE( 0., 0., 0., 0. );
+	j1.SetPxPyPzE( 0., 0., 0., 0. );
+	j2.SetPxPyPzE( 0., 0., 0., 0. );
+	if (type_ == kEEJJ) {
+		l1.SetPxPyPzE( electron1()->px(), electron1()->py(), electron1()->pz(), electron1()->energy() );
+		l2.SetPxPyPzE( electron2()->px(), electron2()->py(), electron2()->pz(), electron2()->energy() );
+		j1.SetPxPyPzE( leadingJet()->px(), leadingJet()->py(), leadingJet()->pz(), leadingJet()->energy() );
+		j2.SetPxPyPzE( subLeadingJet()->px(), subLeadingJet()->py(), subLeadingJet()->pz(), subLeadingJet()->energy() );
+	} else if (type_ == kMMJJ) {
+		l1.SetPxPyPzE( muon1()->px(), muon1()->py(), muon1()->pz(), muon1()->energy() );
+		l2.SetPxPyPzE( muon2()->px(), muon2()->py(), muon2()->pz(), muon2()->energy() );
+		j1.SetPxPyPzE( leadingJet()->px(), leadingJet()->py(), leadingJet()->pz(), leadingJet()->energy() );
+		j2.SetPxPyPzE( subLeadingJet()->px(), subLeadingJet()->py(), subLeadingJet()->pz(), subLeadingJet()->energy() );
+	} else if (type_ == kEETT) {
+		l1.SetPxPyPzE( electron1()->px(), electron1()->py(), electron1()->pz(), electron1()->energy() );
+		l2.SetPxPyPzE( electron2()->px(), electron2()->py(), electron2()->pz(), electron2()->energy() );
+		j1.SetPxPyPzE( leadingTrack()->px(), leadingTrack()->py(), leadingTrack()->pz(), leadingTrack()->energy() );
+		j2.SetPxPyPzE( subLeadingTrack()->px(), subLeadingTrack()->py(), subLeadingTrack()->pz(), subLeadingTrack()->energy() );
+	} else if (type_ == kMMTT) {
+		l1.SetPxPyPzE( muon1()->px(), muon1()->py(), muon1()->pz(), muon1()->energy() );
+		l2.SetPxPyPzE( muon2()->px(), muon2()->py(), muon2()->pz(), muon2()->energy() );
+		j1.SetPxPyPzE( leadingTrack()->px(), leadingTrack()->py(), leadingTrack()->pz(), leadingTrack()->energy() );
+		j2.SetPxPyPzE( subLeadingTrack()->px(), subLeadingTrack()->py(), subLeadingTrack()->pz(), subLeadingTrack()->energy() );
+	}
+	return (l1+l2+j1+j2).M();
+}
+
+
+float DiLeptonDiJetCandidate::diLeptonInvMass() const { 
+	TLorentzVector l1, l2;  
+	l1.SetPxPyPzE( 0., 0., 0., 0. );
+	l2.SetPxPyPzE( 0., 0., 0., 0. );
+	if (type_ == kEEJJ || type_ == kEETT) {
+		l1.SetPxPyPzE( electron1()->px(), electron1()->py(), electron1()->pz(), electron1()->energy() );
+		l2.SetPxPyPzE( electron2()->px(), electron2()->py(), electron2()->pz(), electron2()->energy() );
+	} else if (type_ == kMMJJ || type_ == kMMTT) {
+		l1.SetPxPyPzE( muon1()->px(), muon1()->py(), muon1()->pz(), muon1()->energy() );
+		l2.SetPxPyPzE( muon2()->px(), muon2()->py(), muon2()->pz(), muon2()->energy() );		
+	}
+	return (l1+l2).M();
+}
+
+
+float DiLeptonDiJetCandidate::leadingLeptonPt() const {
+	if (type_ == kEEJJ || type_ == kEETT) return (leadingEle()->pt());
+	else if (type_ == kMMJJ || type_ == kMMTT) return (leadingMuon()->pt());
+	else return 0.;
+}
+
+float DiLeptonDiJetCandidate::subLeadingLeptonPt() const {
+	if (type_ == kEEJJ || type_ == kEETT) return (subLeadingEle()->pt());
+	else if (type_ == kMMJJ || type_ == kMMTT) return (subLeadingMuon()->pt());
+	else return 0.;
+}
+
+float DiLeptonDiJetCandidate::leadingLeptonEta() const {
+	if (type_ == kEEJJ || type_ == kEETT) return (leadingEle()->eta());
+	else if (type_ == kMMJJ || type_ == kMMTT) return (leadingMuon()->eta());
+	else return 0.;
+}
+
+float DiLeptonDiJetCandidate::subLeadingLeptonEta() const {
+	if (type_ == kEEJJ || type_ == kEETT) return (subLeadingEle()->eta());
+	else if (type_ == kMMJJ || type_ == kMMTT) return (subLeadingMuon()->eta());
+	else return 0.;
+}
+
+float DiLeptonDiJetCandidate::leadingLeptonPhi() const {
+	if (type_ == kEEJJ || type_ == kEETT) return (leadingEle()->phi());
+	else if (type_ == kMMJJ || type_ == kMMTT) return (leadingMuon()->phi());
+	else return 0.;
+}
+
+float DiLeptonDiJetCandidate::subLeadingLeptonPhi() const {
+	if (type_ == kEEJJ || type_ == kEETT) return (subLeadingEle()->phi());
+	else if (type_ == kMMJJ || type_ == kMMTT) return (subLeadingMuon()->phi());
+	else return 0.;
 }
 
 
