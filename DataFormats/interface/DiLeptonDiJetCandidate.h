@@ -191,8 +191,8 @@ namespace flashgg {
 		unsigned int jetCollectionIndex_; // index for which jet collection corresponds to the vertex choice in this diphoton
         Point genPV_;
 
-        float invMass_;
-        float diLeptonInvMass_;
+        // float invMass_;
+        // float diLeptonInvMass_;
 	};
 
 
