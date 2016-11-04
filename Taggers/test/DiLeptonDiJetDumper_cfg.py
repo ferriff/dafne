@@ -10,8 +10,8 @@ process.source = cms.Source("PoolSource",
 				fileNames=cms.untracked.vstring(
 				# "file:myMicroAODOutputFile_DiLeptonDiJet.root"  
 				# "root://node12.datagrid.cea.fr//store/user/gnegro/cmsWR/WR-ToLNu_GEN_SIM_13TeV-2016/WR-2400_ToLNu-1200_ToEEJJ_microAOD_13TeV-2016/161026_083911/0000/dafneMicroAOD_WR_10.root"
-				# "/store/user/gnegro/cmsWR/cmsWR2016/dafne/DoubleEG/cmsWR2016-dafne-v0-Run2016B-PromptReco-v2/161027_122605/0000/dafneMicroAOD_100.root"
-				"/store/user/gnegro/cmsWR/cmsWR2016/dafne/MuonEG/cmsWR2016-dafne-v0-Run2016B-PromptReco-v2/161027_122809/0000/dafneMicroAOD_10.root"
+				"/store/user/gnegro/cmsWR/cmsWR2016/dafne/DoubleEG/cmsWR2016-dafne-v0-Run2016B-PromptReco-v2/161027_122605/0000/dafneMicroAOD_100.root"
+				# "/store/user/gnegro/cmsWR/cmsWR2016/dafne/MuonEG/cmsWR2016-dafne-v0-Run2016B-PromptReco-v2/161027_122809/0000/dafneMicroAOD_10.root"
 				#"file:root://eoscms.cern.ch//eos/cms/store/group/phys_higgs/cmshgg/ferriff/flashgg/RunIISpring16DR80X-2_2_0-25ns_ICHEP16_MiniAODv2/2_2_0/DoubleEG/RunIISpring16DR80X-2_2_0-25ns_ICHEP16_MiniAODv2-2_2_0-v0-Run2016B-PromptReco-v2/160707_143218/0000/myMicroAODOutputFile_938.root" 
 				)
 )
@@ -104,10 +104,20 @@ cfgTools.addCategories(process.DiLeptonDiJetDumper,
 											 ## the variables need to be defined first
 											 histograms=[
 														# "subLeadLeptonPt:leadLeptonPt>>ptSubVsLead(180,20,200:180,20,200)",
-														# "leadElePt>>leadElePt(100, 0, 100)",
-														# "subLeadElePt>>subLeadElePt(100, 0, 100)",
-														# "leadJetPt>>leadJetPt(100, 0, 100)",
-														# "subLeadJetPt>>subLeadJetPt(100, 0, 100)",
+														"leadLeptonPt>>leadLeptonPt(100, 0, 2500)",
+														"subLeadLeptonPt>>subLeadLeptonPt(100, 0, 2500)",
+														"leadJetPt>>leadJetPt(100, 0, 2500)",
+														"subLeadJetPt>>subLeadJetPt(100, 0, 2500)",
+														"leadLeptonEta>>leadLeptonEta(100, -4, 4)",
+														"subLeadLeptonEta>>subLeadLeptonEta(100, -4, 4)",
+														"leadJetEta>>leadJetEta(100, -4, 4)",
+														"subLeadJetEta>>subLeadJetEta(100, -4, 4)",
+														"leadLeptonPhi>>leadLeptonPhi(100, -3.2, 3.2)",
+														"subLeadLeptonPhi>>subLeadLeptonPhi(100, -3.2, 3.2)",
+														"leadJetPhi>>leadJetPhi(100, -3.2, 3.2)",
+														"subLeadJetPhi>>subLeadJetPhi(100, -3.2, 3.2)",
+														"diLeptonDiJetMass>>diLeptonDiJetMass(500, 0, 6000)",
+														"diLeptonMass>>diLeptonMass(500, 0, 6400)"
 														]
 											 )
 
