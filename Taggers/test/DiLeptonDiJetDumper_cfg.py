@@ -28,11 +28,13 @@ process.hltHighLevel= hltHighLevel.clone(HLTPaths = cms.vstring(
    	"HLT_DoubleEle33_CaloIdL_MW_v*",
    	"HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v*",
    	"HLT_Mu50_v*",
-   	# "HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v*",
+   	"HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v*",
    	"HLT_Ele27_WPTight_Gsf_v*",
    	"HLT_IsoMu24_v*",
    	"HLT_IsoMu27_v*"
-) )
+	), 
+	throw = False
+)
 
 
 #process.load("dafne.MicroAOD.flashggDiLeptonDiJet_cfi")  ##  import DiLeptonDiJet (producer)
@@ -142,7 +144,7 @@ if customize.processType == "data":
             	"HLT_DoubleEle33_CaloIdL_MW",
 			   	"HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW",
 			   	"HLT_Mu50",
-			   	# "HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL",
+			   	"HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL",
 			   	"HLT_Ele27_WPTight_Gsf",
 			   	"HLT_IsoMu24",
 			   	"HLT_IsoMu27"
