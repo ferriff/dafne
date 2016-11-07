@@ -99,7 +99,7 @@ def makeProfile(histo2DName, etaRegion, inputfile, output_name, suff, ymin, ymax
 
 
 
-def plot2HistosAndRatio(histoName, etaRegion, inputfile1, inputfile2, output_name, suff, zoomX, xRangeMin, xRangeMax, zoomY, yRangeMin, yRangeMax, leg1_name, leg2_name, leftLegends, profile, log, doRebin, doRebinVariableBinSize, doRestrictedIntegral, MCreweighted, title="", xTitle="", yTitle=""):
+def plot2HistosAndRatio(histoName, etaRegion, inputfile1, inputfile2, output_name, suff, dataMC, zoomX, xRangeMin, xRangeMax, zoomY, yRangeMin, yRangeMax, leg1_name, leg2_name, leftLegends, profile, log, doRebin, doRebinVariableBinSize, doRestrictedIntegral, MCreweighted, title="", xTitle="", yTitle=""):
 
 	if profile:
 		histo1 = TProfile()
