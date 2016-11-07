@@ -12,6 +12,7 @@ from ROOT import *
 # CMS_lumi.extraText = "Preliminary"	
 
 
+
 def dumpPlotFromTree(chain, branchName, output_name):
 	canv = TCanvas(branchName, branchName, 600, 600)
 	canv.cd()
@@ -19,7 +20,7 @@ def dumpPlotFromTree(chain, branchName, output_name):
 	# canv.SaveAs(output_name+"_"+branchName+".png","recreate")
 	canv.SaveAs(output_name+"/"+branchName+".png","recreate")
 	canv.Close()
-	canv.Delete()
+
 
 
 def dumpPlotFromTreeAndEditHisto(chain, branchName, histName, output_name, zoomX, xmin, xmax):
@@ -45,7 +46,6 @@ def dumpPlotFromTreeAndEditHisto(chain, branchName, histName, output_name, zoomX
 
 	canv.SaveAs(output_name+"/"+branchName+".png","recreate")
 	canv.Close()
-	canv.Delete()
 
 
 
