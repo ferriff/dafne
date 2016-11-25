@@ -6,10 +6,10 @@ from math import sqrt, floor
 from ROOT import *
 
 
-# tdrstyle.setTDRStyle()
-# CMS_lumi.lumi_13TeV = ""
-# CMS_lumi.writeExtraText = 1
-# CMS_lumi.extraText = "Preliminary"	
+tdrstyle.setTDRStyle()
+CMS_lumi.lumi_13TeV = ""
+CMS_lumi.writeExtraText = 1
+CMS_lumi.extraText = "Preliminary"	
 
 
 
@@ -23,13 +23,15 @@ def dumpPlotFromTree(chain, branchName, output_name):
 
 
 
-def dumpPlotFromTreeAndEditHisto(chain, branchName, histName, output_name, zoomX, xmin, xmax):
+def dumpPlotFromTreeAndEditHisto(chain, branchName, histName, output_name, zoomX, xmin, xmax, nBins, log):
 	canv = TCanvas(branchName, branchName, 600, 600)
 	canv.cd()
-
-	chain.Draw(branchName+">>"+histName)  #a new histogram called histName is created and kept in the current directory
-	# chain.Draw(branchName+">>"+histName+"(100, 0, 1000)")  #per specificare binning asse x
-
+	
+	if zoomX:
+		chain.Draw(branchName+">>"+histName+"("+str(nBins)+", "+str(xmin)+", "+str(xmax)+")") #to specify binning x axis
+	else:
+		chain.Draw(branchName+">>"+histName)  #a new histogram called histName is created and kept in the current directory
+	
 	hist = TH1F()
 	hist = gDirectory.Get(histName)  #to retrieve the histogram
 
@@ -37,19 +39,21 @@ def dumpPlotFromTreeAndEditHisto(chain, branchName, histName, output_name, zoomX
 	# hist.SetLineColor(1)
 	# hist.SetLineWidth(3)
 
-	if zoomX:
-		# hist.GetXaxis().SetRangeUser(xmin, xmax)  #prendo dal bin xmin al bin xmax
-		hist.GetXaxis().SetLimits(xmin, xmax)  #prendo da x=xmin a x=xmax
+	hist.GetXaxis().SetTitle(branchName)
+	hist.GetYaxis().SetTitle("Events")
 
 	hist.Write()
 	hist.Draw()
+
+	if log:
+		canv.SetLogy()  #visible only on .png plots
 
 	canv.SaveAs(output_name+"/"+branchName+".png","recreate")
 	canv.Close()
 
 
 
-def makeGenPlotFromTree(chain, output_name, outputFile_name, branchesToPlot, zoomX, xmin, xmax):
+def makeGenPlotFromTree(chain, output_name, outputFile_name, branchesToPlot, zoomX, xmin, xmax, nBins, log):
 	branches = chain.GetListOfBranches() 
 	#print branches.GetEntries()
 
@@ -62,7 +66,7 @@ def makeGenPlotFromTree(chain, output_name, outputFile_name, branchesToPlot, zoo
 
 		for branchToPlot in branchesToPlot:
 			if branchToPlot in branchName:	
-				dumpPlotFromTreeAndEditHisto(chain, branchName, histName, output_name, zoomX, xmin, xmax)
+				dumpPlotFromTreeAndEditHisto(chain, branchName, histName, output_name, zoomX, xmin, xmax, nBins, log)
 
 
 
