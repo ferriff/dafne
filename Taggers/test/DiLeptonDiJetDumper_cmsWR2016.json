@@ -6,33 +6,48 @@
 			["/SingleMuon/gnegro-cmsWR2016-dafne-v0-Run2016B-PromptReco-v2-cbbcb1b8da4d50e49fb7c806139df78e/USER",  { "args": ["outputFile=output_SingleMuon_Run2016B-PromptReco-v2.root"] }]
 		]
 	},
-	"cmdLine_" : "campaign=cmsWR2016 lumiMask=/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON.txt",
+	"cmdLine_" : "campaign=cmsWR2016 lumiMask=/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-282092_13TeV_PromptReco_Collisions16_JSON.txt",
 
 
 	"processes" : {
-		"WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016"                      : [ 
-			["/WR-ToLNu_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-2400_ToLNu-1200_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-2400_ToLNu-1200_ToEEJJ_13TeV-2016.root"]}], 
-			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-1600_ToLNu-800_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-1600_ToLNu-800_ToEEJJ_13TeV-2016.root"]}], 
-			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-3200_ToLNu-1600_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-3200_ToLNu-1600_ToEEJJ_13TeV-2016.root"]}],  
-			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-4000_ToLNu-2000_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-4000_ToLNu-2000_ToEEJJ_13TeV-2016.root"]}], 
-			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-6000_ToLNu-3000_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-6000_ToLNu-3000_ToEEJJ_13TeV-2016.root"]}], 
-			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-800_ToLNu-400_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-800_ToLNu-400_ToEEJJ_13TeV-2016.root"]}] 	
+		"WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016"                      : [ 		
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-1600_ToLNu-800_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-1600_ToLNu-800_ToEEJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-1600_ToLNu-800_ToEEJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-1600_ToLNu-800_ToEEJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-2400_ToLNu-1200_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-2400_ToLNu-1200_ToEEJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-2400_ToLNu-1200_ToEEJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-2400_ToLNu-1200_ToEEJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-3200_ToLNu-1600_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-3200_ToLNu-1600_ToEEJJ_13TeV-2016-v1.root"]}],  
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-3200_ToLNu-1600_ToEEJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-3200_ToLNu-1600_ToEEJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-4000_ToLNu-2000_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-4000_ToLNu-2000_ToEEJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-4000_ToLNu-2000_ToEEJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-4000_ToLNu-2000_ToEEJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-6000_ToLNu-3000_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-6000_ToLNu-3000_ToEEJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-6000_ToLNu-3000_ToEEJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-6000_ToLNu-3000_ToEEJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-800_ToLNu-400_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-800_ToLNu-400_ToEEJJ_13TeV-2016-v1.root"]}],
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-800_ToLNu-400_ToEEJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-800_ToLNu-400_ToEEJJ_13TeV-2016-v1.root"]}]
 		],  
 		"WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016"                    : [ 
-			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-1600_ToLNu-800_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-1600_ToLNu-800_ToMuMuJJ_13TeV-2016.root"]}], 
-			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-2400_ToLNu-1200_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-2400_ToLNu-1200_ToMuMuJJ_13TeV-2016.root"]}], 
-			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-3200_ToLNu-1600_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-3200_ToLNu-1600_ToMuMuJJ_13TeV-2016.root"]}], 
-			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-4000_ToLNu-2000_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-4000_ToLNu-2000_ToMuMuJJ_13TeV-2016.root"]}], 
-			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-6000_ToLNu-3000_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-6000_ToLNu-3000_ToMuMuJJ_13TeV-2016.root"]}], 
-			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-800_ToLNu-400_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER",  { "args" : ["outputFile=output_WR-800_ToLNu-400_ToMuMuJJ_13TeV-2016.root"]}]
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-1600_ToLNu-800_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-1600_ToLNu-800_ToMuMuJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-1600_ToLNu-800_ToMuMuJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-1600_ToLNu-800_ToMuMuJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-1600_ToLNu-800_ToMuMuJJ_miniAOD_13TeV-2016-v3-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-1600_ToLNu-800_ToMuMuJJ_13TeV-2016-v3.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-2400_ToLNu-1200_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-2400_ToLNu-1200_ToMuMuJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-2400_ToLNu-1200_ToMuMuJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-2400_ToLNu-1200_ToMuMuJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-2400_ToLNu-1200_ToMuMuJJ_miniAOD_13TeV-2016-v3-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-2400_ToLNu-1200_ToMuMuJJ_13TeV-2016-v3.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-3200_ToLNu-1600_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-3200_ToLNu-1600_ToMuMuJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-3200_ToLNu-1600_ToMuMuJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-3200_ToLNu-1600_ToMuMuJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-3200_ToLNu-1600_ToMuMuJJ_miniAOD_13TeV-2016-v3-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-3200_ToLNu-1600_ToMuMuJJ_13TeV-2016-v3.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-4000_ToLNu-2000_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-4000_ToLNu-2000_ToMuMuJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-4000_ToLNu-2000_ToMuMuJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-4000_ToLNu-2000_ToMuMuJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-4000_ToLNu-2000_ToMuMuJJ_miniAOD_13TeV-2016-v3-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-4000_ToLNu-2000_ToMuMuJJ_13TeV-2016-v3.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-6000_ToLNu-3000_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-6000_ToLNu-3000_ToMuMuJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-6000_ToLNu-3000_ToMuMuJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-6000_ToLNu-3000_ToMuMuJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-6000_ToLNu-3000_ToMuMuJJ_miniAOD_13TeV-2016-v3-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-6000_ToLNu-3000_ToMuMuJJ_13TeV-2016-v3.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-800_ToLNu-400_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-800_ToLNu-400_ToMuMuJJ_13TeV-2016-v1.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-800_ToLNu-400_ToMuMuJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-800_ToLNu-400_ToMuMuJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-800_ToLNu-400_ToMuMuJJ_miniAOD_13TeV-2016-v3-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-800_ToLNu-400_ToMuMuJJ_13TeV-2016-v3.root"]}]
 		],  
 		"DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8" : [ ["/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1-8ec35273c227e6fd5944cb10f747aef3/USER", { "args" : ["outputFile=output_DYJetsToLL-amcatnloFXFX.root"] }] ],
 		"DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"  : [ ["/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0_ext1-v1-8ec35273c227e6fd5944cb10f747aef3/USER", { "args" : ["outputFile=output_DYJetsToLL-madgraphMLM.root"] }] ],
 		"DYToEE_NNPDF30_13TeV-powheg-pythia8"                     : [ ["/DYToEE_NNPDF30_13TeV-powheg-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1-8ec35273c227e6fd5944cb10f747aef3/USER", { "args" : ["outputFile=output_DYToEE.root"] }] ],
-		"TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"    : [ [
-		"/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v4-0e3cf05921187595c646818f239b6634/USER", 
-		"/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0_ext1-v1-0e3cf05921187595c646818f239b6634/USER", 
-		{ "args" : ["outputFile=output_TTJets.root"]}] ],
+		"TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"    : [ ["/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v4-0e3cf05921187595c646818f239b6634/USER", { "args" : ["outputFile=output_TTJets.root"]}] ],
 		"WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"       : [ ["/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1-0e3cf05921187595c646818f239b6634/USER", { "args" : ["outputFile=output_WJetsToLNu.root"] }] ],
 		"WZ_TuneCUETP8M1_13TeV-pythia8"                           : [ ["/WZ_TuneCUETP8M1_13TeV-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1-0e3cf05921187595c646818f239b6634/USER", { "args" : ["outputFile=output_WZ.root"] }] ],
 		"ZToEE_NNPDF30_13TeV-powheg_M_50_120"                     : [ ["/ZToEE_NNPDF30_13TeV-powheg_M_50_120/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1-0e3cf05921187595c646818f239b6634/USER", { "args" : ["outputFile=output_ZToEE.root"] }] ], 
@@ -40,15 +55,10 @@
 		"ZZ_TuneCUETP8M1_13TeV-pythia8"                           : [ ["/ZZ_TuneCUETP8M1_13TeV-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1-0e3cf05921187595c646818f239b6634/USER", { "args" : ["outputFile=output_ZZ.root"] }] ]
 	},
 
-	"cmdLine" : "campaign=cmsWR2016 puTarget=1.53e+04,4.55e+05,1.45e+06,2.38e+06,3.48e+06,4.76e+06,5.85e+06,1.07e+07,3.2e+07,7.61e+07,1.65e+08,3.18e+08,5.23e+08,7.49e+08,9.83e+08,1.23e+09,1.44e+09,1.58e+09,1.66e+09,1.7e+09,1.71e+09,1.69e+09,1.66e+09,1.61e+09,1.53e+09,1.43e+09,1.31e+09,1.17e+09,1.04e+09,8.96e+08,7.58e+08,6.25e+08,5e+08,3.87e+08,2.9e+08,2.11e+08,1.48e+08,9.99e+07,6.53e+07,4.12e+07,2.51e+07,1.47e+07,8.35e+06,4.56e+06,2.41e+06,1.23e+06,6.11e+05,2.95e+05,1.39e+05,6.57e+04",
+	"cmdLine" : "campaign=cmsWR2016 puTarget=1.62e+05,6.17e+05,1.61e+06,2.6e+06,3.83e+06,5.11e+06,6.16e+06,1.1e+07,3.23e+07,7.65e+07,1.67e+08,3.32e+08,5.6e+08,8.09e+08,1.07e+09,1.34e+09,1.57e+09,1.72e+09,1.8e+09,1.83e+09,1.84e+09,1.82e+09,1.78e+09,1.72e+09,1.64e+09,1.53e+09,1.41e+09,1.27e+09,1.12e+09,9.76e+08,8.32e+08,6.93e+08,5.61e+08,4.41e+08,3.37e+08,2.49e+08,1.79e+08,1.24e+08,8.37e+07,5.47e+07,3.46e+07,2.12e+07,1.26e+07,7.32e+06,4.13e+06,2.28e+06,1.23e+06,6.58e+05,3.48e+05,1.84e+05",
 	"dummyLine" : ""
 }
 
-
-	
-	
-	
-	
 	
 	
 	
