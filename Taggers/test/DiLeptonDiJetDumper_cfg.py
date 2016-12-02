@@ -105,21 +105,21 @@ cfgTools.addCategories(process.DiLeptonDiJetDumper,
 											 ## histograms to be plotted. 
 											 ## the variables need to be defined first
 											 histograms=[
-														# "subLeadLeptonPt:leadLeptonPt>>ptSubVsLead(180,20,200:180,20,200)",
-														"leadLeptonPt>>leadLeptonPt(100, 0, 2500)",
-														"subLeadLeptonPt>>subLeadLeptonPt(100, 0, 2500)",
-														"leadJetPt>>leadJetPt(100, 0, 2500)",
-														"subLeadJetPt>>subLeadJetPt(100, 0, 2500)",
-														"leadLeptonEta>>leadLeptonEta(100, -4, 4)",
-														"subLeadLeptonEta>>subLeadLeptonEta(100, -4, 4)",
-														"leadJetEta>>leadJetEta(100, -4, 4)",
-														"subLeadJetEta>>subLeadJetEta(100, -4, 4)",
-														"leadLeptonPhi>>leadLeptonPhi(100, -3.2, 3.2)",
-														"subLeadLeptonPhi>>subLeadLeptonPhi(100, -3.2, 3.2)",
-														"leadJetPhi>>leadJetPhi(100, -3.2, 3.2)",
-														"subLeadJetPhi>>subLeadJetPhi(100, -3.2, 3.2)",
-														"diLeptonDiJetMass>>diLeptonDiJetMass(500, 0, 6000)",
-														"diLeptonMass>>diLeptonMass(500, 0, 6400)"
+														# # "subLeadLeptonPt:leadLeptonPt>>ptSubVsLead(180,20,200:180,20,200)",
+														# "leadLeptonPt>>leadLeptonPt(100, 0, 2500)",
+														# "subLeadLeptonPt>>subLeadLeptonPt(100, 0, 2500)",
+														# "leadJetPt>>leadJetPt(100, 0, 2500)",
+														# "subLeadJetPt>>subLeadJetPt(100, 0, 2500)",
+														# "leadLeptonEta>>leadLeptonEta(100, -4, 4)",
+														# "subLeadLeptonEta>>subLeadLeptonEta(100, -4, 4)",
+														# "leadJetEta>>leadJetEta(100, -4, 4)",
+														# "subLeadJetEta>>subLeadJetEta(100, -4, 4)",
+														# "leadLeptonPhi>>leadLeptonPhi(100, -3.2, 3.2)",
+														# "subLeadLeptonPhi>>subLeadLeptonPhi(100, -3.2, 3.2)",
+														# "leadJetPhi>>leadJetPhi(100, -3.2, 3.2)",
+														# "subLeadJetPhi>>subLeadJetPhi(100, -3.2, 3.2)",
+														# "diLeptonDiJetMass>>diLeptonDiJetMass(500, 0, 6000)",
+														# "diLeptonMass>>diLeptonMass(500, 0, 6400)"
 														]
 											 )
 

@@ -1,0 +1,64 @@
+{    
+	"processes_" : {
+		"data" : [
+			["/DoubleEG/gnegro-cmsWR2016-ReReco-dafne-v0-Run2016B-23Sep2016-v3-ca79f179ce1a520646b1883f9a5a3ead/USER",  { "args": ["outputFile=output_DoubleEG_Run2016B-ReReco-v3.root"] }]
+		]
+	},
+	"cmdLine_" : "campaign=cmsWR2016-ReReco lumiMask=/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/ReReco/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt",
+
+
+	"processes" : {
+		"WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016"                      : [ 		
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-1600_ToLNu-800_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-1600_ToLNu-800_ToEEJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-1600_ToLNu-800_ToEEJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-1600_ToLNu-800_ToEEJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-2400_ToLNu-1200_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-2400_ToLNu-1200_ToEEJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-2400_ToLNu-1200_ToEEJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-2400_ToLNu-1200_ToEEJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-3200_ToLNu-1600_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-3200_ToLNu-1600_ToEEJJ_13TeV-2016-v1.root"]}],  
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-3200_ToLNu-1600_ToEEJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-3200_ToLNu-1600_ToEEJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-4000_ToLNu-2000_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-4000_ToLNu-2000_ToEEJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-4000_ToLNu-2000_ToEEJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-4000_ToLNu-2000_ToEEJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-6000_ToLNu-3000_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-6000_ToLNu-3000_ToEEJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-6000_ToLNu-3000_ToEEJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-6000_ToLNu-3000_ToEEJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-800_ToLNu-400_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-800_ToLNu-400_ToEEJJ_13TeV-2016-v1.root"]}],
+			["/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-800_ToLNu-400_ToEEJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-800_ToLNu-400_ToEEJJ_13TeV-2016-v2.root"]}]
+		],  
+		"WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016"                    : [ 
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-1600_ToLNu-800_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-1600_ToLNu-800_ToMuMuJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-1600_ToLNu-800_ToMuMuJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-1600_ToLNu-800_ToMuMuJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-1600_ToLNu-800_ToMuMuJJ_miniAOD_13TeV-2016-v3-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-1600_ToLNu-800_ToMuMuJJ_13TeV-2016-v3.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-2400_ToLNu-1200_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-2400_ToLNu-1200_ToMuMuJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-2400_ToLNu-1200_ToMuMuJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-2400_ToLNu-1200_ToMuMuJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-2400_ToLNu-1200_ToMuMuJJ_miniAOD_13TeV-2016-v3-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-2400_ToLNu-1200_ToMuMuJJ_13TeV-2016-v3.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-3200_ToLNu-1600_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-3200_ToLNu-1600_ToMuMuJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-3200_ToLNu-1600_ToMuMuJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-3200_ToLNu-1600_ToMuMuJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-3200_ToLNu-1600_ToMuMuJJ_miniAOD_13TeV-2016-v3-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-3200_ToLNu-1600_ToMuMuJJ_13TeV-2016-v3.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-4000_ToLNu-2000_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-4000_ToLNu-2000_ToMuMuJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-4000_ToLNu-2000_ToMuMuJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-4000_ToLNu-2000_ToMuMuJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-4000_ToLNu-2000_ToMuMuJJ_miniAOD_13TeV-2016-v3-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-4000_ToLNu-2000_ToMuMuJJ_13TeV-2016-v3.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-6000_ToLNu-3000_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-6000_ToLNu-3000_ToMuMuJJ_13TeV-2016-v1.root"]}], 
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-6000_ToLNu-3000_ToMuMuJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-6000_ToLNu-3000_ToMuMuJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-6000_ToLNu-3000_ToMuMuJJ_miniAOD_13TeV-2016-v3-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-6000_ToLNu-3000_ToMuMuJJ_13TeV-2016-v3.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-800_ToLNu-400_ToMuMuJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1-9da49981f328b5f8ba334c960d0a62f3/USER", { "args" : ["outputFile=output_WR-800_ToLNu-400_ToMuMuJJ_13TeV-2016-v1.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-800_ToLNu-400_ToMuMuJJ_miniAOD_13TeV-2016-v2-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-800_ToLNu-400_ToMuMuJJ_13TeV-2016-v2.root"]}],
+			["/WR-ToLNu-ToMuMuJJ_GEN_SIM_13TeV-2016/gnegro-cmsWR2016-dafne-v0-gnegro-WR-800_ToLNu-400_ToMuMuJJ_miniAOD_13TeV-2016-v3-b59cb78551aff289588aa5c69db4a3a1-5d344b79468409cf63772bbd9bcb457a/USER", { "args" : ["outputFile=output_WR-800_ToLNu-400_ToMuMuJJ_13TeV-2016-v3.root"]}]
+		],
+		"DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8" : [ ["/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1-8ec35273c227e6fd5944cb10f747aef3/USER", { "args" : ["outputFile=output_DYJetsToLL-amcatnloFXFX.root"] }] ],
+		"DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"  : [ ["/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0_ext1-v1-8ec35273c227e6fd5944cb10f747aef3/USER", { "args" : ["outputFile=output_DYJetsToLL-madgraphMLM.root"] }] ],
+		"DYToEE_NNPDF30_13TeV-powheg-pythia8"                     : [ ["/DYToEE_NNPDF30_13TeV-powheg-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1-8ec35273c227e6fd5944cb10f747aef3/USER", { "args" : ["outputFile=output_DYToEE.root"] }] ],
+		"TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"    : [ ["/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v4-0e3cf05921187595c646818f239b6634/USER", { "args" : ["outputFile=output_TTJets.root"]}] ],
+		"WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8"       : [ ["/WJetsToLNu_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1-0e3cf05921187595c646818f239b6634/USER", { "args" : ["outputFile=output_WJetsToLNu.root"] }] ],
+		"WZ_TuneCUETP8M1_13TeV-pythia8"                           : [ ["/WZ_TuneCUETP8M1_13TeV-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1-0e3cf05921187595c646818f239b6634/USER", { "args" : ["outputFile=output_WZ.root"] }] ],
+		"ZToEE_NNPDF30_13TeV-powheg_M_50_120"                     : [ ["/ZToEE_NNPDF30_13TeV-powheg_M_50_120/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1-0e3cf05921187595c646818f239b6634/USER", { "args" : ["outputFile=output_ZToEE.root"] }] ], 
+		"ZToMuMu_NNPDF30_13TeV-powheg_M_50_120"                   : [ ["/ZToMuMu_NNPDF30_13TeV-powheg_M_50_120/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v2-0e3cf05921187595c646818f239b6634/USER", { "args" : ["outputFile=output_ZToMuMu.root"] }] ], 
+		"ZZ_TuneCUETP8M1_13TeV-pythia8"                           : [ ["/ZZ_TuneCUETP8M1_13TeV-pythia8/gnegro-cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1-0e3cf05921187595c646818f239b6634/USER", { "args" : ["outputFile=output_ZZ.root"] }] ]		
+	},
+
+	"cmdLine" : "campaign=cmsWR2016 puTarget=1.83e+03,6.04e+04,3.38e+05,6.37e+05,1.06e+06,1.46e+06,1.97e+06,6.48e+06,2.36e+07,4.91e+07,9.03e+07,1.42e+08,1.91e+08,2.45e+08,3.15e+08,3.89e+08,4.5e+08,4.87e+08,5.04e+08,5.01e+08,4.79e+08,4.4e+08,3.89e+08,3.31e+08,2.71e+08,2.12e+08,1.58e+08,1.11e+08,7.37e+07,4.59e+07,2.68e+07,1.46e+07,7.54e+06,3.66e+06,1.68e+06,7.36e+05,3.09e+05,1.27e+05,5.28e+04,2.4e+04,1.32e+04,9.09e+03,7.47e+03,6.76e+03,6.4e+03,6.2e+03,6.09e+03,6.03e+03,5.99e+03,5.96e+03",
+	"cmdLine_" : "campaign=cmsWR2016 puTarget=2.39e+05,8.38e+05,2.31e+06,3.12e+06,4.48e+06,5.97e+06,6.92e+06,1.28e+07,3.52e+07,7.87e+07,1.77e+08,3.6e+08,6.03e+08,8.76e+08,1.17e+09,1.49e+09,1.76e+09,1.94e+09,2.05e+09,2.1e+09,2.13e+09,2.14e+09,2.12e+09,2.05e+09,1.96e+09,1.84e+09,1.7e+09,1.55e+09,1.4e+09,1.24e+09,1.09e+09,9.37e+08,7.92e+08,6.57e+08,5.34e+08,4.27e+08,3.35e+08,2.57e+08,1.93e+08,1.42e+08,1e+08,6.88e+07,4.54e+07,2.88e+07,1.75e+07,1.01e+07,5.62e+06,2.98e+06,1.51e+06,7.31e+05",
+	"dummyLine" : ""
+}
+
+	
+	
+	
+	
