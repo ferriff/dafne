@@ -110,6 +110,7 @@ void miniTreeMaker::beginJob()
 	eventTree->Branch( "isEETT", &evInfo.isEETT); 
 	eventTree->Branch( "isMMJJ", &evInfo.isMMJJ); 
 	eventTree->Branch( "isMMTT", &evInfo.isMMTT); 
+	eventTree->Branch( "isEMJJ", &evInfo.isEMJJ); 
 
 	eventTree->Branch( "isSignalRegion", &evInfo.isSignalRegion);
 	eventTree->Branch( "isLowMllCR", &evInfo.isLowMllCR);
@@ -141,6 +142,7 @@ void miniTreeMaker::beginJob()
 	eventTree->Branch( "diLeptonDiJet_sumPt", &evInfo.diLeptonDiJet_sumPt);
 	eventTree->Branch( "diLeptonDiJet_invMass", &evInfo.diLeptonDiJet_invMass); 
 	eventTree->Branch( "diLepton_invMass", &evInfo.diLepton_invMass); 
+	eventTree->Branch( "diJet_invMass", &evInfo.diJet_invMass); 
 
 	eventTree->Branch( "leadingEle_passHEEPId", &evInfo.leadingEle_passHEEPId);
 	eventTree->Branch( "leadingEle_etaSC", &evInfo.leadingEle_etaSC);
@@ -464,6 +466,7 @@ void miniTreeMaker::analyze(const edm::EventBase& evt)
 		evInfo.isEETT.push_back(diLeptonDiJet->isEETT());
 		evInfo.isMMJJ.push_back(diLeptonDiJet->isMMJJ());
 		evInfo.isMMTT.push_back(diLeptonDiJet->isMMTT());
+		evInfo.isEMJJ.push_back(diLeptonDiJet->isEMJJ());  
 
 		evInfo.isSignalRegion.push_back( isSignalRegion(diLeptonDiJet) );
 		evInfo.isLowMllCR.push_back( isLowMllCR(diLeptonDiJet) );
@@ -495,6 +498,8 @@ void miniTreeMaker::analyze(const edm::EventBase& evt)
 		evInfo.diLeptonDiJet_sumPt.push_back(diLeptonDiJet->sumPt());
 		evInfo.diLeptonDiJet_invMass.push_back(diLeptonDiJet->invMass());
 		evInfo.diLepton_invMass.push_back(diLeptonDiJet->diLeptonInvMass());
+		evInfo.diJet_invMass.push_back( diJetInvMass(diLeptonDiJet) );
+
 
 		if (diLeptonDiJet->isEEJJ() || diLeptonDiJet->isEETT()) {
 			int leadElePassHEEPId = passHEEPIdCuts( diLeptonDiJet->leadingEle(), vertices->ptrs() );
@@ -653,6 +658,7 @@ void miniTreeMaker::initEventStructure() {
 	evInfo.isEETT .clear();
 	evInfo.isMMJJ .clear();
 	evInfo.isMMTT .clear();
+	evInfo.isEMJJ .clear();
 
 	evInfo.isSignalRegion .clear();
 	evInfo.isLowMllCR .clear();
@@ -684,6 +690,7 @@ void miniTreeMaker::initEventStructure() {
 	evInfo.diLeptonDiJet_sumPt .clear();
 	evInfo.diLeptonDiJet_invMass .clear();
 	evInfo.diLepton_invMass .clear();
+	evInfo.diJet_invMass .clear();
 
 	evInfo.leadingEle_passHEEPId .clear();
 	evInfo.leadingEle_etaSC .clear();
