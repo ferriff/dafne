@@ -200,13 +200,16 @@ void miniTreeMaker::analyze(const edm::EventBase& evt)
 		iEvent.getByToken( genInfoToken_, genInfo );
 		iEvent.getByToken( PileUpToken_, PileupInfos );
 		iEvent.getByToken( genJetToken_, genJets );
+
+		// for( unsigned int i = 0 ; i < genParticles->size(); i++ ) {
+		//    Ptr<reco::GenParticle> gen = genParticles->ptrAt(i);
+		//    // cout << " pdgId = "<< gen->pdgId()<< " prompt final state = "<< gen->isPromptFinalState() << "  status = " << gen->status() << "   isPrompt = " << gen->statusFlags().isPrompt() <<endl;
+		// }    
+		
+		// for( unsigned int i = 0 ; i < genJets->size(); i++ ) {
+		//    Ptr<reco::GenJet> genJet = genJets->ptrAt(i);
+		// }  
 	}
-	
-	//for( unsigned int i = 0 ; i < genParticles->size(); i++ ) {
-	//    Ptr<reco::GenParticle> gen = genParticles->ptrAt(i);
-	//    cout << " pdgId = "<< gen->pdgId()<< " prompt final state = "<< gen->isPromptFinalState() << "  status = " << gen->status() << "   isPrompt = " << gen->statusFlags().isPrompt() <<endl;
-	//}    
-	//---
 
 	Handle<View<reco::Vertex> > vertices;
 	iEvent.getByToken( vertexToken_, vertices );
@@ -419,7 +422,6 @@ void miniTreeMaker::analyze(const edm::EventBase& evt)
 	}
 
 
-
 	// -- jets
 	// for (UInt_t ijetVector = 0 ; ijetVector < jets->size(); ijetVector++){
 		// edm::Ptr<vector<flashgg::Jet> > jetVector = jets->ptrAt( ijetVector );
@@ -429,15 +431,8 @@ void miniTreeMaker::analyze(const edm::EventBase& evt)
 	for (UInt_t ijet = 0 ; ijet < jetVector->size(); ijet++){
 		flashgg::Jet jet = jetVector->at( ijet );
 
-		// matching to gen jets
-		int isMatchedToGen = 0; 
-		if( ! iEvent.isRealData() ) {
-			for( unsigned int jg = 0 ; jg < genJets->size() ; jg++ ) {
-				float dr = deltaR(jet.eta(), jet.phi(), genJets->ptrAt(jg)->eta(), genJets->ptrAt(jg)->phi());
-				if (dr > 0.4) continue;
-				isMatchedToGen = 1;
-			}
-		}
+		int isMatchedToGen =  -1;
+		if( ! iEvent.isRealData() ) isMatchedToGen = jetMatchingToGen(jet, genJets); 
 
 		evInfo.jet_e.push_back(jet.energy());
 		evInfo.jet_pt.push_back(jet.pt());
@@ -546,15 +541,8 @@ void miniTreeMaker::analyze(const edm::EventBase& evt)
 		// for (UInt_t ijet = 0 ; ijet < jetVector->size(); ijet++){
 		// 	flashgg::Jet jet = jetVector->at( ijet );
 
-		// 	// matching to gen jets
-		// 	int isMatchedToGen = 0; 
-		// 	if( ! iEvent.isRealData() ) {
-		// 		for( unsigned int jg = 0 ; jg < genJets->size() ; jg++ ) {
-		// 			float dr = deltaR(jet.eta(), jet.phi(), genJets->ptrAt(jg)->eta(), genJets->ptrAt(jg)->phi());
-		// 			if (dr > 0.4) continue;
-		// 			isMatchedToGen = 1;
-		// 		}
-		// 	}
+		// int isMatchedToGen =  -1;
+		// if( ! iEvent.isRealData() ) isMatchedToGen = jetMatchingToGen(jet, genJets); 
 
 		// 	evInfo.jet_e.push_back(jet.energy());
 		// 	evInfo.jet_pt.push_back(jet.pt());

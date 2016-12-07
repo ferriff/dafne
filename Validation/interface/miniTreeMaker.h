@@ -210,6 +210,20 @@ int muonMatchingToGen(edm::Ptr<flashgg::Muon> muon, Handle<View<reco::GenParticl
 // ******************************************************************************************
 
 
+// // ************************** 
+int jetMatchingToGen(flashgg::Jet jet,  Handle<View<reco::GenJet> > genJets){
+	int mcmatch = 0;
+	for( unsigned int i = 0 ; i < genJets->size(); i++ ) {
+		Ptr<reco::GenJet> genJet = genJets->ptrAt(i);
+		float dR = deltaR( jet.eta(), jet.phi(), genJet->eta(), genJet->phi() );
+		if (dR > 0.4) continue;
+		mcmatch = 1;
+	}
+	return (mcmatch);
+}
+// ******************************************************************************************
+
+
 
 // **************** 
 bool passHEEPIdCuts(edm::Ptr<flashgg::Electron> electron, const std::vector<edm::Ptr<reco::Vertex> > &pvPointers){
