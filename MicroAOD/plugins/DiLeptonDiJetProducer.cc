@@ -272,6 +272,55 @@ namespace flashgg {
 			} 
 		} 
 
+
+
+		if (electronPointers.size() > 1 && muonPointers.size() > 1 && jetPointers.size() > 1) {
+
+			for( unsigned int i = 0 ; i < electronPointers.size() ; i++ ) {
+				Electron_ptr electron = electronPointers[i];
+				double pt_ele = electron->pt();
+				double eta_ele = electron->eta();
+				if( pt_ele < minElePt_ || fabs( eta_ele ) > maxEleEta_ ) { continue; } 
+
+				for( unsigned int j = 0 ; j < muonPointers.size() ; j++ ) {
+					Muon_ptr muon = muonPointers[j];
+					double pt_mu = muon->pt();
+					double eta_mu = muon->eta();
+					if( pt_mu < minMuPt_ || fabs( eta_mu ) > maxMuEta_ ) { continue; }
+
+					for ( unsigned int l = 0 ; l < jetPointers.size() ; l++ ) {
+						Jet_ptr jet1 = jetPointers[l];
+						double pt_jet1 = jet1->pt();
+						double eta_jet1 = jet1->eta();
+						if( pt_jet1 < minJetPt_ || fabs( eta_jet1 ) > maxJetEta_ ) { continue; }
+
+						for( unsigned int h = l + 1 ; h < jetPointers.size() ; h++ ) {		
+							Jet_ptr jet2 = jetPointers[h];
+							double pt_jet2 = jet2->pt();
+							double eta_jet2 = jet2->eta();
+							if( pt_jet2 < minJetPt_ || fabs( eta_jet2 ) > maxJetEta_ ) { continue; }
+
+							DiLeptonDiJetCandidate EleMuDiJet( electron, muon, jet1, jet2, pvx);  //create DiLeptonDiJetCandidate with 1ele, 1mu and 2jets
+
+							EleMuDiJet.setVtx( pvx );  
+
+							int ivtx = 0;
+							for( unsigned int k = 0; k < primaryVertices->size() ; k++ ) {
+								if( pvx == primaryVertices->ptrAt( k ) ) {
+									ivtx = k;
+									break;
+								}
+							}
+							EleMuDiJet.setVertexIndex( ivtx );               				
+
+							DiLeptonDiJetColl->push_back( EleMuDiJet );  // store the EleMuDiJet into the collection
+						}
+					}
+				}
+			}
+		}
+
+
 		evt.put( DiLeptonDiJetColl );
 
 	}
