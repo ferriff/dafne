@@ -55,15 +55,17 @@ namespace flashgg {
 		DiLeptonDiJetCandidate( Electron_ptr, Electron_ptr, Track_ptr, Track_ptr, Vertex_ptr );
 		DiLeptonDiJetCandidate( Muon_ptr, Muon_ptr, Jet_ptr, Jet_ptr, Vertex_ptr );
 		DiLeptonDiJetCandidate( Muon_ptr, Muon_ptr, Track_ptr, Track_ptr, Vertex_ptr );
+		DiLeptonDiJetCandidate( Electron_ptr, Muon_ptr, Jet_ptr, Jet_ptr, Vertex_ptr );
 
 		DiLeptonDiJetCandidate( const Electron_t &, const Electron_t &, Jet_ptr, Jet_ptr, Vertex_ptr );
 		DiLeptonDiJetCandidate( const Electron_t &, const Electron_t &, Track_ptr, Track_ptr, Vertex_ptr );
 		DiLeptonDiJetCandidate( const Muon_t &, const Muon_t &, Jet_ptr, Jet_ptr, Vertex_ptr );
 		DiLeptonDiJetCandidate( const Muon_t &, const Muon_t &, Track_ptr, Track_ptr, Vertex_ptr );
+		DiLeptonDiJetCandidate( const Electron_t &, const Muon_t &, Jet_ptr, Jet_ptr, Vertex_ptr );
 
 		~DiLeptonDiJetCandidate();
 
-		enum CandidateType_t { kEEJJ, kMMJJ, kEETT, kMMTT };
+		enum CandidateType_t { kEEJJ, kMMJJ, kEETT, kMMTT, kEMJJ };
 		const CandidateType_t getType() const { return type_; }
 
 		const Vertex_ptr vtx() const { return vertex_; }
@@ -71,9 +73,11 @@ namespace flashgg {
 
 		const Electron_t *electron1() const; 
 		const Electron_t *electron2() const; 
+		const Electron_t *electron() const; 
 
 		const Muon_t *muon1() const; 
 		const Muon_t *muon2() const;
+		const Muon_t *muon() const;
 
 		const Electron_t *leadingEle() const; 
 		const Electron_t *subLeadingEle() const; 
@@ -117,7 +121,7 @@ namespace flashgg {
 		unsigned int jetCollectionIndex() const { return jetCollectionIndex_; }
         Point genPV() const { return genPV_; }
 
-
+		float sumPt() const;
         float invMass() const; 
 		float diLeptonInvMass() const; 
 
@@ -128,15 +132,6 @@ namespace flashgg {
 		float leadingLeptonPhi() const;
 		float subLeadingLeptonPhi() const; 	
 
-
-		float sumPt() const
-		{	
-			if (type_ == kEEJJ) return ( electron1()->pt() + electron2()->pt() + leadingJet()->pt() + subLeadingJet()->pt() );
-			else if (type_ == kMMJJ) return ( muon1()->pt() + muon2()->pt() + leadingJet()->pt() + subLeadingJet()->pt() );
-			else if (type_ == kEETT) return ( electron1()->pt() + electron2()->pt() + leadingTrack()->pt() + subLeadingTrack()->pt() );			
-			else if (type_ == kMMTT) return ( muon1()->pt() + muon2()->pt() + leadingTrack()->pt() + subLeadingTrack()->pt() );			
-			else return 0.;
-		}  
 
 		bool operator <( const DiLeptonDiJetCandidate &b ) const;
 		bool operator >( const DiLeptonDiJetCandidate &b ) const;
@@ -161,6 +156,11 @@ namespace flashgg {
 			else return false;
 		}
 
+		bool isEMJJ() const {
+			if (type_ == kEMJJ) return true;
+			else return false;
+		}
+
 		DiLeptonDiJetCandidate *clone() const { return ( new DiLeptonDiJetCandidate( *this ) ); }
 
 
@@ -168,11 +168,11 @@ namespace flashgg {
 		
 		CandidateType_t type_;
 
-		Electron_t electron1_, electron2_;
-		Muon_t muon1_, muon2_;
+		Electron_t electron1_, electron2_, electron_;
+		Muon_t muon1_, muon2_, muon_;
 
-		Electron_ptr electrons_[2];
-		Muon_ptr muons_[2];
+		Electron_ptr electrons_[2], electronPtr_;
+		Muon_ptr muons_[2], muonPtr_;
 		Jet_ptr jets_[2];
 		Track_ptr tracks_[2];  
 
@@ -191,8 +191,6 @@ namespace flashgg {
 		unsigned int jetCollectionIndex_; // index for which jet collection corresponds to the vertex choice in this diphoton
         Point genPV_;
 
-        // float invMass_;
-        // float diLeptonInvMass_;
 	};
 
 
