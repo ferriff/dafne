@@ -73,14 +73,17 @@ struct eventInfo {
 	vector<float> ele_dEtaIn; 
 	vector<float> ele_dPhiIn;
 	vector<float> ele_hOverE;
+	vector<float> ele_full5x5_r9;	
 	vector<float> ele_full5x5_sigmaIetaIeta;
 	vector<float> ele_full5x5_E5x5;
 	vector<float> ele_full5x5_E1x5;
-	vector<float> ele_full5x5_E2x5;
-	vector<float> ele_full5x5_r9;  
+	vector<float> ele_full5x5_E2x5;  
 	vector<float> ele_full5x5_E2x5_Over_E5x5;
 	vector<float> ele_full5x5_E1x5_Over_E5x5;
+	vector<float> ele_EmHadDepth1Iso;
+	vector<float> ele_ptTracksIso;
 	vector<int> ele_innerLayerLostHits;
+	vector<float> ele_dxy;
 
 	vector<float> mu_e;
 	vector<float> mu_pt;
@@ -137,6 +140,11 @@ struct eventInfo {
 	vector<float> subLeadingJet_eta;  
 	vector<float> subLeadingJet_phi;  
 
+	vector<float> dRLeadLeptonLeadJet;
+	vector<float> dRLeadLeptonSubLeadJet;
+	vector<float> dRSubLeadLeptonLeadJet;
+	vector<float> dRSubLeadLeptonSubLeadJet;
+
 	vector<int> diLeptonDiJet_vtxIndex;
 	vector<float> diLeptonDiJet_sumPt;
 	vector<float> diLeptonDiJet_invMass;
@@ -149,14 +157,17 @@ struct eventInfo {
 	vector<float> leadingEle_dEtaIn;  
 	vector<float> leadingEle_dPhiIn;
 	vector<float> leadingEle_hOverE;
+	vector<float> leadingEle_full5x5_r9;  
 	vector<float> leadingEle_full5x5_sigmaIetaIeta;
 	vector<float> leadingEle_full5x5_E5x5;
 	vector<float> leadingEle_full5x5_E1x5;
 	vector<float> leadingEle_full5x5_E2x5;
-	vector<float> leadingEle_full5x5_r9;  
 	vector<float> leadingEle_full5x5_E2x5_Over_E5x5;
 	vector<float> leadingEle_full5x5_E1x5_Over_E5x5;
+	vector<float> leadingEle_EmHadDepth1Iso;
+	vector<float> leadingEle_ptTracksIso;
 	vector<int> leadingEle_innerLayerLostHits;
+	vector<float> leadingEle_dxy;
 
 	vector<bool> subLeadingEle_passHEEPId;		
 	vector<float> subLeadingEle_etaSC;			
@@ -164,20 +175,24 @@ struct eventInfo {
 	vector<float> subLeadingEle_dEtaIn;  
 	vector<float> subLeadingEle_dPhiIn;
 	vector<float> subLeadingEle_hOverE;
+	vector<float> subLeadingEle_full5x5_r9; 
 	vector<float> subLeadingEle_full5x5_sigmaIetaIeta;
 	vector<float> subLeadingEle_full5x5_E5x5;
 	vector<float> subLeadingEle_full5x5_E1x5;
 	vector<float> subLeadingEle_full5x5_E2x5;
-	vector<float> subLeadingEle_full5x5_r9; 
 	vector<float> subLeadingEle_full5x5_E2x5_Over_E5x5;
 	vector<float> subLeadingEle_full5x5_E1x5_Over_E5x5;
+	vector<float> subLeadingEle_EmHadDepth1Iso;	
+	vector<float> subLeadingEle_ptTracksIso;	
 	vector<int> subLeadingEle_innerLayerLostHits;
+	vector<float> subLeadingEle_dxy;	
 
 };
 
 
+
 // // ************************** 
-int electronMatchingToGen(edm::Ptr<flashgg::Electron> electron,  Handle<View<reco::GenParticle> > genParticles){
+int electronMatchingToGen(Ptr<flashgg::Electron> electron,  Handle<View<reco::GenParticle> > genParticles){
 	int mcmatch = 0;
 	for( unsigned int i = 0 ; i < genParticles->size(); i++ ) {
 		Ptr<reco::GenParticle> gen = genParticles->ptrAt(i);
@@ -193,8 +208,9 @@ int electronMatchingToGen(edm::Ptr<flashgg::Electron> electron,  Handle<View<rec
 // ******************************************************************************************
 
 
+
 // *********************** 
-int muonMatchingToGen(edm::Ptr<flashgg::Muon> muon, Handle<View<reco::GenParticle> > genParticles){
+int muonMatchingToGen(Ptr<flashgg::Muon> muon, Handle<View<reco::GenParticle> > genParticles){
 	int mcmatch = 0;
 	for( unsigned int i = 0 ; i < genParticles->size(); i++ ) {
 		Ptr<reco::GenParticle> gen = genParticles->ptrAt(i);
@@ -213,6 +229,7 @@ int muonMatchingToGen(edm::Ptr<flashgg::Muon> muon, Handle<View<reco::GenParticl
 // ******************************************************************************************
 
 
+
 // // ************************** 
 int jetMatchingToGen(flashgg::Jet jet,  Handle<View<reco::GenJet> > genJets){
 	int mcmatch = 0;
@@ -229,72 +246,93 @@ int jetMatchingToGen(flashgg::Jet jet,  Handle<View<reco::GenJet> > genJets){
 
 
 // **************** 
-bool passHEEPIdCuts(edm::Ptr<flashgg::Electron> electron, const std::vector<edm::Ptr<reco::Vertex> > &pvPointers){
+Ptr<reco::Vertex> chooseBestVtx(const vector<Ptr<reco::Vertex> > &vertices, Ptr<flashgg::Electron> electron){
+	double vtx_dz = 1000000.;
+	unsigned int min_dz_vtx = -1;			
+	for( unsigned int vtxi = 0; vtxi < vertices.size(); vtxi++ ) {            
+		Ptr<reco::Vertex> vtx = vertices[vtxi];            
+		if( vtx_dz > fabs(electron->gsfTrack()->dz( vtx->position() )) ) {                
+			vtx_dz = fabs(electron->gsfTrack()->dz( vtx->position() ) );
+			min_dz_vtx = vtxi;
+		}
+	}					
+	return vertices[min_dz_vtx];
+}
+// **************** 
+
+
+// **************** 
+Ptr<reco::Vertex> chooseBestVtx(const vector<Ptr<reco::Vertex> > &vertices, const flashgg::Electron* electron){
+	double vtx_dz = 1000000.;
+	unsigned int min_dz_vtx = -1;			
+	for( unsigned int vtxi = 0; vtxi < vertices.size(); vtxi++ ) {            
+		Ptr<reco::Vertex> vtx = vertices[vtxi];            
+		if( vtx_dz > fabs(electron->gsfTrack()->dz( vtx->position() )) ) {                
+			vtx_dz = fabs(electron->gsfTrack()->dz( vtx->position() ) );
+			min_dz_vtx = vtxi;
+		}
+	}					
+	return vertices[min_dz_vtx];
+}
+// **************** 
+
+
+
+// **************** 
+bool passHEEPIdCuts(Ptr<flashgg::Electron> electron, const vector<Ptr<reco::Vertex> > &pvPointers, double rho){
 
 	bool pass = false;
 
 	bool isEB = (fabs(electron->superCluster()->eta())<1.4442);
 	bool isEE = (fabs(electron->superCluster()->eta())>1.566 && fabs(electron->superCluster()->eta())<2.5);
 
-	float pt = electron->pt();
-	bool isEcalDriven = true; //electron->gsfTrack()->ecalDriven();
-
-	float dEtaIn = electron->deltaEtaSuperClusterTrackAtVtx();  //o deltaEtaSeedClusterTrackAtCalo() o deltaEtaSeedClusterTrackAtVtx() ?
-	float dPhiIn = electron->deltaPhiSuperClusterTrackAtVtx();  //o deltaPhiSeedClusterTrackAtCalo() o deltaPhiEleClusterTrackAtCalo() ?
-	
-	float hOverE = electron->hcalOverEcal();
-	
+	float et = electron->et();
+	bool isEcalDriven = electron->ecalDrivenSeed();
+	float dEtaInSeed = electron->deltaEtaSuperClusterTrackAtVtx();  //con electron->deltaEtaSeedClusterTrackAtVtx(); Product not found
+	float dPhiIn = electron->deltaPhiSuperClusterTrackAtVtx();  
+	float hOverE = electron->hadronicOverEm(); 
 	float full5x5_sigmaIetaIeta = electron->full5x5_sigmaIetaIeta();  
-	
-	float full5x5_E5x5 = electron->full5x5_e5x5(); //o e5x5() ?
-	float full5x5_E1x5 = electron->full5x5_e1x5(); //o e1x5() ?
-	float full5x5_E2x5 = electron->full5x5_e2x5Max(); //o e2x5Max() ?
-
+	float full5x5_E5x5 = electron->full5x5_e5x5(); 
+	float full5x5_E1x5 = electron->full5x5_e1x5();
+	float full5x5_E2x5 = electron->full5x5_e2x5Max(); 
 	float full5x5_E2x5_Over_E5x5 = full5x5_E2x5 / full5x5_E5x5;
 	float full5x5_E1x5_Over_E5x5 = full5x5_E1x5 / full5x5_E5x5;
 
+	float EmHadDepth1Iso = electron->dr03EcalRecHitSumEt()+electron->dr03HcalDepth1TowerSumEt();
+	float EmHadDepth1Iso_EB = 0.28*rho + 2 + 0.03*et;
+	float EmHadDepth1Iso_EE = 0.28*rho + 2.5; 
+	if (et > 50) EmHadDepth1Iso_EE = 0.28*rho + 2.5 + 0.03*(et-50);
 
-	double vtx_dz = 1000000.;
-	unsigned int min_dz_vtx = -1;
-				
-	for( unsigned int vtxi = 0; vtxi < pvPointers.size(); vtxi++ ) {            
-		Ptr<reco::Vertex> vtx = pvPointers[vtxi];            
-		if( vtx_dz > fabs(electron->gsfTrack()->dz( vtx->position() )) ) {                
-			vtx_dz = fabs( electron->gsfTrack()->dz( vtx->position() ) );
-			min_dz_vtx = vtxi;
-		}
-	}
-				
-	Ptr<reco::Vertex> best_vtx = pvPointers[min_dz_vtx];
-	float dXY = fabs( electron->gsfTrack()->dxy( best_vtx->position()) ) ;  //ok ?
-
+	float ptTracksIso = 1.;//electron->dr03TkSumPt();  //TO MODIFY
 	int innerLayerLostHits = electron->gsfTrack()->hitPattern().numberOfHits( reco::HitPattern::MISSING_INNER_HITS);
-
+				
+	Ptr<reco::Vertex> best_vtx = chooseBestVtx(pvPointers, electron);
+	float dXY = fabs( electron->gsfTrack()->dxy( best_vtx->position()) ) ;  
 	
 
 	if (isEB) {
-		if (pt > 35 
+		if (et > 35 
 			&& isEcalDriven 
-			&& fabs(dEtaIn) < 0.004 
+			&& fabs(dEtaInSeed) < 0.004 
 			&& fabs(dPhiIn) < 0.06
-			&& hOverE < (1.0/electron->ecalEnergy() + 0.05) 
+			&& hOverE < (1.0/electron->superCluster()->energy() + 0.05) 
 			&& (full5x5_E2x5_Over_E5x5 > 0.94 || full5x5_E1x5_Over_E5x5 > 0.83) 
-			//
-			//
+			&& EmHadDepth1Iso < EmHadDepth1Iso_EB 
+			&& ptTracksIso < 5 
 			&& innerLayerLostHits <=1 
 			&& fabs(dXY) < 0.02 
 		) pass =  true;
 	}
 
 	if (isEE) {
-		if (pt > 35 
+		if (et > 35 
 			&& isEcalDriven 
-			&& fabs(dEtaIn) < 0.006 
+			&& fabs(dEtaInSeed) < 0.006 
 			&& fabs(dPhiIn) < 0.06
-			&& hOverE < (5.0/electron->ecalEnergy() + 0.05) 
+			&& hOverE < (5.0/electron->superCluster()->energy() + 0.05) 
 			&& full5x5_sigmaIetaIeta < 0.03 
-			//
-			//
+			&& EmHadDepth1Iso < EmHadDepth1Iso_EE 
+			&& ptTracksIso < 5 
 			&& innerLayerLostHits <=1 
 			&& fabs(dXY) < 0.05
 		) pass = true; 
@@ -306,74 +344,61 @@ bool passHEEPIdCuts(edm::Ptr<flashgg::Electron> electron, const std::vector<edm:
 // ******************************************************************************************
 
 
-
 // **************** 
-bool passHEEPIdCuts(const flashgg::Electron* electron, const std::vector<edm::Ptr<reco::Vertex> > &pvPointers){
+bool passHEEPIdCuts(const flashgg::Electron* electron, const vector<Ptr<reco::Vertex> > &pvPointers, double rho){
 
 	bool pass = false;
 
 	bool isEB = (fabs(electron->superCluster()->eta())<1.4442);
 	bool isEE = (fabs(electron->superCluster()->eta())>1.566 && fabs(electron->superCluster()->eta())<2.5);
 
-	float pt = electron->pt();
-	bool isEcalDriven = true; //electron->gsfTrack()->ecalDriven();
-
-	float dEtaIn = electron->deltaEtaSuperClusterTrackAtVtx();  //o deltaEtaSeedClusterTrackAtCalo() o deltaEtaSeedClusterTrackAtVtx() ?
-	float dPhiIn = electron->deltaPhiSuperClusterTrackAtVtx();  //o deltaPhiSeedClusterTrackAtCalo() o deltaPhiEleClusterTrackAtCalo() ?
-	
-	float hOverE = electron->hcalOverEcal();
-	
+	float et = electron->et();
+	bool isEcalDriven = electron->ecalDrivenSeed();
+	float dEtaInSeed = electron->deltaEtaSuperClusterTrackAtVtx();  //con electron->deltaEtaSeedClusterTrackAtVtx(); Product not found
+	float dPhiIn = electron->deltaPhiSuperClusterTrackAtVtx(); 
+	float hOverE = electron-> hadronicOverEm(); 
 	float full5x5_sigmaIetaIeta = electron->full5x5_sigmaIetaIeta();  
-	
-	float full5x5_E5x5 = electron->full5x5_e5x5(); //o e5x5() ?
-	float full5x5_E1x5 = electron->full5x5_e1x5(); //o e1x5() ?
-	float full5x5_E2x5 = electron->full5x5_e2x5Max(); //o e2x5Max() ?
-
+	float full5x5_E5x5 = electron->full5x5_e5x5(); 
+	float full5x5_E1x5 = electron->full5x5_e1x5();
+	float full5x5_E2x5 = electron->full5x5_e2x5Max(); 
 	float full5x5_E2x5_Over_E5x5 = full5x5_E2x5 / full5x5_E5x5;
 	float full5x5_E1x5_Over_E5x5 = full5x5_E1x5 / full5x5_E5x5;
 
+	float EmHadDepth1Iso = electron->dr03EcalRecHitSumEt()+electron->dr03HcalDepth1TowerSumEt();
+	float EmHadDepth1Iso_EB = 0.28*rho + 2 + 0.03*et;
+	float EmHadDepth1Iso_EE = 0.28*rho + 2.5; 
+	if (et > 50) EmHadDepth1Iso_EE = 0.28*rho + 2.5 + 0.03*(et-50);
 
-	double vtx_dz = 1000000.;
-	unsigned int min_dz_vtx = -1;
-				
-	for( unsigned int vtxi = 0; vtxi < pvPointers.size(); vtxi++ ) {            
-		Ptr<reco::Vertex> vtx = pvPointers[vtxi];            
-		if( vtx_dz > fabs(electron->gsfTrack()->dz( vtx->position() )) ) {                
-			vtx_dz = fabs( electron->gsfTrack()->dz( vtx->position() ) );
-			min_dz_vtx = vtxi;
-		}
-	}
-				
-	Ptr<reco::Vertex> best_vtx = pvPointers[min_dz_vtx];
-	float dXY = fabs( electron->gsfTrack()->dxy( best_vtx->position()) ) ;  //ok ?
-
+	float ptTracksIso = 1.;//electron->dr03TkSumPt();  //TO MODIFY
 	int innerLayerLostHits = electron->gsfTrack()->hitPattern().numberOfHits( reco::HitPattern::MISSING_INNER_HITS);
-
+				
+	Ptr<reco::Vertex> best_vtx = chooseBestVtx(pvPointers, electron);
+	float dXY = fabs( electron->gsfTrack()->dxy( best_vtx->position()) ) ;  
 	
 
 	if (isEB) {
-		if (pt > 35 
+		if (et > 35 
 			&& isEcalDriven 
-			&& fabs(dEtaIn) < 0.004 
+			&& fabs(dEtaInSeed) < 0.004 
 			&& fabs(dPhiIn) < 0.06
-			&& hOverE < (1.0/electron->ecalEnergy() + 0.05) 
+			&& hOverE < (1.0/electron->superCluster()->energy() + 0.05) 
 			&& (full5x5_E2x5_Over_E5x5 > 0.94 || full5x5_E1x5_Over_E5x5 > 0.83) 
-			//
-			//
+			&& EmHadDepth1Iso < EmHadDepth1Iso_EB 
+			&& ptTracksIso < 5 
 			&& innerLayerLostHits <=1 
 			&& fabs(dXY) < 0.02 
 		) pass =  true;
 	}
 
 	if (isEE) {
-		if (pt > 35 
+		if (et > 35 
 			&& isEcalDriven 
-			&& fabs(dEtaIn) < 0.006 
+			&& fabs(dEtaInSeed) < 0.006 
 			&& fabs(dPhiIn) < 0.06
-			&& hOverE < (5.0/electron->ecalEnergy() + 0.05) 
+			&& hOverE < (5.0/electron->superCluster()->energy() + 0.05) 
 			&& full5x5_sigmaIetaIeta < 0.03 
-			//
-			//
+			&& EmHadDepth1Iso < EmHadDepth1Iso_EE 
+			&& ptTracksIso < 5 
 			&& innerLayerLostHits <=1 
 			&& fabs(dXY) < 0.05
 		) pass = true; 
@@ -387,7 +412,7 @@ bool passHEEPIdCuts(const flashgg::Electron* electron, const std::vector<edm::Pt
 
 
 // ***************************** 
-float electronIsolation(edm::Ptr<flashgg::Electron> electron, double rho){
+float electronIsolation(Ptr<flashgg::Electron> electron, double rho){
 	// -- compute combined relative isolation: IsoCh + max( 0.0, IsoNh + IsoPh - PU ) )/pT, PU = rho * Aeff 
 	// https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
 	// effetive areas:  https://indico.cern.ch/event/369239/contribution/4/attachments/1134761/1623262/talk_effective_areas_25ns.pdf
@@ -401,14 +426,14 @@ float electronIsolation(edm::Ptr<flashgg::Electron> electron, double rho){
 	if( eta >= 2.3   && eta < 2.4 )   { Aeff = 0.2243; }
 	if( eta >= 2.4 )                  { Aeff = 0.2687; }
 
-	//float iso = electron->chargedHadronIso() + std::max( electron->neutralHadronIso() + electron->photonIso() - rho * Aeff, 0. );  //???? 
+	//float iso = electron->chargedHadronIso() + max( electron->neutralHadronIso() + electron->photonIso() - rho * Aeff, 0. );  //???? 
 	reco::GsfElectron::PflowIsolationVariables pfIso = electron->pfIsolationVariables();
-	float iso = pfIso.sumChargedHadronPt + std::max( pfIso.sumNeutralHadronEt + pfIso.sumPhotonEt - rho * Aeff, 0. );
+	float iso = pfIso.sumChargedHadronPt + max( pfIso.sumNeutralHadronEt + pfIso.sumPhotonEt - rho * Aeff, 0. );
 
 	//cout << electron->chargedHadronIso() << "  " <<  pfIso.sumChargedHadronPt << "   pt = " << electron->pt() << endl; 
 	//cout << electron->neutralHadronIso() << "  " << pfIso.sumNeutralHadronEt << endl;
 	//cout << electron->photonIso() << "  " << pfIso.sumPhotonEt <<endl;
-	//cout << electron->chargedHadronIso() + std::max( electron->neutralHadronIso() + electron->photonIso() - rho * Aeff, 0. ) << "   "<< iso<< endl;
+	//cout << electron->chargedHadronIso() + max( electron->neutralHadronIso() + electron->photonIso() - rho * Aeff, 0. ) << "   "<< iso<< endl;
 
 	return (iso/ electron->pt());	
 }
@@ -417,7 +442,7 @@ float electronIsolation(edm::Ptr<flashgg::Electron> electron, double rho){
 
 
 // ************************* 
-bool passDiLeptonDiJetPreselection(edm::Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
+bool passDiLeptonDiJetPreselection(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 
 	if (dldj->leadingLeptonPt() < 60.) return false;
 	if (dldj->subLeadingLeptonPt() < 50.) return false;
@@ -445,7 +470,9 @@ bool passDiLeptonDiJetPreselection(edm::Ptr<flashgg::DiLeptonDiJetCandidate> dld
 // ******************************************************************************************
 
 
-bool isBB(edm::Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
+
+// **************** 
+bool isBB(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 
 	if ( (fabs(dldj->leadingLeptonEta())<1.4442) 
 		&& (fabs(dldj->subLeadingLeptonEta())<1.4442) 
@@ -453,45 +480,58 @@ bool isBB(edm::Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 
 	return false;
 }
+// **************** 
 
 
-bool isEE(edm::Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
+// **************** 
+bool isEE(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 	if ( (fabs(dldj->leadingLeptonEta())>1.566 && fabs(dldj->leadingLeptonEta())<2.5)  
 		&& (fabs(dldj->subLeadingLeptonEta())>1.566 && fabs(dldj->subLeadingLeptonEta())<2.5)
 	) return true;
 	
 	return false;
 }
+// **************** 
 
 
-bool isEB(edm::Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
+// **************** 
+bool isEB(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 	if ( ((fabs(dldj->leadingLeptonEta())<1.4442) && (fabs(dldj->subLeadingLeptonEta())>1.566 && fabs(dldj->subLeadingLeptonEta())<2.5)) 
 		|| ((fabs(dldj->leadingLeptonEta())>1.566 && fabs(dldj->leadingLeptonEta())<2.5) && (fabs(dldj->subLeadingLeptonEta())<1.4442))
 	) return true;
 
 	return false;
 }
+// **************** 
 
 
-bool isSignalRegion(edm::Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
+// **************** 
+bool isSignalRegion(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 	if (dldj->invMass() > 600. && dldj->diLeptonInvMass() > 200.) return true;
 	return false;
 }
+// **************** 
 
 
-bool isLowMllCR(edm::Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
+// **************** 
+bool isLowMllCR(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 	if (dldj->diLeptonInvMass() < 200.) return true;
 	return false;
 }
+// **************** 
 
 
-bool isLowMlljjCR(edm::Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
+// **************** 
+bool isLowMlljjCR(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 	if (dldj->invMass() < 600. && dldj->diLeptonInvMass() > 200.) return true;
 	return false;
 }
+// **************** 
 
 
-float diJetInvMass(edm::Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
+
+// **************** 
+float diJetInvMass(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 	TLorentzVector j1, j2;  
 	j1.SetPxPyPzE( 0., 0., 0., 0. );
 	j2.SetPxPyPzE( 0., 0., 0., 0. );
@@ -504,16 +544,17 @@ float diJetInvMass(edm::Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 	}
 	return (j1+j2).M();
 }
+// **************** 
 
 
 
-class miniTreeMaker : public edm::BasicAnalyzer 
+class miniTreeMaker : public BasicAnalyzer 
 {
  public:
-	miniTreeMaker( const edm::ParameterSet & iConfig, TFileDirectory& fs, edm::ConsumesCollector && cc);
+	miniTreeMaker( const ParameterSet & iConfig, TFileDirectory& fs, ConsumesCollector && cc);
 	virtual ~miniTreeMaker();
 	void beginJob();
-	void analyze( const edm::EventBase& event );
+	void analyze( const EventBase& event );
 	void endJob();
  
  private:
@@ -533,18 +574,18 @@ class miniTreeMaker : public edm::BasicAnalyzer
 
 	EDGetTokenT<View<reco::GenParticle> > genParticleToken_;
 	EDGetTokenT<GenEventInfoProduct> genInfoToken_;
-	EDGetTokenT<edm::View<PileupSummaryInfo> >  PileUpToken_;
+	EDGetTokenT<View<PileupSummaryInfo> >  PileUpToken_;
 	EDGetTokenT<View<reco::Vertex> > vertexToken_;
 	EDGetTokenT<View<flashgg::DiLeptonDiJetCandidate> > DiLeptonDiJetToken_; 
 	EDGetTokenT<View<vector<flashgg::Jet> > > jetsToken_;
 	EDGetTokenT<View<reco::GenJet> > genJetToken_;
 	EDGetTokenT<View<Electron> > electronToken_;
 	EDGetTokenT<View<Muon> > muonToken_;
-	EDGetTokenT<edm::TriggerResults> triggerBitsToken_;
-	edm::EDGetTokenT<double> rhoToken_;
-	std::vector<edm::EDGetTokenT<View<flashgg::Jet> > > tokenJets_;
+	EDGetTokenT<TriggerResults> triggerBitsToken_;
+	EDGetTokenT<double> rhoToken_;
+	vector<EDGetTokenT<View<flashgg::Jet> > > tokenJets_;
 
-	typedef std::vector<edm::Handle<edm::View<flashgg::Jet> > > JetCollectionVector;
+	typedef vector<Handle<View<flashgg::Jet> > > JetCollectionVector;
 
 	string bTag_;
 	double lumiWeight_;
