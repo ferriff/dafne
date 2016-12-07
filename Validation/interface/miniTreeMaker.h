@@ -90,6 +90,7 @@ struct eventInfo {
 	vector<bool> mu_isTight;
 	vector<bool> mu_isMedium;
 	vector<bool> mu_isLoose;
+	vector<bool> mu_isHighPt;
 	vector<int> mu_isMatchedToGen;
 	vector<int> mu_charge;
 
@@ -101,7 +102,7 @@ struct eventInfo {
 	vector<int>   jet_hadronFlavour;
 	vector<int>   jet_partonFlavour;
 	vector<int>   jet_isMatchedToGen;
-
+	//jetID
 
 	//variabili di DLDJcandidate
 	vector<bool> isEEJJ;

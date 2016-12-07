@@ -94,6 +94,7 @@ void miniTreeMaker::beginJob()
 	eventTree->Branch( "mu_isTight", &evInfo.mu_isTight);
 	eventTree->Branch( "mu_isMedium", &evInfo.mu_isMedium);
 	eventTree->Branch( "mu_isLoose", &evInfo.mu_isLoose);
+	eventTree->Branch( "mu_isHighPt", &evInfo.mu_isHighPt);
 	eventTree->Branch( "mu_isMatchedToGen", &evInfo.mu_isMatchedToGen);
 	eventTree->Branch( "mu_charge", &evInfo.mu_charge);
 
@@ -418,6 +419,7 @@ void miniTreeMaker::analyze(const edm::EventBase& evt)
 		evInfo.mu_isTight.push_back(muon::isTightMuon( *muon, *muonVtx ));
 		evInfo.mu_isMedium.push_back(muon::isMediumMuon( *muon ));
 		evInfo.mu_isLoose.push_back(muon::isLooseMuon( *muon ));
+		evInfo.mu_isHighPt.push_back(muon::isHighPtMuon( *muon, *muonVtx ));
 		evInfo.mu_isMatchedToGen.push_back(mcMatch); 
 		evInfo.mu_charge.push_back(muon->charge());
 
@@ -641,6 +643,7 @@ void miniTreeMaker::initEventStructure() {
 	evInfo.mu_isTight .clear();
 	evInfo.mu_isMedium .clear();
 	evInfo.mu_isLoose .clear();
+	evInfo.mu_isHighPt .clear();
 	evInfo.mu_isMatchedToGen .clear();
 	evInfo.mu_charge .clear();
 
