@@ -61,6 +61,10 @@ void miniTreeMaker::beginJob()
 	eventTree->Branch( "passTandPEEhlt", &evInfo.passTandPEEhlt, "passTandPEEhlt/I" );
 	eventTree->Branch( "passTandPMMhlt", &evInfo.passTandPMMhlt, "passTandPMMhlt/I" );
 
+	eventTree->Branch( "vtx_x", &evInfo.vtx_x );
+	eventTree->Branch( "vtx_y", &evInfo.vtx_y );
+	eventTree->Branch( "vtx_z", &evInfo.vtx_z );
+
 	eventTree->Branch( "ele_e", &evInfo.ele_e );
 	eventTree->Branch( "ele_pt", &evInfo.ele_pt );
 	eventTree->Branch( "ele_eta", &evInfo.ele_eta );
@@ -194,6 +198,8 @@ void miniTreeMaker::beginJob()
 	eventTree->Branch( "leadingMuon_isHighPt", &evInfo.leadingMuon_isHighPt );
 	eventTree->Branch( "subLeadingMuon_isHighPt", &evInfo.subLeadingMuon_isHighPt );
 
+	// cout << "inizialed branches" << endl;
+
 }
 // ******************************************************************************************
 
@@ -218,6 +224,7 @@ void miniTreeMaker::analyze(const EventBase& evt)
 	Handle<View<reco::GenJet> > genJets;
 
 	if ( !iEvent.isRealData() ) {
+		// cout << "MC" << endl;
 		iEvent.getByToken( genParticleToken_, genParticles );		
 		iEvent.getByToken( genInfoToken_, genInfo );
 		iEvent.getByToken( PileUpToken_, PileupInfos );
@@ -303,6 +310,7 @@ void miniTreeMaker::analyze(const EventBase& evt)
 	evInfo.event = globalVarsDumper_->cache().event;		
 	evInfo.lumi = globalVarsDumper_->cache().lumi;
 
+
 	// -- event weight (Lumi x cross section x gen weight)
 	float w = 1.;
 	if( ! iEvent.isRealData() ) {
@@ -316,14 +324,25 @@ void miniTreeMaker::analyze(const EventBase& evt)
 	}
 	evInfo.weight = w;
 
+
 	// -- pileup weight
 	if( globalVarsDumper_->puReWeight() ) {
 		evInfo.puweight = globalVarsDumper_->cache().puweight;
 	}
 
+
 	// -- number of reco vertices
 	evInfo.nvtx = vertices->size() ;
-	// cout << vertices->size() << "nvertices " << endl;
+	// cout << vertices->size() << " nvertices " << endl;
+
+	// -- vertices
+	for (UInt_t ivtx = 0 ; ivtx < vertices->size(); ivtx++){
+		Ptr<reco::Vertex> vtx = vertices->ptrAt( ivtx );
+		evInfo.vtx_x.push_back(vtx->x());
+		evInfo.vtx_y.push_back(vtx->y());
+		evInfo.vtx_z.push_back(vtx->z());
+	}
+
 
 	// -- number of pileup events
 	float pu = 0.; 
@@ -336,11 +355,12 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		}
 	}
 	evInfo.npu = pu;
-	// cout << "pu" << pu << endl;
+	// cout << "pu " << pu << endl;
 
 
 	// -- electrons
 	for (UInt_t iele = 0 ; iele < electrons->size(); iele++){
+		// cout << "enter electron loop" << endl;
 		nEle++;
 
 		Ptr<flashgg::Electron> electron = electrons->ptrAt( iele );
@@ -395,6 +415,7 @@ void miniTreeMaker::analyze(const EventBase& evt)
 
 	// -- muons
 	for (UInt_t imu = 0 ; imu < muons->size(); imu++){
+		// cout << "enter muon loop" << endl;
 		nmuons++;
 
 		Ptr<flashgg::Muon> muon = muons->ptrAt( imu );
@@ -427,25 +448,27 @@ void miniTreeMaker::analyze(const EventBase& evt)
 	// -- jets
 	// for (UInt_t ijetVector = 0 ; ijetVector < jets->size(); ijetVector++){
 		// Ptr<vector<flashgg::Jet> > jetVector = jets->ptrAt( ijetVector );
-	Ptr<vector<flashgg::Jet> > jetVector = jets->ptrAt( 0 );
-	// if (jetVecotr->size() > 0) cout << "jetVector size " << jetVector->size() << endl;
+	if (jets->size() > 0) {
+		Ptr<vector<flashgg::Jet> > jetVector = jets->ptrAt( 0 );
+		// if (jetVector->size() > 0) cout << "jetVector size " << jetVector->size() << endl;
 
-	for (UInt_t ijet = 0 ; ijet < jetVector->size(); ijet++){
-		flashgg::Jet jet = jetVector->at( ijet );
+		for (UInt_t ijet = 0 ; ijet < jetVector->size(); ijet++){
+			// cout << "enter jet loop" << endl;
+			flashgg::Jet jet = jetVector->at( ijet );
 
-		int isMatchedToGen =  -1;
-		if( ! iEvent.isRealData() ) isMatchedToGen = jetMatchingToGen(jet, genJets); 
+			int isMatchedToGen =  -1;
+			if( ! iEvent.isRealData() ) isMatchedToGen = jetMatchingToGen(jet, genJets); 
 
-		evInfo.jet_e.push_back(jet.energy());
-		evInfo.jet_pt.push_back(jet.pt());
-		evInfo.jet_eta.push_back(jet.eta());
-		evInfo.jet_phi.push_back(jet.phi());
-		evInfo.jet_bdiscriminant.push_back(jet.bDiscriminator( bTag_ ));
-		evInfo.jet_hadronFlavour.push_back(jet.hadronFlavour());
-		evInfo.jet_partonFlavour.push_back(jet.partonFlavour());
-		evInfo.jet_isMatchedToGen.push_back(isMatchedToGen);
+			evInfo.jet_e.push_back(jet.energy());
+			evInfo.jet_pt.push_back(jet.pt());
+			evInfo.jet_eta.push_back(jet.eta());
+			evInfo.jet_phi.push_back(jet.phi());
+			evInfo.jet_bdiscriminant.push_back(jet.bDiscriminator( bTag_ ));
+			evInfo.jet_hadronFlavour.push_back(jet.hadronFlavour());
+			evInfo.jet_partonFlavour.push_back(jet.partonFlavour());
+			evInfo.jet_isMatchedToGen.push_back(isMatchedToGen);
+		}
 	}
-
 
 
 	// -- diLeptonDiJets
@@ -728,6 +751,9 @@ void miniTreeMaker::initEventStructure() {
 	evInfo.passTandPEEhlt = -1;
 	evInfo.passTandPMMhlt = -1;
 
+	evInfo.vtx_x .clear();
+	evInfo.vtx_y .clear();
+	evInfo.vtx_z .clear();
 
 	evInfo.ele_e .clear();
 	evInfo.ele_pt .clear();

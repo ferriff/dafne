@@ -28,10 +28,11 @@ process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32( 1000 )
 ## input file
 process.source = cms.Source("PoolSource",fileNames=cms.untracked.vstring(
 				#data
-				# "root://node12.datagrid.cea.fr//store/user/gnegro/cmsWR/cmsWR2016/dafne/DoubleEG/cmsWR2016-dafne-v0-Run2016B-PromptReco-v2/161027_122605/0000/dafneMicroAOD_1.root"
+				"root://node12.datagrid.cea.fr//store/user/gnegro/cmsWR/cmsWR2016/dafne/DoubleEG/cmsWR2016-dafne-v0-Run2016B-PromptReco-v2/161027_122605/0000/dafneMicroAOD_1.root"
 
 				# mc
-				"root://node12.datagrid.cea.fr//store/user/gnegro/cmsWR/cmsWR2016/dafne/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/cmsWR2016-dafne-v0-gnegro-WR-3200_ToLNu-1600_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1/161027_124028/0000/dafneMicroAOD_1.root"
+				# "root://node12.datagrid.cea.fr//store/user/gnegro/cmsWR/cmsWR2016/dafne/WR-ToLNu-ToEEJJ_GEN_SIM_13TeV-2016/cmsWR2016-dafne-v0-gnegro-WR-3200_ToLNu-1600_ToEEJJ_miniAOD_13TeV-2016-b59cb78551aff289588aa5c69db4a3a1/161027_124028/0000/dafneMicroAOD_1.root"
+				# "root://node12.datagrid.cea.fr//store/user/gnegro/cmsWR/cmsWR2016/dafne/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/cmsWR2016-dafne-v0-RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/161027_121933/0000/dafneMicroAOD_107.root"
 ))
 
 

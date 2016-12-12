@@ -57,6 +57,10 @@ struct eventInfo {
 
 
 	//variabili per oggetti 
+	vector<float> vtx_x;
+	vector<float> vtx_y;
+	vector<float> vtx_z;
+
 	vector<float> ele_e;
 	vector<float> ele_pt;
 	vector<float> ele_eta;
