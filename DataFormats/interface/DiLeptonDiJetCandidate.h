@@ -131,6 +131,8 @@ namespace flashgg {
 		float subLeadingLeptonEta() const; 		
 		float leadingLeptonPhi() const;
 		float subLeadingLeptonPhi() const; 	
+		float leadingLeptonCharge() const; 
+		float subLeadingLeptonCharge() const; 
 
 
 		bool operator <( const DiLeptonDiJetCandidate &b ) const;

@@ -461,6 +461,26 @@ float DiLeptonDiJetCandidate::subLeadingLeptonPhi() const {
 	else return 0.;
 }
 
+float DiLeptonDiJetCandidate::leadingLeptonCharge() const {
+	if (type_ == kEEJJ || type_ == kEETT) return (leadingEle()->charge());
+	else if (type_ == kMMJJ || type_ == kMMTT) return (leadingMuon()->charge());
+	else if (type_ == kEMJJ) {
+		if( electron()->pt() > muon()->pt() ) return electron()->charge(); 
+		else return muon()->charge(); 
+	} 
+	else return 0.;
+}
+
+float DiLeptonDiJetCandidate::subLeadingLeptonCharge() const {
+	if (type_ == kEEJJ || type_ == kEETT) return (subLeadingEle()->charge());
+	else if (type_ == kMMJJ || type_ == kMMTT) return (subLeadingMuon()->charge());
+	else if (type_ == kEMJJ) {
+		if( electron()->pt() > muon()->pt() ) return muon()->charge(); 
+		else return electron()->charge(); 
+	} 	
+	else return 0.;
+}
+
 
 bool DiLeptonDiJetCandidate::operator <( const DiLeptonDiJetCandidate &b ) const
 {
