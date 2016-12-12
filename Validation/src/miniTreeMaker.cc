@@ -129,10 +129,12 @@ void miniTreeMaker::beginJob()
 	eventTree->Branch( "leadingLepton_pt", &evInfo.leadingLepton_pt ); 
 	eventTree->Branch( "leadingLepton_eta", &evInfo.leadingLepton_eta ); 
 	eventTree->Branch( "leadingLepton_phi", &evInfo.leadingLepton_phi ); 
+	eventTree->Branch( "leadingLepton_charge", &evInfo.leadingLepton_charge ); 
 
 	eventTree->Branch( "subLeadingLepton_pt", &evInfo.subLeadingLepton_pt ); 
 	eventTree->Branch( "subLeadingLepton_eta", &evInfo.subLeadingLepton_eta ); 
 	eventTree->Branch( "subLeadingLepton_phi", &evInfo.subLeadingLepton_phi ); 
+	eventTree->Branch( "subLeadingLepton_charge", &evInfo.subLeadingLepton_charge ); 
 
 	eventTree->Branch( "leadingJet_pt", &evInfo.leadingJet_pt ); 
 	eventTree->Branch( "leadingJet_eta", &evInfo.leadingJet_eta );
@@ -165,9 +167,9 @@ void miniTreeMaker::beginJob()
 	eventTree->Branch( "leadingEle_full5x5_E1x5", &evInfo.leadingEle_full5x5_E1x5 );
 	eventTree->Branch( "leadingEle_full5x5_E2x5", &evInfo.leadingEle_full5x5_E2x5 );
 	eventTree->Branch( "leadingEle_full5x5_E2x5_Over_E5x5", &evInfo.leadingEle_full5x5_E2x5_Over_E5x5 );
- 	eventTree->Branch( "leadingEle_full5x5_E1x5_Over_E5x5", &evInfo.leadingEle_full5x5_E1x5_Over_E5x5 );
- 	eventTree->Branch( "leadingEle_EmHadDepth1Iso", &evInfo.leadingEle_EmHadDepth1Iso );
- 	eventTree->Branch( "leadingEle_ptTracksIso", &evInfo.leadingEle_ptTracksIso );
+	eventTree->Branch( "leadingEle_full5x5_E1x5_Over_E5x5", &evInfo.leadingEle_full5x5_E1x5_Over_E5x5 );
+	eventTree->Branch( "leadingEle_EmHadDepth1Iso", &evInfo.leadingEle_EmHadDepth1Iso );
+	eventTree->Branch( "leadingEle_ptTracksIso", &evInfo.leadingEle_ptTracksIso );
 	eventTree->Branch( "leadingEle_innerLayerLostHits", &evInfo.leadingEle_innerLayerLostHits );
 	eventTree->Branch( "leadingEle_dxy", &evInfo.leadingEle_dxy );
 
@@ -183,11 +185,14 @@ void miniTreeMaker::beginJob()
 	eventTree->Branch( "subLeadingEle_full5x5_E1x5", &evInfo.subLeadingEle_full5x5_E1x5 );
 	eventTree->Branch( "subLeadingEle_full5x5_E2x5", &evInfo.subLeadingEle_full5x5_E2x5 );
 	eventTree->Branch( "subLeadingEle_full5x5_E2x5_Over_E5x5", &evInfo.subLeadingEle_full5x5_E2x5_Over_E5x5 );
- 	eventTree->Branch( "subLeadingEle_full5x5_E1x5_Over_E5x5", &evInfo.subLeadingEle_full5x5_E1x5_Over_E5x5 );
+	eventTree->Branch( "subLeadingEle_full5x5_E1x5_Over_E5x5", &evInfo.subLeadingEle_full5x5_E1x5_Over_E5x5 );
 	eventTree->Branch( "subLeadingEle_EmHadDepth1Iso", &evInfo.subLeadingEle_EmHadDepth1Iso );
 	eventTree->Branch( "subLeadingEle_ptTracksIso", &evInfo.subLeadingEle_ptTracksIso );
 	eventTree->Branch( "subLeadingEle_innerLayerLostHits", &evInfo.subLeadingEle_innerLayerLostHits );
 	eventTree->Branch( "subLeadingEle_dxy", &evInfo.subLeadingEle_dxy );
+
+	eventTree->Branch( "leadingMuon_isHighPt", &evInfo.leadingMuon_isHighPt );
+	eventTree->Branch( "subLeadingMuon_isHighPt", &evInfo.subLeadingMuon_isHighPt );
 
 }
 // ******************************************************************************************
@@ -204,7 +209,7 @@ void miniTreeMaker::analyze(const EventBase& evt)
 	const Event &iEvent = (*fullEvent);  
   
 
-  	//-------------- access edm objects
+	//-------------- access edm objects
 
 	//--- only if MC
 	Handle<View<reco::GenParticle> > genParticles;
@@ -269,7 +274,7 @@ void miniTreeMaker::analyze(const EventBase& evt)
 			evInfo.passEEJJhlt =  triggerBits->accept( index );
 		}
 
-		if( (TString::Format((triggerNames.triggerName( index )).c_str())).Contains("HLT_Mu50") ) {
+		if( (TString::Format((triggerNames.triggerName( index )).c_str())).Contains("HLT_Mu50") || (TString::Format((triggerNames.triggerName( index )).c_str())).Contains("HLT_TkMu50")) {
 			// cout << (triggerNames.triggerName( index )).c_str() <<endl;
 			evInfo.passMMJJhlt =  triggerBits->accept( index );
 		}
@@ -385,7 +390,6 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		// evInfo.ele_ptTracksIso.push_back(electron->dr03TkSumPt());  //TO MODIFY
 		evInfo.ele_innerLayerLostHits.push_back(electron->gsfTrack()->hitPattern().numberOfHits( reco::HitPattern::MISSING_INNER_HITS));
 		evInfo.ele_dxy.push_back(fabs(electron->gsfTrack()->dxy( best_vtx_ele->position())));
-
 	}       
 
 
@@ -401,17 +405,7 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		// muon ID and isolation: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideMuonIdRun2
 		float muPFCombRelIso = ( muon->pfIsolationR04().sumChargedHadronPt + max( 0.,muon->pfIsolationR04().sumNeutralHadronEt + muon->pfIsolationR04().sumPhotonEt - 0.5 * muon->pfIsolationR04().sumPUPt ) ) / ( muon->pt() );
 
-		int vtxInd = 0;
-		double dzmin = 9999;
-		for( size_t ivtx = 0 ; ivtx < vertices->size(); ivtx++ ) {
-			Ptr<reco::Vertex> vtx = vertices->ptrAt(ivtx);
-			if( !muon->innerTrack() ) { continue; }
-			if( fabs( muon->innerTrack()->vz() - vtx->position().z() ) < dzmin ) {
-				dzmin = fabs( muon->innerTrack()->vz() - vtx->position().z() );
-				vtxInd = ivtx;
-			}
-		}
-		Ptr<reco::Vertex> muonVtx = vertices->ptrAt(vtxInd);
+		Ptr<reco::Vertex> muonVtx = chooseBestMuonVtx(vertices->ptrs(), muon);
 
 		int mcMatch =  -1;
 		if( ! iEvent.isRealData() ) mcMatch = muonMatchingToGen(muon, genParticles); 
@@ -421,13 +415,12 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		evInfo.mu_eta.push_back(muon->eta());
 		evInfo.mu_phi.push_back(muon->phi());
 		evInfo.mu_iso.push_back(muPFCombRelIso);
-		evInfo.mu_isTight.push_back(muon::isTightMuon( *muon, *muonVtx ));
-		evInfo.mu_isMedium.push_back(muon::isMediumMuon( *muon ));
-		evInfo.mu_isLoose.push_back(muon::isLooseMuon( *muon ));
-		evInfo.mu_isHighPt.push_back(muon::isHighPtMuon( *muon, *muonVtx ));
+		evInfo.mu_isTight.push_back(muon->isTightMuon( *muonVtx ));
+		evInfo.mu_isMedium.push_back(muon->isMediumMuon( ));
+		evInfo.mu_isLoose.push_back(muon->isLooseMuon( ));
+		evInfo.mu_isHighPt.push_back(muon->isHighPtMuon( *muonVtx ));
 		evInfo.mu_isMatchedToGen.push_back(mcMatch); 
 		evInfo.mu_charge.push_back(muon->charge());
-
 	}
 
 
@@ -468,7 +461,117 @@ void miniTreeMaker::analyze(const EventBase& evt)
 			ndldj++;
 			if ( passDiLeptonDiJetPreselection(diLeptonDiJet) ) npre++; 
 		}
-					
+				
+
+		float leadingLeptonCharge    = 0.;
+		float subLeadingLeptonCharge = 0.;
+
+		bool leadElePassHEEPId         = false;
+		float leadingEleEtaSC          = -999.;
+		bool leadingEleIsEcalDriven    = false;
+		float leadingEleDEtaIn         = -999.;
+		float leadingEleDPhiIn         = -999.;
+		float leadingEleHoE            = -999.;
+		float leadingEleR9             = -999.;
+		float leadingEleSigmaIetaIeta  = -999.;
+		float leadingEleE5x5           = -999.;
+		float leadingEleE1x5           = -999.; 
+		float leadingEleE2x5           = -999.;
+		float leadingEleE2x5_E5x5      = -999.;
+		float leadingEleE1x5_E5x5      = -999.;
+		float leadingEleEmHadDepth1Iso = -999.;
+		float leadingElePtTracksIso    = -999.;
+		float leadingEleMissingHits    = -999.;
+		float leadingEleDxy            = -999.;
+
+		bool subLeadElePassHEEPId         = false;
+		float subLeadingEleEtaSC          = -999.;
+		bool subLeadingEleIsEcalDriven    = false;
+		float subLeadingEleDEtaIn         = -999.;
+		float subLeadingEleDPhiIn         = -999.;
+		float subLeadingEleHoE            = -999.;
+		float subLeadingEleR9             = -999.;
+		float subLeadingEleSigmaIetaIeta  = -999.;
+		float subLeadingEleE5x5           = -999.;
+		float subLeadingEleE1x5           = -999.; 
+		float subLeadingEleE2x5           = -999.;
+		float subLeadingEleE2x5_E5x5      = -999.;
+		float subLeadingEleE1x5_E5x5      = -999.;
+		float subLeadingEleEmHadDepth1Iso = -999.;
+		float subLeadingElePtTracksIso    = -999.;
+		float subLeadingEleMissingHits    = -999.;
+		float subLeadingEleDxy            = -999.;
+
+		bool leadingMuonIsHighPt = false;
+		bool subLeadingMuonIsHighPt = false;
+
+
+		if (diLeptonDiJet->isEEJJ() || diLeptonDiJet->isEETT()) {
+			leadingLeptonCharge = diLeptonDiJet->leadingEle()->charge();
+			subLeadingLeptonCharge = diLeptonDiJet->subLeadingEle()->charge();
+
+			Ptr<reco::Vertex> best_vtx_leadEle = chooseBestVtx(vertices->ptrs(), diLeptonDiJet->leadingEle());
+			Ptr<reco::Vertex> best_vtx_subLeadEle = chooseBestVtx(vertices->ptrs(), diLeptonDiJet->subLeadingEle());
+
+			leadElePassHEEPId = passHEEPIdCuts( diLeptonDiJet->leadingEle(), vertices->ptrs(), rho );
+			leadingEleEtaSC = diLeptonDiJet->leadingEle()->superCluster()->eta();
+			leadingEleIsEcalDriven = diLeptonDiJet->leadingEle()->ecalDrivenSeed();
+			leadingEleDEtaIn = diLeptonDiJet->leadingEle()->deltaEtaSuperClusterTrackAtVtx();  //TO MODIFY
+			leadingEleDPhiIn = diLeptonDiJet->leadingEle()->deltaPhiSuperClusterTrackAtVtx();
+			leadingEleHoE = diLeptonDiJet->leadingEle()->hadronicOverEm();
+			leadingEleR9 = diLeptonDiJet->leadingEle()->full5x5_r9();
+			leadingEleSigmaIetaIeta = diLeptonDiJet->leadingEle()->full5x5_sigmaIetaIeta();
+			leadingEleE5x5 = diLeptonDiJet->leadingEle()->full5x5_e5x5();
+			leadingEleE1x5 = diLeptonDiJet->leadingEle()->full5x5_e1x5();
+			leadingEleE2x5 = diLeptonDiJet->leadingEle()->full5x5_e2x5Max();
+			leadingEleE2x5_E5x5 = leadingEleE2x5 / leadingEleE5x5;
+			leadingEleE1x5_E5x5 = leadingEleE1x5 / leadingEleE5x5;
+			leadingEleEmHadDepth1Iso = diLeptonDiJet->leadingEle()->dr03EcalRecHitSumEt() + diLeptonDiJet->leadingEle()->dr03HcalDepth1TowerSumEt();
+			// leadingElePtTracksIso = diLeptonDiJet->leadingEle()->dr03TkSumPt();  //TO MODIFY
+			leadingEleMissingHits = diLeptonDiJet->leadingEle()->gsfTrack()->hitPattern().numberOfHits( reco::HitPattern::MISSING_INNER_HITS);
+			leadingEleDxy = fabs(diLeptonDiJet->leadingEle()->gsfTrack()->dxy( best_vtx_leadEle->position()));
+
+			subLeadElePassHEEPId = passHEEPIdCuts( diLeptonDiJet->subLeadingEle(), vertices->ptrs(), rho );
+			subLeadingEleEtaSC = diLeptonDiJet->subLeadingEle()->superCluster()->eta();
+			subLeadingEleIsEcalDriven = diLeptonDiJet->subLeadingEle()->ecalDrivenSeed();
+			subLeadingEleDEtaIn = diLeptonDiJet->subLeadingEle()->deltaEtaSuperClusterTrackAtVtx();  //TO MODIFY
+			subLeadingEleDPhiIn = diLeptonDiJet->subLeadingEle()->deltaPhiSuperClusterTrackAtVtx();
+			subLeadingEleHoE = diLeptonDiJet->subLeadingEle()->hadronicOverEm();
+			subLeadingEleR9 = diLeptonDiJet->subLeadingEle()->full5x5_r9();
+			subLeadingEleSigmaIetaIeta = diLeptonDiJet->subLeadingEle()->full5x5_sigmaIetaIeta();
+			subLeadingEleE5x5 = diLeptonDiJet->subLeadingEle()->full5x5_e5x5();
+			subLeadingEleE1x5 = diLeptonDiJet->subLeadingEle()->full5x5_e1x5();
+			subLeadingEleE2x5 = diLeptonDiJet->subLeadingEle()->full5x5_e2x5Max();
+			subLeadingEleE2x5_E5x5 = subLeadingEleE2x5 / subLeadingEleE5x5;
+			subLeadingEleE1x5_E5x5 = subLeadingEleE1x5 / subLeadingEleE5x5;
+			subLeadingEleEmHadDepth1Iso = diLeptonDiJet->subLeadingEle()->dr03EcalRecHitSumEt() + diLeptonDiJet->subLeadingEle()->dr03HcalDepth1TowerSumEt();
+			// subLeadingElePtTracksIso = diLeptonDiJet->subLeadingEle()->dr03TkSumPt();  //TO MODIFY
+			subLeadingEleMissingHits = diLeptonDiJet->subLeadingEle()->gsfTrack()->hitPattern().numberOfHits( reco::HitPattern::MISSING_INNER_HITS);
+			subLeadingEleDxy = fabs(diLeptonDiJet->subLeadingEle()->gsfTrack()->dxy( best_vtx_subLeadEle->position()));
+
+		} else if (diLeptonDiJet->isMMJJ() || diLeptonDiJet->isMMTT()) {
+			leadingLeptonCharge = diLeptonDiJet->leadingMuon()->charge();
+			subLeadingLeptonCharge = diLeptonDiJet->subLeadingMuon()->charge();
+
+			Ptr<reco::Vertex> leadingMuonVtx = chooseBestMuonVtx(vertices->ptrs(), diLeptonDiJet->leadingMuon());
+			Ptr<reco::Vertex> subLeadingMuonVtx = chooseBestMuonVtx(vertices->ptrs(), diLeptonDiJet->subLeadingMuon());
+
+			leadingMuonIsHighPt = diLeptonDiJet->leadingMuon()->isHighPtMuon( *leadingMuonVtx );
+			leadingMuonIsHighPt = diLeptonDiJet->subLeadingMuon()->isHighPtMuon( *subLeadingMuonVtx );
+
+		} else if (diLeptonDiJet->isEMJJ()) {
+			if (diLeptonDiJet->electron()->pt() > diLeptonDiJet->muon()->pt()) {
+				leadingLeptonCharge = diLeptonDiJet->electron()->charge();
+				subLeadingLeptonCharge = diLeptonDiJet->muon()->charge();
+				// leadElePassHEEPId = passHEEPIdCuts( diLeptonDiJet->electrons(), vertices->ptrs(), rho );  ecc.
+			} else {
+				leadingLeptonCharge = diLeptonDiJet->muon()->charge();
+				subLeadingLeptonCharge = diLeptonDiJet->electron()->charge();		
+				// subLeadElePassHEEPId = passHEEPIdCuts( diLeptonDiJet->electron(), vertices->ptrs(), rho );  ecc.
+			}
+		}
+
+
 		evInfo.isEEJJ.push_back(diLeptonDiJet->isEEJJ());  
 		evInfo.isEETT.push_back(diLeptonDiJet->isEETT());
 		evInfo.isMMJJ.push_back(diLeptonDiJet->isMMJJ());
@@ -488,10 +591,12 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		evInfo.leadingLepton_pt.push_back(diLeptonDiJet->leadingLeptonPt());
 		evInfo.leadingLepton_eta.push_back(diLeptonDiJet->leadingLeptonEta());
 		evInfo.leadingLepton_phi.push_back(diLeptonDiJet->leadingLeptonPhi());
+		evInfo.leadingLepton_charge.push_back(leadingLeptonCharge);
 
 		evInfo.subLeadingLepton_pt.push_back(diLeptonDiJet->subLeadingLeptonPt());
 		evInfo.subLeadingLepton_eta.push_back(diLeptonDiJet->subLeadingLeptonEta());
 		evInfo.subLeadingLepton_phi.push_back(diLeptonDiJet->subLeadingLeptonPhi());
+		evInfo.subLeadingLepton_charge.push_back(subLeadingLeptonCharge);
 
 		evInfo.leadingJet_pt.push_back(diLeptonDiJet->leadingJet()->pt());
 		evInfo.leadingJet_eta.push_back(diLeptonDiJet->leadingJet()->eta());
@@ -512,50 +617,46 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		evInfo.diLepton_invMass.push_back(diLeptonDiJet->diLeptonInvMass());
 		evInfo.diJet_invMass.push_back( diJetInvMass(diLeptonDiJet) );
 
+		evInfo.leadingEle_passHEEPId.push_back(leadElePassHEEPId);
+		evInfo.leadingEle_etaSC.push_back(leadingEleEtaSC);
+		evInfo.leadingEle_isEcalDriven.push_back(leadingEleIsEcalDriven);
+		evInfo.leadingEle_dEtaIn.push_back(leadingEleDEtaIn);
+		evInfo.leadingEle_dPhiIn.push_back(leadingEleDPhiIn);
+		evInfo.leadingEle_hOverE.push_back(leadingEleHoE);
+		evInfo.leadingEle_full5x5_r9.push_back(leadingEleR9); 
+		evInfo.leadingEle_full5x5_sigmaIetaIeta.push_back(leadingEleSigmaIetaIeta);
+		evInfo.leadingEle_full5x5_E5x5.push_back(leadingEleE5x5);
+		evInfo.leadingEle_full5x5_E1x5.push_back(leadingEleE1x5);
+		evInfo.leadingEle_full5x5_E2x5.push_back(leadingEleE2x5);
+		evInfo.leadingEle_full5x5_E2x5_Over_E5x5.push_back(leadingEleE2x5_E5x5);
+		evInfo.leadingEle_full5x5_E1x5_Over_E5x5.push_back(leadingEleE1x5_E5x5);
+		evInfo.leadingEle_EmHadDepth1Iso.push_back(leadingEleEmHadDepth1Iso);
+		evInfo.leadingEle_ptTracksIso.push_back(leadingElePtTracksIso);
+		evInfo.leadingEle_innerLayerLostHits.push_back(leadingEleMissingHits);
+		evInfo.leadingEle_dxy.push_back(leadingEleDxy);
 
-		if (diLeptonDiJet->isEEJJ() || diLeptonDiJet->isEETT()) {
-			int leadElePassHEEPId = passHEEPIdCuts( diLeptonDiJet->leadingEle(), vertices->ptrs(), rho );
-			int subLeadElePassHEEPId = passHEEPIdCuts( diLeptonDiJet->subLeadingEle(), vertices->ptrs(), rho );
-			Ptr<reco::Vertex> best_vtx_leadEle = chooseBestVtx(vertices->ptrs(), diLeptonDiJet->leadingEle());
-			Ptr<reco::Vertex> best_vtx_subLeadEle = chooseBestVtx(vertices->ptrs(), diLeptonDiJet->subLeadingEle());
+		evInfo.subLeadingEle_passHEEPId.push_back(subLeadElePassHEEPId);		
+		evInfo.subLeadingEle_etaSC.push_back(subLeadingEleEtaSC);		
+		evInfo.subLeadingEle_isEcalDriven.push_back(subLeadingEleIsEcalDriven);
+		evInfo.subLeadingEle_dEtaIn.push_back(subLeadingEleDEtaIn);
+		evInfo.subLeadingEle_dPhiIn.push_back(subLeadingEleDPhiIn);
+		evInfo.subLeadingEle_hOverE.push_back(subLeadingEleHoE);
+		evInfo.subLeadingEle_full5x5_r9.push_back(subLeadingEleR9); 
+		evInfo.subLeadingEle_full5x5_sigmaIetaIeta.push_back(subLeadingEleSigmaIetaIeta);
+		evInfo.subLeadingEle_full5x5_E5x5.push_back(subLeadingEleE5x5);
+		evInfo.subLeadingEle_full5x5_E1x5.push_back(subLeadingEleE1x5);
+		evInfo.subLeadingEle_full5x5_E2x5.push_back(subLeadingEleE2x5);
+		evInfo.subLeadingEle_full5x5_E2x5_Over_E5x5.push_back(subLeadingEleE2x5_E5x5);
+		evInfo.subLeadingEle_full5x5_E1x5_Over_E5x5.push_back(subLeadingEleE1x5_E5x5);
+		evInfo.subLeadingEle_EmHadDepth1Iso.push_back(subLeadingEleEmHadDepth1Iso);
+		evInfo.subLeadingEle_ptTracksIso.push_back(subLeadingElePtTracksIso);
+		evInfo.subLeadingEle_innerLayerLostHits.push_back(subLeadingEleMissingHits);
+		evInfo.subLeadingEle_dxy.push_back(subLeadingEleDxy);
 
-			evInfo.leadingEle_passHEEPId.push_back(leadElePassHEEPId);
-			evInfo.leadingEle_etaSC.push_back(diLeptonDiJet->leadingEle()->superCluster()->eta());
-			evInfo.leadingEle_isEcalDriven.push_back(diLeptonDiJet->leadingEle()->ecalDrivenSeed());
-			evInfo.leadingEle_dEtaIn.push_back(diLeptonDiJet->leadingEle()->deltaEtaSuperClusterTrackAtVtx());  //TO MODIFY
-			evInfo.leadingEle_dPhiIn.push_back(diLeptonDiJet->leadingEle()->deltaPhiSuperClusterTrackAtVtx());
-			evInfo.leadingEle_hOverE.push_back(diLeptonDiJet->leadingEle()->hadronicOverEm());
-			evInfo.leadingEle_full5x5_r9.push_back(diLeptonDiJet->leadingEle()->full5x5_r9()); 
-			evInfo.leadingEle_full5x5_sigmaIetaIeta.push_back(diLeptonDiJet->leadingEle()->full5x5_sigmaIetaIeta());
-			evInfo.leadingEle_full5x5_E5x5.push_back(diLeptonDiJet->leadingEle()->full5x5_e5x5());
-			evInfo.leadingEle_full5x5_E1x5.push_back(diLeptonDiJet->leadingEle()->full5x5_e1x5());
-			evInfo.leadingEle_full5x5_E2x5.push_back(diLeptonDiJet->leadingEle()->full5x5_e2x5Max());
-			evInfo.leadingEle_full5x5_E2x5_Over_E5x5.push_back((diLeptonDiJet->leadingEle()->full5x5_e2x5Max()) / (diLeptonDiJet->leadingEle()->full5x5_e5x5()));
-			evInfo.leadingEle_full5x5_E1x5_Over_E5x5.push_back((diLeptonDiJet->leadingEle()->full5x5_e1x5()) / (diLeptonDiJet->leadingEle()->full5x5_e5x5()));
-			evInfo.leadingEle_EmHadDepth1Iso.push_back(diLeptonDiJet->leadingEle()->dr03EcalRecHitSumEt()+diLeptonDiJet->leadingEle()->dr03HcalDepth1TowerSumEt());
-			// evInfo.leadingEle_ptTracksIso.push_back(diLeptonDiJet->leadingEle()->dr03TkSumPt());  //TO MODIFY
-			evInfo.leadingEle_innerLayerLostHits.push_back(diLeptonDiJet->leadingEle()->gsfTrack()->hitPattern().numberOfHits( reco::HitPattern::MISSING_INNER_HITS));
-			evInfo.leadingEle_dxy.push_back(fabs(diLeptonDiJet->leadingEle()->gsfTrack()->dxy( best_vtx_leadEle->position())));
+		evInfo.leadingMuon_isHighPt.push_back(leadingMuonIsHighPt);
+		evInfo.subLeadingMuon_isHighPt.push_back(subLeadingMuonIsHighPt);
 
-			evInfo.subLeadingEle_passHEEPId.push_back(subLeadElePassHEEPId);		
-			evInfo.subLeadingEle_etaSC.push_back(diLeptonDiJet->subLeadingEle()->superCluster()->eta());			
-			evInfo.subLeadingEle_isEcalDriven.push_back(diLeptonDiJet->subLeadingEle()->ecalDrivenSeed());
-			evInfo.subLeadingEle_dEtaIn.push_back(diLeptonDiJet->subLeadingEle()->deltaEtaSuperClusterTrackAtVtx());  //TO MODIFY
-			evInfo.subLeadingEle_dPhiIn.push_back(diLeptonDiJet->subLeadingEle()->deltaPhiSuperClusterTrackAtVtx());
-			evInfo.subLeadingEle_hOverE.push_back(diLeptonDiJet->subLeadingEle()->hadronicOverEm());
-			evInfo.subLeadingEle_full5x5_r9.push_back(diLeptonDiJet->subLeadingEle()->full5x5_r9()); 
-			evInfo.subLeadingEle_full5x5_sigmaIetaIeta.push_back(diLeptonDiJet->subLeadingEle()->full5x5_sigmaIetaIeta());
-			evInfo.subLeadingEle_full5x5_E5x5.push_back(diLeptonDiJet->subLeadingEle()->full5x5_e5x5());
-			evInfo.subLeadingEle_full5x5_E1x5.push_back(diLeptonDiJet->subLeadingEle()->full5x5_e1x5());
-			evInfo.subLeadingEle_full5x5_E2x5.push_back(diLeptonDiJet->subLeadingEle()->full5x5_e2x5Max());
-			evInfo.subLeadingEle_full5x5_E2x5_Over_E5x5.push_back((diLeptonDiJet->subLeadingEle()->full5x5_e2x5Max()) / (diLeptonDiJet->subLeadingEle()->full5x5_e5x5()));
-			evInfo.subLeadingEle_full5x5_E1x5_Over_E5x5.push_back((diLeptonDiJet->subLeadingEle()->full5x5_e1x5()) / (diLeptonDiJet->subLeadingEle()->full5x5_e5x5()));
-			evInfo.subLeadingEle_EmHadDepth1Iso.push_back(diLeptonDiJet->subLeadingEle()->dr03EcalRecHitSumEt()+diLeptonDiJet->subLeadingEle()->dr03HcalDepth1TowerSumEt());
-			// evInfo.subLeadingEle_ptTracksIso.push_back(diLeptonDiJet->subLeadingEle()->dr03TkSumPt());  //TO MODIFY
-			evInfo.subLeadingEle_innerLayerLostHits.push_back(diLeptonDiJet->subLeadingEle()->gsfTrack()->hitPattern().numberOfHits( reco::HitPattern::MISSING_INNER_HITS));
-			evInfo.subLeadingEle_dxy.push_back(fabs(diLeptonDiJet->subLeadingEle()->gsfTrack()->dxy( best_vtx_subLeadEle->position())));
-		}
-	
+
 		// // -- jets
 		// int ijetVector = diLeptonDiJet->vertexIndex();
 		// // cout << "ijetVector = " << ijetVector << endl; //sempre = 0 -> se all'interno del loop sui DLDJ prende piu` volte lo stesso vettore di jet
@@ -697,10 +798,12 @@ void miniTreeMaker::initEventStructure() {
 	evInfo.leadingLepton_pt .clear();
 	evInfo.leadingLepton_eta .clear(); 
 	evInfo.leadingLepton_phi .clear();  
+	evInfo.leadingLepton_charge .clear();
 
 	evInfo.subLeadingLepton_pt .clear();
 	evInfo.subLeadingLepton_eta .clear(); 
 	evInfo.subLeadingLepton_phi .clear();  
+	evInfo.subLeadingLepton_charge .clear();
 
 	evInfo.leadingJet_pt .clear();
 	evInfo.leadingJet_eta .clear(); 
@@ -756,6 +859,9 @@ void miniTreeMaker::initEventStructure() {
 	evInfo.subLeadingEle_ptTracksIso .clear();
 	evInfo.subLeadingEle_innerLayerLostHits .clear();
 	evInfo.subLeadingEle_dxy .clear();
+
+	evInfo.leadingMuon_isHighPt .clear();
+	evInfo.subLeadingMuon_isHighPt .clear();
 
 }
 // ******************************************************************************************

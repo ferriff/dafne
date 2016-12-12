@@ -126,11 +126,13 @@ struct eventInfo {
 
 	vector<float> leadingLepton_pt;
 	vector<float> leadingLepton_eta;  
-	vector<float> leadingLepton_phi;  
+	vector<float> leadingLepton_phi; 
+	vector<float> leadingLepton_charge;
 
 	vector<float> subLeadingLepton_pt;
 	vector<float> subLeadingLepton_eta;  
 	vector<float> subLeadingLepton_phi;  
+	vector<float> subLeadingLepton_charge;
 
 	vector<float> leadingJet_pt;
 	vector<float> leadingJet_eta;  
@@ -186,6 +188,9 @@ struct eventInfo {
 	vector<float> subLeadingEle_ptTracksIso;	
 	vector<int> subLeadingEle_innerLayerLostHits;
 	vector<float> subLeadingEle_dxy;	
+
+	vector<bool> leadingMuon_isHighPt;
+	vector<bool> subLeadingMuon_isHighPt;
 
 };
 
@@ -273,6 +278,41 @@ Ptr<reco::Vertex> chooseBestVtx(const vector<Ptr<reco::Vertex> > &vertices, cons
 		}
 	}					
 	return vertices[min_dz_vtx];
+}
+// **************** 
+
+
+
+// **************** 
+Ptr<reco::Vertex> chooseBestMuonVtx(const vector<Ptr<reco::Vertex> > &vertices, Ptr<flashgg::Muon> muon){
+	int vtxInd = 0;
+	double dzmin = 9999;
+	for( size_t ivtx = 0 ; ivtx < vertices.size(); ivtx++ ) {
+		Ptr<reco::Vertex> vtx = vertices[ivtx];
+		if( !muon->innerTrack() ) { continue; }
+		if( fabs( muon->innerTrack()->vz() - vtx->position().z() ) < dzmin ) {
+			dzmin = fabs( muon->innerTrack()->vz() - vtx->position().z() );
+			vtxInd = ivtx;
+		}
+	}
+	return vertices[vtxInd];
+}
+// **************** 
+
+
+// **************** 
+Ptr<reco::Vertex> chooseBestMuonVtx(const vector<Ptr<reco::Vertex> > &vertices, const flashgg::Muon* muon){
+	int vtxInd = 0;
+	double dzmin = 9999;
+	for( size_t ivtx = 0 ; ivtx < vertices.size(); ivtx++ ) {
+		Ptr<reco::Vertex> vtx = vertices[ivtx];
+		if( !muon->innerTrack() ) { continue; }
+		if( fabs( muon->innerTrack()->vz() - vtx->position().z() ) < dzmin ) {
+			dzmin = fabs( muon->innerTrack()->vz() - vtx->position().z() );
+			vtxInd = ivtx;
+		}
+	}
+	return vertices[vtxInd];
 }
 // **************** 
 
