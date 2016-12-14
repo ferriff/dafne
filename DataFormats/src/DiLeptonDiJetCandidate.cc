@@ -95,7 +95,7 @@ DiLeptonDiJetCandidate::DiLeptonDiJetCandidate( Electron_ptr electron, Muon_ptr 
 	addDaughter( *jet2 );
 
 	type_ = kEMJJ;
-	electronPtr_ = electron; //ok?
+	electronPtr_ = electron;
 	muonPtr_ = muon;
 	jets_[0] = jet1;
 	jets_[1] = jet2;
@@ -291,7 +291,7 @@ const Muon_t *DiLeptonDiJetCandidate::subLeadingMuon() const
 
 const Jet_t *DiLeptonDiJetCandidate::leadingJet() const
 {
-	if (type_ == kEEJJ || type_ == kMMJJ) {
+	if (type_ == kEEJJ || type_ == kMMJJ || type_ == kEMJJ) {
 		if( daughter( 2 )->pt() > daughter( 3 )->pt() ) {
 			return dynamic_cast<const Jet_t *>( daughter( 2 ) );
 		} else {
@@ -303,7 +303,7 @@ const Jet_t *DiLeptonDiJetCandidate::leadingJet() const
 
 const Jet_t *DiLeptonDiJetCandidate::subLeadingJet() const
 {
-	if (type_ == kEEJJ || type_ == kMMJJ) {
+	if (type_ == kEEJJ || type_ == kMMJJ || type_ == kEMJJ) {
 		if( daughter( 2 )->pt() > daughter( 3 )->pt() ) {
 			return dynamic_cast<const Jet_t *>( daughter( 3 ) );
 		} else {
