@@ -20,7 +20,6 @@
 #include "TTree.h"
 
 #include "dafne/DataFormats/interface/DiLeptonDiJetCandidate.h"
-#include "DataFormats/VertexReco/interface/Vertex.h" ////
 #include "DataFormats/EgammaCandidates/interface/GsfElectron.h"
 #include "flashgg/Taggers/interface/LeptonSelection.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
@@ -517,7 +516,6 @@ bool passDiLeptonDiJetPreselection(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 
 // **************** 
 bool isBB(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
-
 	if ( (fabs(dldj->leadingLeptonEta())<1.4442) 
 		&& (fabs(dldj->subLeadingLeptonEta())<1.4442) 
 	) return true;
@@ -551,7 +549,9 @@ bool isEB(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 
 // **************** 
 bool isSignalRegion(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
-	if (dldj->invMass() > 600. && dldj->diLeptonInvMass() > 200.) return true;
+	if (dldj->invMass() > 600. && dldj->diLeptonInvMass() > 200.) {
+		return true;
+	}
 	return false;
 }
 // **************** 
