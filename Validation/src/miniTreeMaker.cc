@@ -104,6 +104,8 @@ void miniTreeMaker::beginJob()
 	eventTree->Branch( "mu_isHighPt", &evInfo.mu_isHighPt );
 	eventTree->Branch( "mu_isMatchedToGen", &evInfo.mu_isMatchedToGen );
 	eventTree->Branch( "mu_charge", &evInfo.mu_charge );
+	eventTree->Branch( "mu_dz", &evInfo.mu_dz );
+	eventTree->Branch( "mu_dxy", &evInfo.mu_dxy );
 
 	eventTree->Branch( "jet_e", &evInfo.jet_e );
 	eventTree->Branch( "jet_pt", &evInfo.jet_pt );
@@ -428,6 +430,13 @@ void miniTreeMaker::analyze(const EventBase& evt)
 
 		Ptr<reco::Vertex> muonVtx = chooseBestMuonVtx(vertices->ptrs(), muon);
 
+		float dz = -999;
+		float dxy = -999;
+		if ( !(!muon->innerTrack()) ) {
+			dz = muon->innerTrack()->dz( muonVtx->position() );
+			dxy = muon->innerTrack()->dxy( muonVtx->position() ); 			
+		}
+
 		int mcMatch =  -1;
 		if( ! iEvent.isRealData() ) mcMatch = muonMatchingToGen(muon, genParticles); 
 
@@ -442,6 +451,8 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		evInfo.mu_isHighPt.push_back(muon->isHighPtMuon( *muonVtx ));
 		evInfo.mu_isMatchedToGen.push_back(mcMatch); 
 		evInfo.mu_charge.push_back(muon->charge());
+		evInfo.mu_dz.push_back( dz );
+		evInfo.mu_dxy.push_back( fabs(dxy) );
 	}
 
 
@@ -840,6 +851,8 @@ void miniTreeMaker::initEventStructure() {
 	evInfo.mu_isHighPt .clear();
 	evInfo.mu_isMatchedToGen .clear();
 	evInfo.mu_charge .clear();
+	evInfo.mu_dz .clear();
+	evInfo.mu_dxy .clear();
 
 	evInfo.jet_e .clear();
 	evInfo.jet_pt .clear();

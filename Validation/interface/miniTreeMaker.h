@@ -99,6 +99,8 @@ struct eventInfo {
 	vector<bool> mu_isHighPt;
 	vector<int> mu_isMatchedToGen;
 	vector<int> mu_charge;
+	vector<float> mu_dz;
+	vector<float> mu_dxy;
 
 	vector<float> jet_e;
 	vector<float> jet_pt;
