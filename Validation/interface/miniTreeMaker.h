@@ -87,6 +87,7 @@ struct eventInfo {
 	vector<float> ele_ptTracksIso;
 	vector<int> ele_innerLayerLostHits;
 	vector<float> ele_dxy;
+	vector<float> ele_eOverP;
 
 	vector<float> mu_e;
 	vector<float> mu_pt;
@@ -175,6 +176,7 @@ struct eventInfo {
 	vector<float> leadingEle_ptTracksIso;
 	vector<int> leadingEle_innerLayerLostHits;
 	vector<float> leadingEle_dxy;
+	vector<float> leadingEle_eOverP;
 
 	vector<bool> subLeadingEle_passHEEPId;		
 	vector<float> subLeadingEle_etaSC;			
@@ -193,6 +195,7 @@ struct eventInfo {
 	vector<float> subLeadingEle_ptTracksIso;	
 	vector<int> subLeadingEle_innerLayerLostHits;
 	vector<float> subLeadingEle_dxy;	
+	vector<float> subLeadingEle_eOverP;
 
 	vector<bool> leadingMuon_isHighPt;
 	vector<bool> subLeadingMuon_isHighPt;
