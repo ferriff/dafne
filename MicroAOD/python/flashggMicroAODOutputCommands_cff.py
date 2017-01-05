@@ -40,6 +40,7 @@ microAODmassiveNuOutputCommand = cms.untracked.vstring("drop *",
 													"drop intedmValueMap_electronMVAValueMapProducer_*_*",
 													"keep *_selectedPatTrigger_*_*",
 													"keep *_flashggDiLeptonDiJet_*_*",
+													"keep *_flashggTriLeptons_*_*",
 													"keep patPackedCandidates_packedPFCandidates_*_*"
 													 )
 

@@ -19,6 +19,7 @@ from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 from RecoEgamma.ElectronIdentification.egmGsfElectronIDs_cfi import *
 
 from dafne.MicroAOD.flashggDiLeptonDiJet_cfi import flashggDiLeptonDiJet
+from dafne.MicroAOD.flashggTriLeptons_cfi import flashggTriLeptons
 
 
 eventCount = cms.EDProducer("EventCountProducer")
@@ -44,4 +45,5 @@ flashggMicroAODSequenceDiLeptonDiJet = cms.Sequence(eventCount+weightsCount
                                        +flashggVertexMapForCHS*flashggFinalJets
                                        +flashggVertexMapForPUPPI*flashggFinalPuppiJets
                                        +flashggDiLeptonDiJet
+                                       +flashggTriLeptons
                                        )
