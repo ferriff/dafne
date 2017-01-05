@@ -6,6 +6,7 @@
 #include "dafne/DataFormats/interface/DiEleDiTrackTag.h"
 #include "dafne/DataFormats/interface/DiMuDiTrackTag.h"
 #include "dafne/DataFormats/interface/DiLeptonDiJetTagCandidate.h"
+#include "dafne/DataFormats/interface/TriLeptonsCandidate.h"
 
 
 #include <vector>
@@ -29,6 +30,14 @@ namespace  {
         std::vector<edm::Ptr<flashgg::DiLeptonDiJetCandidate> >        vec_ptr_dldj;
         edm::Wrapper<std::vector<edm::Ptr<flashgg::DiLeptonDiJetCandidate> > >   wrp_vec_ptr_dldj;
  
+        flashgg::TriLeptonsCandidate                                       tl;
+        edm::Wrapper<flashgg::TriLeptonsCandidate>                      wrp_tl;
+        std::vector<flashgg::TriLeptonsCandidate>                       vec_tl;
+        edm::Wrapper<std::vector<flashgg::TriLeptonsCandidate> >    wrp_vec_tl;
+        edm::Ptr<flashgg::TriLeptonsCandidate>                          ptr_tl;
+        edm::Wrapper<edm::Ptr<flashgg::TriLeptonsCandidate> >       wrp_ptr_tl;
+        std::vector<edm::Ptr<flashgg::TriLeptonsCandidate> >        vec_ptr_tl;
+        edm::Wrapper<std::vector<edm::Ptr<flashgg::TriLeptonsCandidate> > >   wrp_vec_ptr_tl;
 
         flashgg::DiLeptonDiJetTagBase dldj_tagbase;
         std::vector<flashgg::DiLeptonDiJetTagBase> vec_dldj_tagbase;
