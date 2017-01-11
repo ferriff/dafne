@@ -184,6 +184,8 @@ void miniTreeMaker::beginJob()
 	eventTree->Branch( "leadingEle_innerLayerLostHits", &evInfo.leadingEle_innerLayerLostHits );
 	eventTree->Branch( "leadingEle_dxy", &evInfo.leadingEle_dxy );
 	eventTree->Branch( "leadingEle_eOverP", &evInfo.leadingEle_eOverP );
+	eventTree->Branch( "leadingEle_id", &evInfo.leadingEle_id );
+	eventTree->Branch( "leadingEle_passCutBasedEleId", &evInfo.leadingEle_passCutBasedEleId );
 
 	eventTree->Branch( "subLeadingEle_passHEEPId", &evInfo.subLeadingEle_passHEEPId );
 	eventTree->Branch( "subLeadingEle_etaSC", &evInfo.subLeadingEle_etaSC );
@@ -203,6 +205,8 @@ void miniTreeMaker::beginJob()
 	eventTree->Branch( "subLeadingEle_innerLayerLostHits", &evInfo.subLeadingEle_innerLayerLostHits );
 	eventTree->Branch( "subLeadingEle_dxy", &evInfo.subLeadingEle_dxy );
 	eventTree->Branch( "subLeadingEle_eOverP", &evInfo.subLeadingEle_eOverP );
+	eventTree->Branch( "subLeadingEle_id", &evInfo.subLeadingEle_id );
+	eventTree->Branch( "subLeadingEle_passCutBasedEleId", &evInfo.subLeadingEle_passCutBasedEleId );
 
 	eventTree->Branch( "leadingMuon_isHighPt", &evInfo.leadingMuon_isHighPt );
 	eventTree->Branch( "subLeadingMuon_isHighPt", &evInfo.subLeadingMuon_isHighPt );
@@ -394,35 +398,12 @@ void miniTreeMaker::analyze(const EventBase& evt)
 
 		Ptr<reco::Vertex> best_vtx_ele = chooseBestVtx(vertices->ptrs(), electron);
 
-		unsigned eleId = 0;
-		std::vector<std::pair<std::string,float> > idlist = electron->electronIDs();
-		for (unsigned i  = 0 ; i < idlist.size(); ++i){
-			// cout << idlist[i].first << ": " << idlist[i].second << endl;
-			if(int(idlist[i].second)){  //se valore id diverso da zero
-				if (idlist[i].first == "cutBasedElectronID-Summer16-80X-V1-veto") eleId |= 0;
-				if (idlist[i].first == "cutBasedElectronID-Summer16-80X-V1-loose") eleId |= 1;
-				if (idlist[i].first == "cutBasedElectronID-Summer16-80X-V1-medium") eleId |= 2;
-				if (idlist[i].first == "cutBasedElectronID-Summer16-80X-V1-tight") eleId |= 3;
-				if (idlist[i].first == "cutBasedElectronID-Spring15-25ns-V1-standalone-loose") eleId |= 4;
-				if (idlist[i].first == "cutBasedElectronID-Spring15-25ns-V1-standalone-medium") eleId |= 5;	    		
-				if (idlist[i].first == "cutBasedElectronID-Spring15-25ns-V1-standalone-tight") eleId |= 6;
-				if (idlist[i].first == "cutBasedElectronID-Spring15-25ns-V1-standalone-veto") eleId |= 7;
-				if (idlist[i].first == "mvaEleID-Spring15-25ns-Trig-V1-wp80") eleId |= 8;
-				if (idlist[i].first == "mvaEleID-Spring15-25ns-Trig-V1-wp90") eleId |= 9;
-				if (idlist[i].first == "mvaEleID-Spring15-25ns-nonTrig-V1-wp80") eleId |= 10;
-				if (idlist[i].first == "mvaEleID-Spring15-25ns-nonTrig-V1-wp90") eleId |= 11;
-				if (idlist[i].first == "mvaEleID-Spring15-25ns-nonTrig-V1-wpLoose") eleId |= 12;
-				if (idlist[i].first == "heepElectronID-HEEPV60") eleId |= 13;
-				if (idlist[i].first == "heepElectronID-HEEPV70") eleId |= 14;
-			}	
-		}
-
 		evInfo.ele_e.push_back(electron->energy());
 		evInfo.ele_pt.push_back(electron->pt());
 		evInfo.ele_eta.push_back(electron->eta());
 		evInfo.ele_phi.push_back(electron->phi());
 		evInfo.ele_idmva.push_back(electron->nonTrigMVA());
-		evInfo.ele_id.push_back( eleId );  
+		evInfo.ele_id.push_back( getEleId(electron) );  
 		evInfo.ele_iso.push_back(isol);
 		evInfo.ele_dz.push_back(dz);
 		evInfo.ele_d0.push_back(d0);
@@ -554,6 +535,8 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		float leadingEleMissingHits    = -999.;
 		float leadingEleDxy            = -999.;
 		float leadingEleEoverP         = -999.;
+		bool leadingElePassCutBasedId  = false;
+		unsigned leadingEleId          = 0;
 
 		bool subLeadElePassHEEPId         = false;
 		float subLeadingEleEtaSC          = -999.;
@@ -573,6 +556,8 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		float subLeadingEleMissingHits    = -999.;
 		float subLeadingEleDxy            = -999.;
 		float subLeadingEleEoverP         = -999.;
+		bool subLeadingElePassCutBasedId  = false;
+		unsigned subLeadingEleId          = 0;
 
 		bool leadingMuonIsHighPt = false;
 		bool subLeadingMuonIsHighPt = false;
@@ -603,6 +588,8 @@ void miniTreeMaker::analyze(const EventBase& evt)
 			leadingEleMissingHits = diLeptonDiJet->leadingEle()->gsfTrack()->hitPattern().numberOfHits( reco::HitPattern::MISSING_INNER_HITS);
 			leadingEleDxy = fabs(diLeptonDiJet->leadingEle()->gsfTrack()->dxy( best_vtx_leadEle->position()));
 			leadingEleEoverP = diLeptonDiJet->leadingEle()->eSuperClusterOverP();
+			leadingElePassCutBasedId = passCutBasedEleId( diLeptonDiJet->leadingEle(), rho );
+			leadingEleId = getEleId(diLeptonDiJet->leadingEle());
 
 			subLeadElePassHEEPId = passHEEPIdCuts( diLeptonDiJet->subLeadingEle(), vertices->ptrs(), rho );
 			subLeadingEleEtaSC = diLeptonDiJet->subLeadingEle()->superCluster()->eta();
@@ -622,6 +609,8 @@ void miniTreeMaker::analyze(const EventBase& evt)
 			subLeadingEleMissingHits = diLeptonDiJet->subLeadingEle()->gsfTrack()->hitPattern().numberOfHits( reco::HitPattern::MISSING_INNER_HITS);
 			subLeadingEleDxy = fabs(diLeptonDiJet->subLeadingEle()->gsfTrack()->dxy( best_vtx_subLeadEle->position()));
 			subLeadingEleEoverP = diLeptonDiJet->subLeadingEle()->eSuperClusterOverP();
+			subLeadingElePassCutBasedId = passCutBasedEleId( diLeptonDiJet->subLeadingEle(), rho );
+			subLeadingEleId = getEleId(diLeptonDiJet->subLeadingEle());
 
 		} else if (diLeptonDiJet->isMMJJ() || diLeptonDiJet->isMMTT()) {
 			leadingLeptonCharge = diLeptonDiJet->leadingMuon()->charge();
@@ -658,7 +647,8 @@ void miniTreeMaker::analyze(const EventBase& evt)
 				leadingEleMissingHits = diLeptonDiJet->electron()->gsfTrack()->hitPattern().numberOfHits( reco::HitPattern::MISSING_INNER_HITS);
 				leadingEleDxy = fabs(diLeptonDiJet->electron()->gsfTrack()->dxy( best_vtx_leadEle->position()));
 				leadingEleEoverP = diLeptonDiJet->electron()->eSuperClusterOverP();
-
+				leadingElePassCutBasedId = passCutBasedEleId( diLeptonDiJet->electron(), rho );
+				leadingEleId = getEleId(diLeptonDiJet->electron());
 
 			} else {
 				leadingLeptonCharge = diLeptonDiJet->muon()->charge();
@@ -684,6 +674,8 @@ void miniTreeMaker::analyze(const EventBase& evt)
 				subLeadingEleMissingHits = diLeptonDiJet->electron()->gsfTrack()->hitPattern().numberOfHits( reco::HitPattern::MISSING_INNER_HITS);
 				subLeadingEleDxy = fabs(diLeptonDiJet->electron()->gsfTrack()->dxy( best_vtx_subLeadEle->position()));
 				subLeadingEleEoverP = diLeptonDiJet->electron()->eSuperClusterOverP();
+				subLeadingElePassCutBasedId = passCutBasedEleId( diLeptonDiJet->electron(), rho );
+				leadingEleId = getEleId(diLeptonDiJet->electron());
 			}
 		}
 
@@ -759,6 +751,8 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		evInfo.leadingEle_innerLayerLostHits.push_back(leadingEleMissingHits);
 		evInfo.leadingEle_dxy.push_back(leadingEleDxy);
 		evInfo.leadingEle_eOverP.push_back(leadingEleEoverP);
+		evInfo.leadingEle_id.push_back(leadingEleId);
+		evInfo.leadingEle_passCutBasedEleId.push_back(leadingElePassCutBasedId);
 
 		evInfo.subLeadingEle_passHEEPId.push_back(subLeadElePassHEEPId);		
 		evInfo.subLeadingEle_etaSC.push_back(subLeadingEleEtaSC);		
@@ -778,6 +772,8 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		evInfo.subLeadingEle_innerLayerLostHits.push_back(subLeadingEleMissingHits);
 		evInfo.subLeadingEle_dxy.push_back(subLeadingEleDxy);
 		evInfo.subLeadingEle_eOverP.push_back(subLeadingEleEoverP);
+		evInfo.subLeadingEle_id.push_back(subLeadingEleId);
+		evInfo.subLeadingEle_passCutBasedEleId.push_back(subLeadingElePassCutBasedId);
 
 		evInfo.leadingMuon_isHighPt.push_back(leadingMuonIsHighPt);
 		evInfo.subLeadingMuon_isHighPt.push_back(subLeadingMuonIsHighPt);
@@ -978,6 +974,8 @@ void miniTreeMaker::initEventStructure() {
 	evInfo.leadingEle_innerLayerLostHits .clear();
 	evInfo.leadingEle_dxy .clear();
 	evInfo.leadingEle_eOverP .clear();
+	evInfo.leadingEle_id .clear();
+	evInfo.leadingEle_passCutBasedEleId .clear();
 
 	evInfo.subLeadingEle_passHEEPId .clear();
 	evInfo.subLeadingEle_etaSC .clear();
@@ -997,6 +995,8 @@ void miniTreeMaker::initEventStructure() {
 	evInfo.subLeadingEle_innerLayerLostHits .clear();
 	evInfo.subLeadingEle_dxy .clear();
 	evInfo.subLeadingEle_eOverP .clear();
+	evInfo.subLeadingEle_id .clear();
+	evInfo.subLeadingEle_passCutBasedEleId .clear();
 
 	evInfo.leadingMuon_isHighPt .clear();
 	evInfo.subLeadingMuon_isHighPt .clear();

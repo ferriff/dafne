@@ -181,6 +181,8 @@ struct eventInfo {
 	vector<int> leadingEle_innerLayerLostHits;
 	vector<float> leadingEle_dxy;
 	vector<float> leadingEle_eOverP;
+	vector<unsigned> leadingEle_id;
+	vector<bool> leadingEle_passCutBasedEleId;
 
 	vector<bool> subLeadingEle_passHEEPId;		
 	vector<float> subLeadingEle_etaSC;			
@@ -200,6 +202,8 @@ struct eventInfo {
 	vector<int> subLeadingEle_innerLayerLostHits;
 	vector<float> subLeadingEle_dxy;	
 	vector<float> subLeadingEle_eOverP;
+	vector<unsigned> subLeadingEle_id;
+	vector<bool> subLeadingEle_passCutBasedEleId;
 
 	vector<bool> leadingMuon_isHighPt;
 	vector<bool> subLeadingMuon_isHighPt;
@@ -464,7 +468,99 @@ bool passHEEPIdCuts(const flashgg::Electron* electron, const vector<Ptr<reco::Ve
 
 
 // ***************************** 
+unsigned getEleId(Ptr<flashgg::Electron> electron){
+	unsigned eleId = 0;
+	std::vector<std::pair<std::string,float> > idlist = electron->electronIDs();
+	for (unsigned i  = 0 ; i < idlist.size(); ++i){
+		// cout << idlist[i].first << ": " << idlist[i].second << endl;
+		if(int(idlist[i].second)){  //se valore id diverso da zero
+			if (idlist[i].first == "cutBasedElectronID-Summer16-80X-V1-veto") eleId |= 0;
+			if (idlist[i].first == "cutBasedElectronID-Summer16-80X-V1-loose") eleId |= 1;
+			if (idlist[i].first == "cutBasedElectronID-Summer16-80X-V1-medium") eleId |= 2;
+			if (idlist[i].first == "cutBasedElectronID-Summer16-80X-V1-tight") eleId |= 3;
+			if (idlist[i].first == "cutBasedElectronID-Spring15-25ns-V1-standalone-loose") eleId |= 4;
+			if (idlist[i].first == "cutBasedElectronID-Spring15-25ns-V1-standalone-medium") eleId |= 5;	    		
+			if (idlist[i].first == "cutBasedElectronID-Spring15-25ns-V1-standalone-tight") eleId |= 6;
+			if (idlist[i].first == "cutBasedElectronID-Spring15-25ns-V1-standalone-veto") eleId |= 7;
+			if (idlist[i].first == "mvaEleID-Spring15-25ns-Trig-V1-wp80") eleId |= 8;
+			if (idlist[i].first == "mvaEleID-Spring15-25ns-Trig-V1-wp90") eleId |= 9;
+			if (idlist[i].first == "mvaEleID-Spring15-25ns-nonTrig-V1-wp80") eleId |= 10;
+			if (idlist[i].first == "mvaEleID-Spring15-25ns-nonTrig-V1-wp90") eleId |= 11;
+			if (idlist[i].first == "mvaEleID-Spring15-25ns-nonTrig-V1-wpLoose") eleId |= 12;
+			if (idlist[i].first == "heepElectronID-HEEPV60") eleId |= 13;
+			if (idlist[i].first == "heepElectronID-HEEPV70") eleId |= 14;
+		}	
+	}
+	return eleId;
+}
+// ******************************************************************************************
+
+
+
+// ***************************** 
+unsigned getEleId(const flashgg::Electron* electron){
+	unsigned eleId = 0;
+	std::vector<std::pair<std::string,float> > idlist = electron->electronIDs();
+	for (unsigned i  = 0 ; i < idlist.size(); ++i){
+		// cout << idlist[i].first << ": " << idlist[i].second << endl;
+		if(int(idlist[i].second)){  //se valore id diverso da zero
+			if (idlist[i].first == "cutBasedElectronID-Summer16-80X-V1-veto") eleId |= 0;
+			if (idlist[i].first == "cutBasedElectronID-Summer16-80X-V1-loose") eleId |= 1;
+			if (idlist[i].first == "cutBasedElectronID-Summer16-80X-V1-medium") eleId |= 2;
+			if (idlist[i].first == "cutBasedElectronID-Summer16-80X-V1-tight") eleId |= 3;
+			if (idlist[i].first == "cutBasedElectronID-Spring15-25ns-V1-standalone-loose") eleId |= 4;
+			if (idlist[i].first == "cutBasedElectronID-Spring15-25ns-V1-standalone-medium") eleId |= 5;	    		
+			if (idlist[i].first == "cutBasedElectronID-Spring15-25ns-V1-standalone-tight") eleId |= 6;
+			if (idlist[i].first == "cutBasedElectronID-Spring15-25ns-V1-standalone-veto") eleId |= 7;
+			if (idlist[i].first == "mvaEleID-Spring15-25ns-Trig-V1-wp80") eleId |= 8;
+			if (idlist[i].first == "mvaEleID-Spring15-25ns-Trig-V1-wp90") eleId |= 9;
+			if (idlist[i].first == "mvaEleID-Spring15-25ns-nonTrig-V1-wp80") eleId |= 10;
+			if (idlist[i].first == "mvaEleID-Spring15-25ns-nonTrig-V1-wp90") eleId |= 11;
+			if (idlist[i].first == "mvaEleID-Spring15-25ns-nonTrig-V1-wpLoose") eleId |= 12;
+			if (idlist[i].first == "heepElectronID-HEEPV60") eleId |= 13;
+			if (idlist[i].first == "heepElectronID-HEEPV70") eleId |= 14;
+		}	
+	}
+	return eleId;
+}
+// ******************************************************************************************
+
+
+
+// ***************************** 
 float electronIsolation(Ptr<flashgg::Electron> electron, double rho){
+	// -- compute combined relative isolation: IsoCh + max( 0.0, IsoNh + IsoPh - PU ) )/pT, PU = rho * Aeff 
+	// https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
+	// //effective areas:  https://indico.cern.ch/event/369239/contribution/4/attachments/1134761/1623262/talk_effective_areas_25ns.pdf
+	// effective areas:  https://github.com/ikrav/cmssw/blob/egm_id_80X_v1/RecoEgamma/ElectronIdentification/data/Summer16/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_80X.txt
+
+	float Aeff = 0;
+	float eta = fabs(electron->eta());
+	if( eta <  1.0 )                  { Aeff = 0.1703; }
+	if( eta >= 1.0   && eta < 1.479 ) { Aeff = 0.1715; }
+	if( eta >= 1.479 && eta < 2.0 )   { Aeff = 0.1213; }
+	if( eta >= 2.0   && eta < 2.2 )   { Aeff = 0.1230; }
+	if( eta >= 2.2   && eta < 2.3 )   { Aeff = 0.1635; }
+	if( eta >= 2.3   && eta < 2.4 )   { Aeff = 0.1937; }
+	if( eta >= 2.4 )                  { Aeff = 0.2393; }
+
+	//float iso = electron->chargedHadronIso() + max( electron->neutralHadronIso() + electron->photonIso() - rho * Aeff, 0. ); 
+	reco::GsfElectron::PflowIsolationVariables pfIso = electron->pfIsolationVariables();
+	float iso = pfIso.sumChargedHadronPt + max( pfIso.sumNeutralHadronEt + pfIso.sumPhotonEt - rho * Aeff, 0. );
+
+	//cout << electron->chargedHadronIso() << "  " <<  pfIso.sumChargedHadronPt << "   pt = " << electron->pt() << endl; 
+	//cout << electron->neutralHadronIso() << "  " << pfIso.sumNeutralHadronEt << endl;
+	//cout << electron->photonIso() << "  " << pfIso.sumPhotonEt <<endl;
+	//cout << electron->chargedHadronIso() + max( electron->neutralHadronIso() + electron->photonIso() - rho * Aeff, 0. ) << "   "<< iso<< endl;
+
+	return (iso/ electron->pt());	
+}
+// ******************************************************************************************
+
+
+
+// ***************************** 
+float electronIsolation(const flashgg::Electron* electron, double rho){
 	// -- compute combined relative isolation: IsoCh + max( 0.0, IsoNh + IsoPh - PU ) )/pT, PU = rho * Aeff 
 	// https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
 	// //effective areas:  https://indico.cern.ch/event/369239/contribution/4/attachments/1134761/1623262/talk_effective_areas_25ns.pdf
@@ -497,6 +593,64 @@ float electronIsolation(Ptr<flashgg::Electron> electron, double rho){
 
 // **************** 
 bool passCutBasedEleId(Ptr<flashgg::Electron> electron, double rho){
+	// https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
+	// Medium 80X-tuned selection
+
+	bool pass = false;
+
+	bool isEB = (fabs(electron->superCluster()->eta())<=1.479);
+
+	float full5x5_sigmaIetaIeta = electron->full5x5_sigmaIetaIeta();  
+	float dEtaInSeed = electron->deltaEtaSuperClusterTrackAtVtx(); 
+	float dPhiIn = electron->deltaPhiSuperClusterTrackAtVtx();  
+	float hOverE = electron->hcalOverEcal();
+	float pfIso = electronIsolation(electron, rho);
+
+	float ooEmooP =-999 ; 
+	if( electron->ecalEnergy() == 0 ){
+	  ooEmooP = 1e30;
+	}else if( !std::isfinite(electron->ecalEnergy())){    
+	  ooEmooP = 1e30;
+	}else{
+	  ooEmooP = fabs(1.0/electron->ecalEnergy() - electron->eSuperClusterOverP()/electron->ecalEnergy() );
+	}
+
+	int missingInnerHits = electron->gsfTrack()->hitPattern().numberOfHits( reco::HitPattern::MISSING_INNER_HITS);
+	bool passConversionVeto = !(electron->hasMatchedConversion());  //non prende ele con conversioni in miniTree
+
+
+	if (isEB) {
+		if (full5x5_sigmaIetaIeta < 0.00998 
+			&& fabs(dEtaInSeed) < 0.00311 
+			&& fabs(dPhiIn) < 0.103 
+			&& hOverE < 0.253 
+			&& pfIso < 0.0695 
+			&& ooEmooP < 0.134 
+			&& missingInnerHits <=1 
+			&& passConversionVeto
+		) pass =  true;
+	} else {
+		if (full5x5_sigmaIetaIeta < 0.0298 
+			&& fabs(dEtaInSeed) < 0.00609 
+			&& fabs(dPhiIn) < 0.045 
+			&& hOverE < 0.0878 
+			&& pfIso < 0.0821 
+			&& ooEmooP < 0.13 
+			&& missingInnerHits <=1 
+			&& passConversionVeto
+		) pass = true; 
+	}
+
+	return pass;
+
+}
+// ******************************************************************************************
+
+
+
+
+// **************** 
+bool passCutBasedEleId(const flashgg::Electron* electron, double rho){
 	// https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
 	// Medium 80X-tuned selection
 
