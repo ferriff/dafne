@@ -463,18 +463,20 @@ bool passHEEPIdCuts(const flashgg::Electron* electron, const vector<Ptr<reco::Ve
 float electronIsolation(Ptr<flashgg::Electron> electron, double rho){
 	// -- compute combined relative isolation: IsoCh + max( 0.0, IsoNh + IsoPh - PU ) )/pT, PU = rho * Aeff 
 	// https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
-	// effetive areas:  https://indico.cern.ch/event/369239/contribution/4/attachments/1134761/1623262/talk_effective_areas_25ns.pdf
+	// //effetive areas:  https://indico.cern.ch/event/369239/contribution/4/attachments/1134761/1623262/talk_effective_areas_25ns.pdf
+	// effetive areas:  https://github.com/ikrav/cmssw/blob/egm_id_80X_v1/RecoEgamma/ElectronIdentification/data/Summer16/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_80X.txt
+
 	float Aeff = 0;
 	float eta = fabs(electron->eta());
-	if( eta <  1.0 )                  { Aeff = 0.1752; }
-	if( eta >= 1.0   && eta < 1.479 ) { Aeff = 0.1862; }
-	if( eta >= 1.479 && eta < 2.0 )   { Aeff = 0.1411; }
-	if( eta >= 2.0   && eta < 2.2 )   { Aeff = 0.1534; }
-	if( eta >= 2.2   && eta < 2.3 )   { Aeff = 0.1903; }
-	if( eta >= 2.3   && eta < 2.4 )   { Aeff = 0.2243; }
-	if( eta >= 2.4 )                  { Aeff = 0.2687; }
+	if( eta <  1.0 )                  { Aeff = 0.1703; }
+	if( eta >= 1.0   && eta < 1.479 ) { Aeff = 0.1715; }
+	if( eta >= 1.479 && eta < 2.0 )   { Aeff = 0.1213; }
+	if( eta >= 2.0   && eta < 2.2 )   { Aeff = 0.1230; }
+	if( eta >= 2.2   && eta < 2.3 )   { Aeff = 0.1635; }
+	if( eta >= 2.3   && eta < 2.4 )   { Aeff = 0.1937; }
+	if( eta >= 2.4 )                  { Aeff = 0.2393; }
 
-	//float iso = electron->chargedHadronIso() + max( electron->neutralHadronIso() + electron->photonIso() - rho * Aeff, 0. );  //???? 
+	//float iso = electron->chargedHadronIso() + max( electron->neutralHadronIso() + electron->photonIso() - rho * Aeff, 0. ); 
 	reco::GsfElectron::PflowIsolationVariables pfIso = electron->pfIsolationVariables();
 	float iso = pfIso.sumChargedHadronPt + max( pfIso.sumNeutralHadronEt + pfIso.sumPhotonEt - rho * Aeff, 0. );
 
