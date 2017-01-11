@@ -65,10 +65,12 @@ struct eventInfo {
 	vector<float> ele_eta;
 	vector<float> ele_phi;
 	vector<float> ele_idmva;
+	vector<unsigned> ele_id;
 	vector<float> ele_iso;
 	vector<float> ele_dz;
 	vector<float> ele_d0;
 	vector<bool> ele_passHEEPId; 
+	vector<bool> ele_passCutBasedEleId;
 	vector<int> ele_isMatchedToGen;
 	vector<int> ele_charge;
 	vector<float> ele_etaSC;
@@ -336,7 +338,7 @@ bool passHEEPIdCuts(Ptr<flashgg::Electron> electron, const vector<Ptr<reco::Vert
 
 	float et = electron->et();
 	bool isEcalDriven = electron->ecalDrivenSeed();
-	float dEtaInSeed = electron->deltaEtaSuperClusterTrackAtVtx();  //con electron->deltaEtaSeedClusterTrackAtVtx(); Product not found
+	float dEtaInSeed = electron->deltaEtaSuperClusterTrackAtVtx();  
 	float dPhiIn = electron->deltaPhiSuperClusterTrackAtVtx();  
 	float hOverE = electron->hadronicOverEm(); 
 	float full5x5_sigmaIetaIeta = electron->full5x5_sigmaIetaIeta();  
@@ -463,8 +465,8 @@ bool passHEEPIdCuts(const flashgg::Electron* electron, const vector<Ptr<reco::Ve
 float electronIsolation(Ptr<flashgg::Electron> electron, double rho){
 	// -- compute combined relative isolation: IsoCh + max( 0.0, IsoNh + IsoPh - PU ) )/pT, PU = rho * Aeff 
 	// https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
-	// //effetive areas:  https://indico.cern.ch/event/369239/contribution/4/attachments/1134761/1623262/talk_effective_areas_25ns.pdf
-	// effetive areas:  https://github.com/ikrav/cmssw/blob/egm_id_80X_v1/RecoEgamma/ElectronIdentification/data/Summer16/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_80X.txt
+	// //effective areas:  https://indico.cern.ch/event/369239/contribution/4/attachments/1134761/1623262/talk_effective_areas_25ns.pdf
+	// effective areas:  https://github.com/ikrav/cmssw/blob/egm_id_80X_v1/RecoEgamma/ElectronIdentification/data/Summer16/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_80X.txt
 
 	float Aeff = 0;
 	float eta = fabs(electron->eta());
@@ -486,6 +488,63 @@ float electronIsolation(Ptr<flashgg::Electron> electron, double rho){
 	//cout << electron->chargedHadronIso() + max( electron->neutralHadronIso() + electron->photonIso() - rho * Aeff, 0. ) << "   "<< iso<< endl;
 
 	return (iso/ electron->pt());	
+}
+// ******************************************************************************************
+
+
+
+// **************** 
+bool passCutBasedEleId(Ptr<flashgg::Electron> electron, double rho){
+	// https://twiki.cern.ch/twiki/bin/view/CMS/CutBasedElectronIdentificationRun2
+	// Medium 80X-tuned selection
+
+	bool pass = false;
+
+	bool isEB = (fabs(electron->superCluster()->eta())<=1.479);
+
+	float full5x5_sigmaIetaIeta = electron->full5x5_sigmaIetaIeta();  
+	float dEtaInSeed = electron->deltaEtaSuperClusterTrackAtVtx(); 
+	float dPhiIn = electron->deltaPhiSuperClusterTrackAtVtx();  
+	float hOverE = electron->hcalOverEcal();
+	float pfIso = electronIsolation(electron, rho);
+
+	float ooEmooP =-999 ; 
+	if( electron->ecalEnergy() == 0 ){
+	  ooEmooP = 1e30;
+	}else if( !std::isfinite(electron->ecalEnergy())){    
+	  ooEmooP = 1e30;
+	}else{
+	  ooEmooP = fabs(1.0/electron->ecalEnergy() - electron->eSuperClusterOverP()/electron->ecalEnergy() );
+	}
+
+	int missingInnerHits = electron->gsfTrack()->hitPattern().numberOfHits( reco::HitPattern::MISSING_INNER_HITS);
+	bool passConversionVeto = !(electron->hasMatchedConversion());  //non prende ele con conversioni in miniTree
+
+
+	if (isEB) {
+		if (full5x5_sigmaIetaIeta < 0.00998 
+			&& fabs(dEtaInSeed) < 0.00311 
+			&& fabs(dPhiIn) < 0.103 
+			&& hOverE < 0.253 
+			&& pfIso < 0.0695 
+			&& ooEmooP < 0.134 
+			&& missingInnerHits <=1 
+			&& passConversionVeto
+		) pass =  true;
+	} else {
+		if (full5x5_sigmaIetaIeta < 0.0298 
+			&& fabs(dEtaInSeed) < 0.00609 
+			&& fabs(dPhiIn) < 0.045 
+			&& hOverE < 0.0878 
+			&& pfIso < 0.0821 
+			&& ooEmooP < 0.13 
+			&& missingInnerHits <=1 
+			&& passConversionVeto
+		) pass = true; 
+	}
+
+	return pass;
+
 }
 // ******************************************************************************************
 
