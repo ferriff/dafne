@@ -160,6 +160,8 @@ struct eventInfo {
 	vector<float> diLeptonDiJet_invMass;
 	vector<float> diLepton_invMass;
 	vector<float> diJet_invMass;
+	vector<float> diJetLeadingLepton_invMass;
+	vector<float> diJetSubLeadingLepton_invMass;
 
 	vector<bool> leadingEle_passHEEPId;
 	vector<float> leadingEle_etaSC;
@@ -655,6 +657,79 @@ float diJetInvMass(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 	return (j1+j2).M();
 }
 // **************** 
+
+
+
+// **************** 
+float diJetLeadingLeptonInvMass(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
+	TLorentzVector j1, j2, l;  
+	j1.SetPxPyPzE( 0., 0., 0., 0. );
+	j2.SetPxPyPzE( 0., 0., 0., 0. );
+	l.SetPxPyPzE( 0., 0., 0., 0. );
+
+	if (dldj->isEEJJ()) {
+		j1.SetPxPyPzE( dldj->leadingJet()->px(), dldj->leadingJet()->py(), dldj->leadingJet()->pz(), dldj->leadingJet()->energy() );
+		j2.SetPxPyPzE( dldj->subLeadingJet()->px(), dldj->subLeadingJet()->py(), dldj->subLeadingJet()->pz(), dldj->subLeadingJet()->energy() );
+		l.SetPxPyPzE( dldj->leadingEle()->px(), dldj->leadingEle()->py(), dldj->leadingEle()->pz(), dldj->leadingEle()->energy() );
+	} else if (dldj->isMMJJ()) {
+		j1.SetPxPyPzE( dldj->leadingJet()->px(), dldj->leadingJet()->py(), dldj->leadingJet()->pz(), dldj->leadingJet()->energy() );
+		j2.SetPxPyPzE( dldj->subLeadingJet()->px(), dldj->subLeadingJet()->py(), dldj->subLeadingJet()->pz(), dldj->subLeadingJet()->energy() );
+		l.SetPxPyPzE( dldj->leadingMuon()->px(), dldj->leadingMuon()->py(), dldj->leadingMuon()->pz(), dldj->leadingMuon()->energy() );
+	} else if (dldj->isEMJJ()) {
+		j1.SetPxPyPzE( dldj->leadingJet()->px(), dldj->leadingJet()->py(), dldj->leadingJet()->pz(), dldj->leadingJet()->energy() );
+		j2.SetPxPyPzE( dldj->subLeadingJet()->px(), dldj->subLeadingJet()->py(), dldj->subLeadingJet()->pz(), dldj->subLeadingJet()->energy() );
+		if( dldj->electron()->pt() > dldj->muon()->pt() ) l.SetPxPyPzE( dldj->electron()->px(), dldj->electron()->py(), dldj->electron()->pz(), dldj->electron()->energy() );
+		else l.SetPxPyPzE( dldj->muon()->px(), dldj->muon()->py(), dldj->muon()->pz(), dldj->muon()->energy() );
+	} else if (dldj->isEETT()) {
+		j1.SetPxPyPzE( dldj->leadingTrack()->px(), dldj->leadingTrack()->py(), dldj->leadingTrack()->pz(), dldj->leadingTrack()->energy() );
+		j2.SetPxPyPzE( dldj->subLeadingTrack()->px(), dldj->subLeadingTrack()->py(), dldj->subLeadingTrack()->pz(), dldj->subLeadingTrack()->energy() );
+		l.SetPxPyPzE( dldj->leadingEle()->px(), dldj->leadingEle()->py(), dldj->leadingEle()->pz(), dldj->leadingEle()->energy() );
+	} else if (dldj->isMMTT()) {
+		j1.SetPxPyPzE( dldj->leadingTrack()->px(), dldj->leadingTrack()->py(), dldj->leadingTrack()->pz(), dldj->leadingTrack()->energy() );
+		j2.SetPxPyPzE( dldj->subLeadingTrack()->px(), dldj->subLeadingTrack()->py(), dldj->subLeadingTrack()->pz(), dldj->subLeadingTrack()->energy() );
+		l.SetPxPyPzE( dldj->leadingMuon()->px(), dldj->leadingMuon()->py(), dldj->leadingMuon()->pz(), dldj->leadingMuon()->energy() );
+	}
+
+	return (j1+j2+l).M();
+}
+// **************** 
+
+
+
+// **************** 
+float diJetSubLeadingLeptonInvMass(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
+	TLorentzVector j1, j2, l;  
+	j1.SetPxPyPzE( 0., 0., 0., 0. );
+	j2.SetPxPyPzE( 0., 0., 0., 0. );
+	l.SetPxPyPzE( 0., 0., 0., 0. );
+
+	if (dldj->isEEJJ()) {
+		j1.SetPxPyPzE( dldj->leadingJet()->px(), dldj->leadingJet()->py(), dldj->leadingJet()->pz(), dldj->leadingJet()->energy() );
+		j2.SetPxPyPzE( dldj->subLeadingJet()->px(), dldj->subLeadingJet()->py(), dldj->subLeadingJet()->pz(), dldj->subLeadingJet()->energy() );
+		l.SetPxPyPzE( dldj->subLeadingEle()->px(), dldj->subLeadingEle()->py(), dldj->subLeadingEle()->pz(), dldj->subLeadingEle()->energy() );
+	} else if (dldj->isMMJJ()) {
+		j1.SetPxPyPzE( dldj->leadingJet()->px(), dldj->leadingJet()->py(), dldj->leadingJet()->pz(), dldj->leadingJet()->energy() );
+		j2.SetPxPyPzE( dldj->subLeadingJet()->px(), dldj->subLeadingJet()->py(), dldj->subLeadingJet()->pz(), dldj->subLeadingJet()->energy() );
+		l.SetPxPyPzE( dldj->subLeadingMuon()->px(), dldj->subLeadingMuon()->py(), dldj->subLeadingMuon()->pz(), dldj->subLeadingMuon()->energy() );
+	} else if (dldj->isEMJJ()) {
+		j1.SetPxPyPzE( dldj->leadingJet()->px(), dldj->leadingJet()->py(), dldj->leadingJet()->pz(), dldj->leadingJet()->energy() );
+		j2.SetPxPyPzE( dldj->subLeadingJet()->px(), dldj->subLeadingJet()->py(), dldj->subLeadingJet()->pz(), dldj->subLeadingJet()->energy() );
+		if( dldj->electron()->pt() < dldj->muon()->pt() ) l.SetPxPyPzE( dldj->electron()->px(), dldj->electron()->py(), dldj->electron()->pz(), dldj->electron()->energy() );
+		else l.SetPxPyPzE( dldj->muon()->px(), dldj->muon()->py(), dldj->muon()->pz(), dldj->muon()->energy() );
+	} else if (dldj->isEETT()) {
+		j1.SetPxPyPzE( dldj->leadingTrack()->px(), dldj->leadingTrack()->py(), dldj->leadingTrack()->pz(), dldj->leadingTrack()->energy() );
+		j2.SetPxPyPzE( dldj->subLeadingTrack()->px(), dldj->subLeadingTrack()->py(), dldj->subLeadingTrack()->pz(), dldj->subLeadingTrack()->energy() );
+		l.SetPxPyPzE( dldj->subLeadingEle()->px(), dldj->subLeadingEle()->py(), dldj->subLeadingEle()->pz(), dldj->subLeadingEle()->energy() );
+	} else if (dldj->isMMTT()) {
+		j1.SetPxPyPzE( dldj->leadingTrack()->px(), dldj->leadingTrack()->py(), dldj->leadingTrack()->pz(), dldj->leadingTrack()->energy() );
+		j2.SetPxPyPzE( dldj->subLeadingTrack()->px(), dldj->subLeadingTrack()->py(), dldj->subLeadingTrack()->pz(), dldj->subLeadingTrack()->energy() );
+		l.SetPxPyPzE( dldj->subLeadingMuon()->px(), dldj->subLeadingMuon()->py(), dldj->subLeadingMuon()->pz(), dldj->subLeadingMuon()->energy() );
+	}
+
+	return (j1+j2+l).M();
+}
+// **************** 
+
 
 
 

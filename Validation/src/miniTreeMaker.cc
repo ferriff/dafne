@@ -163,6 +163,8 @@ void miniTreeMaker::beginJob()
 	eventTree->Branch( "diLeptonDiJet_invMass", &evInfo.diLeptonDiJet_invMass ); 
 	eventTree->Branch( "diLepton_invMass", &evInfo.diLepton_invMass ); 
 	eventTree->Branch( "diJet_invMass", &evInfo.diJet_invMass ); 
+	eventTree->Branch( "diJetLeadingLepton_invMass", &evInfo.diJetLeadingLepton_invMass ); 
+	eventTree->Branch( "diJetSubLeadingLepton_invMass", &evInfo.diJetSubLeadingLepton_invMass ); 
 
 	eventTree->Branch( "leadingEle_passHEEPId", &evInfo.leadingEle_passHEEPId );
 	eventTree->Branch( "leadingEle_etaSC", &evInfo.leadingEle_etaSC );
@@ -736,6 +738,8 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		evInfo.diLeptonDiJet_invMass.push_back(diLeptonDiJet->invMass());
 		evInfo.diLepton_invMass.push_back(diLeptonDiJet->diLeptonInvMass());
 		evInfo.diJet_invMass.push_back( diJetInvMass(diLeptonDiJet) );
+		evInfo.diJetLeadingLepton_invMass.push_back( diJetLeadingLeptonInvMass(diLeptonDiJet) );
+		evInfo.diJetSubLeadingLepton_invMass.push_back( diJetSubLeadingLeptonInvMass(diLeptonDiJet) );
 
 		evInfo.leadingEle_passHEEPId.push_back(leadElePassHEEPId);
 		evInfo.leadingEle_etaSC.push_back(leadingEleEtaSC);
@@ -953,6 +957,8 @@ void miniTreeMaker::initEventStructure() {
 	evInfo.diLeptonDiJet_invMass .clear();
 	evInfo.diLepton_invMass .clear();
 	evInfo.diJet_invMass .clear();
+	evInfo.diJetLeadingLepton_invMass .clear();
+	evInfo.diJetSubLeadingLepton_invMass .clear();
 
 	evInfo.leadingEle_passHEEPId .clear();
 	evInfo.leadingEle_etaSC .clear();
