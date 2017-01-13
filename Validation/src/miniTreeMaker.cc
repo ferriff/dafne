@@ -286,34 +286,41 @@ void miniTreeMaker::analyze(const EventBase& evt)
 
 
 	
-	//-------------- check if event passes HLT: "HLT_Diphoton30_18_R9Id_OR_IsoCaloId_AND_HE_R9Id_Mass90_v*"  
+	//-------------- check if event passes HLT
 	const TriggerNames &triggerNames = iEvent.triggerNames( *triggerBits );
+
+	bool passTrigger = false;
 
 	for( unsigned index = 0; index < triggerNames.size(); ++index ) {
 
 		if( (TString::Format((triggerNames.triggerName( index )).c_str())).Contains("HLT_DoubleEle33_CaloIdL_MW") || (TString::Format((triggerNames.triggerName( index )).c_str())).Contains("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW") ) {
 			// cout << (triggerNames.triggerName( index )).c_str() <<endl;
 			evInfo.passEEJJhlt =  triggerBits->accept( index );
+			passTrigger = true;
 		}
 
 		if( (TString::Format((triggerNames.triggerName( index )).c_str())).Contains("HLT_Mu50") || (TString::Format((triggerNames.triggerName( index )).c_str())).Contains("HLT_TkMu50")) {
 			// cout << (triggerNames.triggerName( index )).c_str() <<endl;
 			evInfo.passMMJJhlt =  triggerBits->accept( index );
+			passTrigger = true;
 		}
 
 		if( (TString::Format((triggerNames.triggerName( index )).c_str())).Contains("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL") ) {
 			// cout << (triggerNames.triggerName( index )).c_str() <<endl;
 			evInfo.passEMJJhlt =  triggerBits->accept( index );
+			passTrigger = true;
 		}
 
 		if( (TString::Format((triggerNames.triggerName( index )).c_str())).Contains("HLT_Ele27_WPTight_Gsf") ) {
 			// cout << (triggerNames.triggerName( index )).c_str() <<endl;
 			evInfo.passTandPEEhlt =  triggerBits->accept( index );
+			passTrigger = true;
 		}
 
 		if( (TString::Format((triggerNames.triggerName( index )).c_str())).Contains("HLT_IsoMu24") || (TString::Format((triggerNames.triggerName( index )).c_str())).Contains("HLT_IsoMu27") ) {
 			// cout << (triggerNames.triggerName( index )).c_str() <<endl;
 			evInfo.passTandPMMhlt =  triggerBits->accept( index );
+			passTrigger = true;
 		}
 
 	}
@@ -821,8 +828,10 @@ void miniTreeMaker::analyze(const EventBase& evt)
 	}
 	// cout << "exit dldj loop" << endl;
 
-	// --- fill the tree
-	eventTree->Fill();
+	// --- fill the tree  
+	// eventTree->Fill();
+	if (passTrigger) eventTree->Fill();  //fillo solo per gli eventi che passano i triggers che mi interessano
+
 	// cout << "fillo tree" << endl;
 
 }
