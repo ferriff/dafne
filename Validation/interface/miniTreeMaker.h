@@ -41,19 +41,16 @@ struct eventInfo {
 	int run;
 	int event;
 	int lumi;
-
+	float rho;
 	float weight;
 	float puweight;
-	
 	int nvtx;
 	int npu;
-
 	int passEEJJhlt; 
 	int passMMJJhlt; 
 	int passEMJJhlt; 
 	int passTandPEEhlt; 
 	int passTandPMMhlt; 
-
 
 	//variabili per oggetti 
 	vector<float> vtx_x;
@@ -132,20 +129,24 @@ struct eventInfo {
 
 	vector<bool> passPreselections;
 
+	vector<float> leadingLepton_e;
 	vector<float> leadingLepton_pt;
 	vector<float> leadingLepton_eta;  
 	vector<float> leadingLepton_phi; 
 	vector<float> leadingLepton_charge;
 
+	vector<float> subLeadingLepton_e;
 	vector<float> subLeadingLepton_pt;
 	vector<float> subLeadingLepton_eta;  
 	vector<float> subLeadingLepton_phi;  
 	vector<float> subLeadingLepton_charge;
 
+	vector<float> leadingJet_e;
 	vector<float> leadingJet_pt;
 	vector<float> leadingJet_eta;  
 	vector<float> leadingJet_phi;  
 
+	vector<float> subLeadingJet_e;
 	vector<float> subLeadingJet_pt;
 	vector<float> subLeadingJet_eta;  
 	vector<float> subLeadingJet_phi;  

@@ -48,13 +48,11 @@ void miniTreeMaker::beginJob()
 	eventTree->Branch( "run", &evInfo.run, "run/I" );
 	eventTree->Branch( "event", &evInfo.event, "event/I" );
 	eventTree->Branch( "lumi", &evInfo.lumi, "lumi/I" );
-
+	eventTree->Branch( "rho", &evInfo.rho, "rho/F" );
 	eventTree->Branch( "weight", &evInfo.weight, "weight/F" );
 	eventTree->Branch( "puweight", &evInfo.puweight,"puweight/F");
-
 	eventTree->Branch( "nvtx", &evInfo.nvtx, "nvtx/I" );
 	eventTree->Branch( "npu", &evInfo.npu, "npu/I" );
-
 	eventTree->Branch( "passEEJJhlt", &evInfo.passEEJJhlt, "passEEJJhlt/I" );
 	eventTree->Branch( "passMMJJhlt", &evInfo.passMMJJhlt, "passMMJJhlt/I" );
 	eventTree->Branch( "passEMJJhlt", &evInfo.passEMJJhlt, "passEMJJhlt/I" );
@@ -135,20 +133,24 @@ void miniTreeMaker::beginJob()
 
 	eventTree->Branch( "passPreselections", &evInfo.passPreselections );
 
+	eventTree->Branch( "leadingLepton_e", &evInfo.leadingLepton_e ); 
 	eventTree->Branch( "leadingLepton_pt", &evInfo.leadingLepton_pt ); 
 	eventTree->Branch( "leadingLepton_eta", &evInfo.leadingLepton_eta ); 
 	eventTree->Branch( "leadingLepton_phi", &evInfo.leadingLepton_phi ); 
 	eventTree->Branch( "leadingLepton_charge", &evInfo.leadingLepton_charge ); 
 
+	eventTree->Branch( "subLeadingLepton_e", &evInfo.subLeadingLepton_e ); 
 	eventTree->Branch( "subLeadingLepton_pt", &evInfo.subLeadingLepton_pt ); 
 	eventTree->Branch( "subLeadingLepton_eta", &evInfo.subLeadingLepton_eta ); 
 	eventTree->Branch( "subLeadingLepton_phi", &evInfo.subLeadingLepton_phi ); 
 	eventTree->Branch( "subLeadingLepton_charge", &evInfo.subLeadingLepton_charge ); 
 
+	eventTree->Branch( "leadingJet_e", &evInfo.leadingJet_e );
 	eventTree->Branch( "leadingJet_pt", &evInfo.leadingJet_pt ); 
 	eventTree->Branch( "leadingJet_eta", &evInfo.leadingJet_eta );
 	eventTree->Branch( "leadingJet_phi", &evInfo.leadingJet_phi ); 
 
+	eventTree->Branch( "subLeadingJet_e", &evInfo.subLeadingJet_e ); 
 	eventTree->Branch( "subLeadingJet_pt", &evInfo.subLeadingJet_pt ); 
 	eventTree->Branch( "subLeadingJet_eta", &evInfo.subLeadingJet_eta ); 
 	eventTree->Branch( "subLeadingJet_phi", &evInfo.subLeadingJet_phi ); 
@@ -322,7 +324,7 @@ void miniTreeMaker::analyze(const EventBase& evt)
 	evInfo.run = globalVarsDumper_->cache().run;
 	evInfo.event = globalVarsDumper_->cache().event;		
 	evInfo.lumi = globalVarsDumper_->cache().lumi;
-
+	evInfo.rho = rho;
 
 	// -- event weight (Lumi x cross section x gen weight)
 	float w = 1.;
@@ -516,6 +518,8 @@ void miniTreeMaker::analyze(const EventBase& evt)
 
 		float leadingLeptonCharge    = 0.;
 		float subLeadingLeptonCharge = 0.;
+		float leadingLeptonE         = 0.;
+		float subLeadingLeptonE      = 0.;
 
 		bool leadElePassHEEPId         = false;
 		float leadingEleEtaSC          = -999.;
@@ -566,6 +570,8 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		if (diLeptonDiJet->isEEJJ() || diLeptonDiJet->isEETT()) {
 			leadingLeptonCharge = diLeptonDiJet->leadingEle()->charge();
 			subLeadingLeptonCharge = diLeptonDiJet->subLeadingEle()->charge();
+			leadingLeptonE = diLeptonDiJet->leadingEle()->energy();
+			subLeadingLeptonE = diLeptonDiJet->subLeadingEle()->energy();
 
 			Ptr<reco::Vertex> best_vtx_leadEle = chooseBestVtx(vertices->ptrs(), diLeptonDiJet->leadingEle());
 			Ptr<reco::Vertex> best_vtx_subLeadEle = chooseBestVtx(vertices->ptrs(), diLeptonDiJet->subLeadingEle());
@@ -615,6 +621,8 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		} else if (diLeptonDiJet->isMMJJ() || diLeptonDiJet->isMMTT()) {
 			leadingLeptonCharge = diLeptonDiJet->leadingMuon()->charge();
 			subLeadingLeptonCharge = diLeptonDiJet->subLeadingMuon()->charge();
+			leadingLeptonE = diLeptonDiJet->leadingMuon()->energy();
+			subLeadingLeptonE = diLeptonDiJet->subLeadingMuon()->energy();
 
 			Ptr<reco::Vertex> leadingMuonVtx = chooseBestMuonVtx(vertices->ptrs(), diLeptonDiJet->leadingMuon());
 			Ptr<reco::Vertex> subLeadingMuonVtx = chooseBestMuonVtx(vertices->ptrs(), diLeptonDiJet->subLeadingMuon());
@@ -626,6 +634,8 @@ void miniTreeMaker::analyze(const EventBase& evt)
 			if (diLeptonDiJet->electron()->pt() > diLeptonDiJet->muon()->pt()) {
 				leadingLeptonCharge = diLeptonDiJet->electron()->charge();
 				subLeadingLeptonCharge = diLeptonDiJet->muon()->charge();
+				leadingLeptonE = diLeptonDiJet->electron()->energy();
+				subLeadingLeptonE = diLeptonDiJet->muon()->energy();
 
 				Ptr<reco::Vertex> best_vtx_leadEle = chooseBestVtx(vertices->ptrs(), diLeptonDiJet->electron());
 
@@ -653,6 +663,8 @@ void miniTreeMaker::analyze(const EventBase& evt)
 			} else {
 				leadingLeptonCharge = diLeptonDiJet->muon()->charge();
 				subLeadingLeptonCharge = diLeptonDiJet->electron()->charge();		
+				leadingLeptonE = diLeptonDiJet->muon()->energy();
+				subLeadingLeptonE = diLeptonDiJet->electron()->energy();
 				
 				Ptr<reco::Vertex> best_vtx_subLeadEle = chooseBestVtx(vertices->ptrs(), diLeptonDiJet->electron());
 
@@ -702,20 +714,24 @@ void miniTreeMaker::analyze(const EventBase& evt)
 
 		evInfo.passPreselections.push_back( passDiLeptonDiJetPreselection(diLeptonDiJet) );
 
+		evInfo.leadingLepton_e.push_back(leadingLeptonE);
 		evInfo.leadingLepton_pt.push_back(diLeptonDiJet->leadingLeptonPt());
 		evInfo.leadingLepton_eta.push_back(diLeptonDiJet->leadingLeptonEta());
 		evInfo.leadingLepton_phi.push_back(diLeptonDiJet->leadingLeptonPhi());
 		evInfo.leadingLepton_charge.push_back(leadingLeptonCharge);
 
+		evInfo.subLeadingLepton_eta.push_back(subLeadingLeptonE);
 		evInfo.subLeadingLepton_pt.push_back(diLeptonDiJet->subLeadingLeptonPt());
 		evInfo.subLeadingLepton_eta.push_back(diLeptonDiJet->subLeadingLeptonEta());
 		evInfo.subLeadingLepton_phi.push_back(diLeptonDiJet->subLeadingLeptonPhi());
 		evInfo.subLeadingLepton_charge.push_back(subLeadingLeptonCharge);
 
+		evInfo.leadingJet_eta.push_back(diLeptonDiJet->leadingJet()->energy());
 		evInfo.leadingJet_pt.push_back(diLeptonDiJet->leadingJet()->pt());
 		evInfo.leadingJet_eta.push_back(diLeptonDiJet->leadingJet()->eta());
 		evInfo.leadingJet_phi.push_back(diLeptonDiJet->leadingJet()->phi());
 
+		evInfo.subLeadingJet_eta.push_back(diLeptonDiJet->subLeadingJet()->energy());
 		evInfo.subLeadingJet_pt.push_back(diLeptonDiJet->subLeadingJet()->pt());
 		evInfo.subLeadingJet_eta.push_back(diLeptonDiJet->subLeadingJet()->eta());
 		evInfo.subLeadingJet_phi.push_back(diLeptonDiJet->subLeadingJet()->phi());
@@ -837,13 +853,11 @@ void miniTreeMaker::initEventStructure() {
 	evInfo.run = -999;
 	evInfo.event = -999.;
 	evInfo.lumi = -999.;
-
+	evInfo.rho = -999.;
 	evInfo.weight = -999.;
 	evInfo.puweight = -999.;
-
 	evInfo.nvtx = -999;
 	evInfo.npu = -999;
-
 	evInfo.passEEJJhlt = -1;
 	evInfo.passMMJJhlt = -1;
 	evInfo.passEMJJhlt = -1;
@@ -925,20 +939,24 @@ void miniTreeMaker::initEventStructure() {
 
 	evInfo.passPreselections .clear();
 
+	evInfo.leadingLepton_e .clear(); 
 	evInfo.leadingLepton_pt .clear();
 	evInfo.leadingLepton_eta .clear(); 
 	evInfo.leadingLepton_phi .clear();  
 	evInfo.leadingLepton_charge .clear();
 
+	evInfo.subLeadingLepton_e .clear();
 	evInfo.subLeadingLepton_pt .clear();
 	evInfo.subLeadingLepton_eta .clear(); 
 	evInfo.subLeadingLepton_phi .clear();  
 	evInfo.subLeadingLepton_charge .clear();
 
+	evInfo.leadingJet_e .clear(); 
 	evInfo.leadingJet_pt .clear();
 	evInfo.leadingJet_eta .clear(); 
 	evInfo.leadingJet_phi .clear();
 
+	evInfo.subLeadingJet_e .clear();
 	evInfo.subLeadingJet_pt .clear();
 	evInfo.subLeadingJet_eta .clear();
 	evInfo.subLeadingJet_phi .clear();  
