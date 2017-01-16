@@ -523,10 +523,10 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		}
 				
 
-		float leadingLeptonCharge    = 0.;
-		float subLeadingLeptonCharge = 0.;
-		float leadingLeptonE         = 0.;
-		float subLeadingLeptonE      = 0.;
+		float leadingLeptonCharge    = -999.;
+		float subLeadingLeptonCharge = -999.;
+		float leadingLeptonE         = -999.;
+		float subLeadingLeptonE      = -999.;
 
 		bool leadElePassHEEPId         = false;
 		float leadingEleEtaSC          = -999.;
@@ -727,18 +727,18 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		evInfo.leadingLepton_phi.push_back(diLeptonDiJet->leadingLeptonPhi());
 		evInfo.leadingLepton_charge.push_back(leadingLeptonCharge);
 
-		evInfo.subLeadingLepton_eta.push_back(subLeadingLeptonE);
+		evInfo.subLeadingLepton_e.push_back(subLeadingLeptonE);
 		evInfo.subLeadingLepton_pt.push_back(diLeptonDiJet->subLeadingLeptonPt());
 		evInfo.subLeadingLepton_eta.push_back(diLeptonDiJet->subLeadingLeptonEta());
 		evInfo.subLeadingLepton_phi.push_back(diLeptonDiJet->subLeadingLeptonPhi());
 		evInfo.subLeadingLepton_charge.push_back(subLeadingLeptonCharge);
 
-		evInfo.leadingJet_eta.push_back(diLeptonDiJet->leadingJet()->energy());
+		evInfo.leadingJet_e.push_back(diLeptonDiJet->leadingJet()->energy());
 		evInfo.leadingJet_pt.push_back(diLeptonDiJet->leadingJet()->pt());
 		evInfo.leadingJet_eta.push_back(diLeptonDiJet->leadingJet()->eta());
 		evInfo.leadingJet_phi.push_back(diLeptonDiJet->leadingJet()->phi());
 
-		evInfo.subLeadingJet_eta.push_back(diLeptonDiJet->subLeadingJet()->energy());
+		evInfo.subLeadingJet_e.push_back(diLeptonDiJet->subLeadingJet()->energy());
 		evInfo.subLeadingJet_pt.push_back(diLeptonDiJet->subLeadingJet()->pt());
 		evInfo.subLeadingJet_eta.push_back(diLeptonDiJet->subLeadingJet()->eta());
 		evInfo.subLeadingJet_phi.push_back(diLeptonDiJet->subLeadingJet()->phi());
@@ -830,7 +830,7 @@ void miniTreeMaker::analyze(const EventBase& evt)
 
 	// --- fill the tree  
 	// eventTree->Fill();
-	if (passTrigger) eventTree->Fill();  //fillo solo per gli eventi che passano i triggers che mi interessano
+	if ( passTrigger || (!iEvent.isRealData()) ) eventTree->Fill();  //per i data fillo il tree solo per gli eventi che passano i triggers che mi interessano 
 
 	// cout << "fillo tree" << endl;
 
