@@ -111,8 +111,8 @@ def plot2HistosAndRatio(histoName, etaRegion, inputfile1, inputfile2, output_nam
 		inputfile1.GetObject(str(histoName)+str(etaRegion)+"_pfx",histo1)
 		inputfile2.GetObject(str(histoName)+str(etaRegion)+"_pfx",histo2)
 	else:
-		histo1 = TH1F()
-		histo2 = TH1F()
+		histo1 = TH1D() #TH1F()
+		histo2 = TH1D() #TH1F()
 		inputfile1.GetObject(str(histoName)+str(etaRegion),histo1)
 		inputfile2.GetObject(str(histoName)+str(etaRegion),histo2)
 
@@ -192,7 +192,7 @@ def plot2HistosAndRatio(histoName, etaRegion, inputfile1, inputfile2, output_nam
 	if profile:
 		histo_MCerr = TProfile(histo1_bottom)
 	else:
-		histo_MCerr = TH1F(histo1_bottom)
+		histo_MCerr = TH1D(histo1_bottom) #TH1F(histo1_bottom)
 
 	histo_MCerr.SetName("histo_ratio_MCerrors")
 	for i in range(histo2_bottom.GetNbinsX()+1):	
@@ -369,10 +369,12 @@ def plot2HistosAndRatio(histoName, etaRegion, inputfile1, inputfile2, output_nam
 		c1.SaveAs(str(output_name)+str(suff)+"/"+str(histoName)+str(etaRegion)+"_pfx"+"_"+str(output_name)+str(suff)+".png")
 		c1.SaveAs(str(output_name)+str(suff)+"/"+str(histoName)+str(etaRegion)+"_pfx"+"_"+str(output_name)+str(suff)+".root")
 	else:
-		c1.SaveAs(str(output_name)+str(suff)+"/"+str(histoName)+str(etaRegion)+"_"+str(output_name)+str(suff)+".png")
-		c1.SaveAs(str(output_name)+str(suff)+"/"+str(histoName)+str(etaRegion)+"_"+str(output_name)+str(suff)+".root")
+		c1.SaveAs(str(output_name)+str(suff)+"/"+str(histoName)+str(etaRegion)+".png")
+		c1.SaveAs(str(output_name)+str(suff)+"/"+str(histoName)+str(etaRegion)+".root")
+		# c1.SaveAs(str(output_name)+str(suff)+"/"+str(histoName)+str(etaRegion)+"_"+str(output_name)+str(suff)+".png")
+		# c1.SaveAs(str(output_name)+str(suff)+"/"+str(histoName)+str(etaRegion)+"_"+str(output_name)+str(suff)+".root")
 
-
+	c1.Close()
 
 
 def plot3HistosAndRatioFirst2(histoName, etaRegion, inputfile1, inputfile2, inputfile3, output_name, suff, zoomX, xRangeMin, xRangeMax, zoomY, yRangeMin, yRangeMax, leg1_name, leg2_name, leg3_name, leftLegends, profile, log, doRebin, doRebinVariableBinSize, doRestrictedIntegral, MCreweighted, title="", xTitle="", yTitle=""):
@@ -659,4 +661,4 @@ def plot3HistosAndRatioFirst2(histoName, etaRegion, inputfile1, inputfile2, inpu
 		c1.SaveAs(str(output_name)+str(suff)+"/"+str(histoName)+str(etaRegion)+"_"+str(output_name)+str(suff)+".png")
 		c1.SaveAs(str(output_name)+str(suff)+"/"+str(histoName)+str(etaRegion)+"_"+str(output_name)+str(suff)+".root")
 
-
+	c1.Close()

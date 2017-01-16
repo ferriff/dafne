@@ -34,7 +34,7 @@ for i in range(branches.GetEntries()):
 	branchName = branch.GetName()	
 	histName = branchName + "Hist"
 
-	if "Pt" in branchName:	
+	if "Pt" in branchName :	#  and not "Sum" in branch Name: altrimenti prende anche diLeptonDiJetSumPt
 		dumpPlotFromTreeAndEditHisto(tree, branchName, histName, output_dir, True, 0, 1500, 100, False)
 
 	if "Eta" in branchName:
