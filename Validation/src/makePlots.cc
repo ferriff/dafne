@@ -801,8 +801,9 @@ void makePlots::Loop(){
 	cout << "nentries = " << nentries << endl;
 
 
+	for (Long64_t i=0; i<2153862; i+=1) { //for WJets
 	// for (Long64_t i=0; i<10; i+=1) {
-	for (Long64_t i=0; i<nentries; i+=1) {
+	// for (Long64_t i=0; i<nentries; i+=1) {
 		Long64_t ientry = LoadTree(i);
 		if (ientry < 0) break;
 		// cout << "evento " << ientry << endl;
@@ -827,8 +828,9 @@ void makePlots::Loop(){
 		if (!passesTrigger) continue;  //se evento non passa il trigger passo a quello successivo
 		nEventsPassingTrigger++;
 
-		// if (MCreweighted) w = weight;
-		if (MCreweighted) w = puweight;
+		w = weight;
+		if (MC) w *= lumiData;
+		if (MCpuReweighted) w *= puweight;
 		// cout << "weight = " << w << endl;
 
 
@@ -1125,8 +1127,8 @@ void makePlots::saveHistosAndOutputFile(TString& ouputdir){
 
 
 
-makePlots::makePlots(TString filename_, TString outputdir_, bool MC_, bool MCreweighted_, bool signalEE_, bool signalMuMu_, bool eMuSideband_, bool TnPee_, bool TnPmumu_):
-	filename(filename_), outputdir(outputdir_), MC(MC_), MCreweighted(MCreweighted_), signalEE(signalEE_), signalMuMu(signalMuMu_), eMuSideband(eMuSideband_), TnPee(TnPee_), TnPmumu(TnPmumu_)
+makePlots::makePlots(TString filename_, TString outputdir_, bool MC_, bool MCpuReweighted_, bool signalEE_, bool signalMuMu_, bool eMuSideband_, bool TnPee_, bool TnPmumu_):
+	filename(filename_), outputdir(outputdir_), MC(MC_), MCpuReweighted(MCpuReweighted_), signalEE(signalEE_), signalMuMu(signalMuMu_), eMuSideband(eMuSideband_), TnPee(TnPee_), TnPmumu(TnPmumu_)
 {
 	fChain = new TChain("", "");
 
@@ -1139,9 +1141,11 @@ makePlots::makePlots(TString filename_, TString outputdir_, bool MC_, bool MCrew
 		if (fChain) fChain->Add(treePath);
 	}
 
+	// lumiData = 5.899; //RunB
+
 	SetHistos();
 	Loop();
-	// saveHistosAndOutputFile(outputdir);
+	saveHistosAndOutputFile(outputdir);
 }
 
 
@@ -1154,9 +1158,19 @@ void runMakePlots() {
 	// makePlots("root://node12.datagrid.cea.fr//dpm/datagrid.cea.fr/home/cms/trivcat/store/user/gnegro/miniTrees/output_DYJetsToLL-amcatnloFXFX_miniTrees.root", "Analysis/miniTrees/DYJetsToLL-amcatnlo/distributions_new", true, true, false, false, false, false, false);
 	// makePlots("root://node12.datagrid.cea.fr//dpm/datagrid.cea.fr/home/cms/trivcat/store/user/gnegro/miniTrees/output_DYJetsToLL-amcatnloFXFX_miniTrees.root", "Analysis/miniTrees/DYJetsToLL-amcatnlo/distributions_puReweighted_new", true, true, false, false, false, false, false);
 
-	makePlots("/afs/cern.ch/user/g/gnegro/work/NuAnalysis-flashgg/CMSSW_8_0_20/src/flashgg/MetaData/scripts/cmsWR2016-miniTrees-signal/output_WRToEEJJ_1600_miniTrees.root", "Analysis/miniTrees/WR-1600_ToLNu-800_ToEEJJ/distributions", true, true, true, false, false, false, false);
-
+	// makePlots("/afs/cern.ch/user/g/gnegro/work/NuAnalysis-flashgg/CMSSW_8_0_20/src/flashgg/MetaData/scripts/cmsWR2016-miniTrees-signal/output_WRToEEJJ_1600_miniTrees.root", "Analysis/miniTrees/WR-1600_ToLNu-800_ToEEJJ/distributions", true, false, true, false, false, false, false); //no ripesato per fare contronto con official MC
 	// makePlots("/afs/cern.ch/user/g/gnegro/work/NuAnalysis-flashgg/CMSSW_8_0_20/src/flashgg/MetaData/scripts/cmsWR2016-miniTrees-signal/output_WRToMuMuJJ_1600_miniTrees.root", "Analysis/miniTrees/WR-1600_ToLNu-800_ToMuMuJJ/distributions", true, true, false, true, false, false, false);
 
+	// makePlots("/afs/cern.ch/user/g/gnegro/work/NuAnalysis-flashgg/CMSSW_8_0_20/src/flashgg/MetaData/scripts/cmsWR2016-miniTrees-officialSignal/output_officialWRToEEJJ_1600_miniTrees.root", "Analysis/miniTrees/WR-1600_ToLNu-800_ToEEJJ_official/distributions", true, false, true, false, false, false, false); //no ripesato per fare contronto con miei MC
+
+	// makePlots("/afs/cern.ch/user/g/gnegro/work/NuAnalysis-flashgg/CMSSW_8_0_20/src/flashgg/MetaData/scripts/cmsWR2016-miniTrees-bkg/output_WZ_miniTrees.root", "Analysis/miniTrees/WZ/distributions", true, true, false, false, false, false, false);
+
+	// makePlots("/afs/cern.ch/user/g/gnegro/work/NuAnalysis-flashgg/CMSSW_8_0_20/src/flashgg/MetaData/scripts/cmsWR2016-miniTrees-bkg/output_ZZ_miniTrees.root", "Analysis/miniTrees/ZZ/distributions", true, true, false, false, false, false, false);
+
+	// makePlots("/afs/cern.ch/user/g/gnegro/work/NuAnalysis-flashgg/CMSSW_8_0_20/src/flashgg/MetaData/scripts/cmsWR2016-miniTrees-bkg/output_ZToEE_miniTrees.root", "Analysis/miniTrees/ZToEE/distributions", true, true, false, false, false, false, false);
+
+	// makePlots("/afs/cern.ch/user/g/gnegro/work/NuAnalysis-flashgg/CMSSW_8_0_20/src/flashgg/MetaData/scripts/cmsWR2016-miniTrees-bkg/output_ZToMuMu_miniTrees.root", "Analysis/miniTrees/ZToMuMu/distributions", true, true, false, false, false, false, false);
+
+	makePlots("/afs/cern.ch/user/g/gnegro/work/NuAnalysis-flashgg/CMSSW_8_0_20/src/flashgg/MetaData/scripts/cmsWR2016-miniTrees-bkg/output_WJetsToLNu_miniTrees.root", "Analysis/miniTrees/WJetsToLNu/distributions", true, true, false, false, false, false, false);
 
 }

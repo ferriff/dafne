@@ -370,7 +370,7 @@ class makePlots {
 
 
 
-		makePlots(TString filename_, TString outputdir_, bool MC_,  bool MCreweighted_, bool signalEE_, bool signalMuMu_, bool eMuSideband_, bool TnPee_, bool TnPmumu_);
+		makePlots(TString filename_, TString outputdir_, bool MC_,  bool MCpuReweighted_, bool signalEE_, bool signalMuMu_, bool eMuSideband_, bool TnPee_, bool TnPmumu_);
 
 		void     Init();  
 		Int_t    GetEntry(Long64_t entry);
@@ -408,12 +408,12 @@ class makePlots {
 		void saveHistosAndOutputFile(TString& outputdir);
 
 		TString filename, outputdir; 
-		bool MC, MCreweighted, signalEE, signalMuMu, eMuSideband, TnPee, TnPmumu;
+		bool MC, MCpuReweighted, signalEE, signalMuMu, eMuSideband, TnPee, TnPmumu;
 		vector<TH1*> listOfHistograms;
 
 		unsigned int nEvents=0, nEventsPassingTrigger=0;
 
-		float w=1;
+		float w=1,lumiData=1;
 
 		string suff = "";  
 
