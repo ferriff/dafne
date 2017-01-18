@@ -894,6 +894,7 @@ void makePlots::Loop(){
 
 	// --electrons
 		for (unsigned short j(0); j < nElectrons; j++){
+
 			doEleDistributionsPlots(electrons,j,0);
 			doElePlots(electrons,j,0,0);
 
@@ -902,6 +903,8 @@ void makePlots::Loop(){
 
 			if (inEB) doElePlots(electrons,j,0,1);
 			if (inEE) doElePlots(electrons,j,0,2);
+
+			if (electrons[j].v.Pt() < 35) continue;   
 
 			if (electrons[j].passHEEPId) {
 				doElePlots(electrons,j,3,0);
@@ -916,6 +919,7 @@ void makePlots::Loop(){
 			}
 		}
 
+
 	// --muons
 		// unsigned short nMuons(mu_e->size());
 		for (unsigned short i(0); i < nMuons; i++){
@@ -923,11 +927,73 @@ void makePlots::Loop(){
 			muon_dxy_histo->Fill( mu_dxy->at(i) );
 		}
 
+
 	// --jets
 		for (unsigned short l(0); l < nJets; l++){
 			doJetsDistributionsPlots(jets,l,6);
 		}
 
+
+	// --leadingEle
+		for (unsigned short j(0); j < nDiLeptonDiJets; j++){
+			// cout << "leadingEle " << j << endl;
+			if (diLeptonDiJets[j].isEEJJ) { // || (diLeptonDiJets[j].isEMJJ && )) {  
+
+				doEleDistributionsPlots(leadingElectrons,j,1);
+
+				bool lInEB = isInEB(leadingElectrons[j].v.Eta());  
+				bool lInEE = isInEE(leadingElectrons[j].v.Eta());
+
+				doElePlots(leadingElectrons,j,1,0);
+				if (lInEB) doElePlots(leadingElectrons,j,1,1);
+				if (lInEE) doElePlots(leadingElectrons,j,1,2);
+
+				if (leadingElectrons[j].v.Pt() < 35) continue;    
+
+				if (leadingElectrons[j].passHEEPId) {
+					doElePlots(leadingElectrons,j,4,0);
+					if (lInEB) doElePlots(leadingElectrons,j,4,1);
+					if (lInEE) doElePlots(leadingElectrons,j,4,2);
+				}
+
+				if (leadingElectrons[j].passCutBasedEleId) {
+					doElePlots(leadingElectrons,j,7,0);
+					if (lInEB) doElePlots(leadingElectrons,j,7,1);
+					if (lInEE) doElePlots(leadingElectrons,j,7,2);
+				}
+			}
+		}
+
+
+	// --subLeadingEle
+		for (unsigned short j(0); j < nDiLeptonDiJets; j++){
+			// cout << "subLeadingEle " << j << endl;
+			if (diLeptonDiJets[j].isEEJJ) { // || (diLeptonDiJets[j].isEMJJ && )) {  
+
+				doEleDistributionsPlots(subLeadingElectrons,j,2);
+
+				bool slInEB = isInEB(subLeadingElectrons[j].v.Eta());  
+				bool slInEE = isInEE(subLeadingElectrons[j].v.Eta());
+
+				doElePlots(subLeadingElectrons,j,2,0);
+				if (slInEB) doElePlots(subLeadingElectrons,j,2,1);
+				if (slInEE) doElePlots(subLeadingElectrons,j,2,2);
+
+				if (subLeadingElectrons[j].v.Pt() < 35) continue;     
+ 
+				if (subLeadingElectrons[j].passHEEPId) {
+					doElePlots(subLeadingElectrons,j,5,0);
+					if (slInEB) doElePlots(subLeadingElectrons,j,5,1);
+					if (slInEE) doElePlots(subLeadingElectrons,j,5,2);
+				}
+
+				if (subLeadingElectrons[j].passCutBasedEleId) {
+					doElePlots(subLeadingElectrons,j,8,0);
+					if (slInEB) doElePlots(subLeadingElectrons,j,8,1);
+					if (slInEE) doElePlots(subLeadingElectrons,j,8,2);
+				}
+			}
+		}
 
 
 	// --dldj
@@ -943,14 +1009,16 @@ void makePlots::Loop(){
 				isInEBEE = inEBEE(leadingElectrons[j].v.Eta(), subLeadingElectrons[j].v.Eta()); 
 			}
 
-			if (diLeptonDiJets[j].isMMJJ) {  
+			if (diLeptonDiJets[j].isMMJJ) {  //per EMJJ ?? usare leadingLepton, subLeadingLepton entries del tree (e non la struct)
 				isInEBEB = inEBEB(leadingMuons[j].v.Eta(), subLeadingMuons[j].v.Eta());  //usare eta jets per djets mass ?
 				isInEEEE = inEEEE(leadingMuons[j].v.Eta(), subLeadingMuons[j].v.Eta());
 				isInEBEE = inEBEE(leadingMuons[j].v.Eta(), subLeadingMuons[j].v.Eta()); 
 			}
 
+			// if (diLeptonDiJets[j].isEEJJ || diLeptonDiJets[j].isMMJJ || diLeptonDiJets[j].isEMJJ) { 
 			doJetsDistributionsPlots(leadingJets,j,7);
 			doJetsDistributionsPlots(subLeadingJets,j,8);
+			// }
 
 			doMassPlots(diLeptonDiJets,j,0,0);
 
@@ -987,59 +1055,15 @@ void makePlots::Loop(){
 			// isEEJJ
 			if (diLeptonDiJets[j].isEEJJ) {  //ho 2 ele
 				nEEJJ++;
-
-				doEleDistributionsPlots(leadingElectrons,j,1);
-				doEleDistributionsPlots(subLeadingElectrons,j,2);
-
-				doElePlots(leadingElectrons,j,1,0);
-				doElePlots(subLeadingElectrons,j,2,0);
-
-				bool lInEB = isInEB(leadingElectrons[j].v.Eta());  
-				bool lInEE = isInEE(leadingElectrons[j].v.Eta());
-				bool slInEB = isInEB(subLeadingElectrons[j].v.Eta());  
-				bool slInEE = isInEE(subLeadingElectrons[j].v.Eta());
-
-				if (lInEB) doElePlots(leadingElectrons,j,1,1);
-				if (slInEB) doElePlots(subLeadingElectrons,j,2,1);
-				
-				if (lInEE) doElePlots(leadingElectrons,j,1,2);
-				if (slInEE) doElePlots(subLeadingElectrons,j,2,2);
-
-
-				if (leadingElectrons[j].passHEEPId) {
-					doElePlots(leadingElectrons,j,4,0);
-					if (lInEB) doElePlots(leadingElectrons,j,4,1);
-					if (lInEE) doElePlots(leadingElectrons,j,4,2);
-				}
-
-				if (subLeadingElectrons[j].passHEEPId) {
-					doElePlots(subLeadingElectrons,j,5,0);
-					if (slInEB) doElePlots(subLeadingElectrons,j,5,1);
-					if (slInEE) doElePlots(subLeadingElectrons,j,5,2);
-				}
-
-
-				if (leadingElectrons[j].passCutBasedEleId) {
-					doElePlots(leadingElectrons,j,7,0);
-					if (lInEB) doElePlots(leadingElectrons,j,7,1);
-					if (lInEE) doElePlots(leadingElectrons,j,7,2);
-				}
-
-				if (subLeadingElectrons[j].passCutBasedEleId) {
-					doElePlots(subLeadingElectrons,j,8,0);
-					if (slInEB) doElePlots(subLeadingElectrons,j,8,1);
-					if (slInEE) doElePlots(subLeadingElectrons,j,8,2);
-				}
-
+				if (leadingElectrons[j].v.Pt() < 35 || subLeadingElectrons[j].v.Pt() < 35) continue;
 
 				//Z->ee
-				if (leadingElectrons[j].charge * subLeadingElectrons[j].charge < 0 ) {
+				if (leadingElectrons[j].charge * subLeadingElectrons[j].charge < 0 ) {					
 					doZmassPlots(diLeptonDiJets,j,0,0);
 					if (isInEBEB) doZmassPlots(diLeptonDiJets,j,0,1);
 					if (isInEEEE) doZmassPlots(diLeptonDiJets,j,0,2);
 					if (isInEBEE) doZmassPlots(diLeptonDiJets,j,0,3);
 					if (isInEEEE || isInEBEE) doZmassPlots(diLeptonDiJets,j,0,4);
-
 
 					if (leadingElectrons[j].passHEEPId && subLeadingElectrons[j].passHEEPId) {
 						doZmassPlots(diLeptonDiJets,j,2,0);
@@ -1056,7 +1080,6 @@ void makePlots::Loop(){
 						if (isInEBEE) doZmassPlots(diLeptonDiJets,j,3,3);
 						if (isInEEEE || isInEBEE) doZmassPlots(diLeptonDiJets,j,3,4);
 					}
-
 				}
 			}
 
@@ -1068,6 +1091,11 @@ void makePlots::Loop(){
 				doMuonDistributionsPlots(leadingMuons,j,4);
 				doMuonDistributionsPlots(subLeadingMuons,j,5);
 
+				if (leadingMuons[j].v.Pt() < 35 || subLeadingMuons[j].v.Pt() < 35) continue; 
+				if (signalMuMu) {
+					if (leadingMuons[j].v.Pt() < 55 || subLeadingMuons[j].v.Pt() < 55) continue;
+				}
+
 				//Z->mumu
 				if (leadingMuons[j].charge * subLeadingMuons[j].charge < 0 ) {
 					doZmassPlots(diLeptonDiJets,j,1,0);
@@ -1078,7 +1106,6 @@ void makePlots::Loop(){
 
 				}
 			}
-
 
 		}
 		// cout << "nEEJJ = " << nEEJJ << endl;
