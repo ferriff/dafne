@@ -635,7 +635,7 @@ void miniTreeMaker::analyze(const EventBase& evt)
 			Ptr<reco::Vertex> subLeadingMuonVtx = chooseBestMuonVtx(vertices->ptrs(), diLeptonDiJet->subLeadingMuon());
 
 			leadingMuonIsHighPt = diLeptonDiJet->leadingMuon()->isHighPtMuon( *leadingMuonVtx );
-			leadingMuonIsHighPt = diLeptonDiJet->subLeadingMuon()->isHighPtMuon( *subLeadingMuonVtx );
+			subLeadingMuonIsHighPt = diLeptonDiJet->subLeadingMuon()->isHighPtMuon( *subLeadingMuonVtx );
 
 		} else if (diLeptonDiJet->isEMJJ()) {
 			if (diLeptonDiJet->electron()->pt() > diLeptonDiJet->muon()->pt()) {
@@ -667,6 +667,9 @@ void miniTreeMaker::analyze(const EventBase& evt)
 				leadingElePassCutBasedId = passCutBasedEleId( diLeptonDiJet->electron(), rho );
 				leadingEleId = getEleId(diLeptonDiJet->electron());
 
+				Ptr<reco::Vertex> subLeadingMuonVtx = chooseBestMuonVtx(vertices->ptrs(), diLeptonDiJet->muon());
+				subLeadingMuonIsHighPt = diLeptonDiJet->muon()->isHighPtMuon( *subLeadingMuonVtx );
+
 			} else {
 				leadingLeptonCharge = diLeptonDiJet->muon()->charge();
 				subLeadingLeptonCharge = diLeptonDiJet->electron()->charge();		
@@ -694,7 +697,10 @@ void miniTreeMaker::analyze(const EventBase& evt)
 				subLeadingEleDxy = fabs(diLeptonDiJet->electron()->gsfTrack()->dxy( best_vtx_subLeadEle->position()));
 				subLeadingEleEoverP = diLeptonDiJet->electron()->eSuperClusterOverP();
 				subLeadingElePassCutBasedId = passCutBasedEleId( diLeptonDiJet->electron(), rho );
-				leadingEleId = getEleId(diLeptonDiJet->electron());
+				subLeadingEleId = getEleId(diLeptonDiJet->electron());
+
+				Ptr<reco::Vertex> leadingMuonVtx = chooseBestMuonVtx(vertices->ptrs(), diLeptonDiJet->muon());
+				leadingMuonIsHighPt = diLeptonDiJet->muon()->isHighPtMuon( *leadingMuonVtx );
 			}
 		}
 
