@@ -662,3 +662,94 @@ def plot3HistosAndRatioFirst2(histoName, etaRegion, inputfile1, inputfile2, inpu
 		c1.SaveAs(str(output_name)+str(suff)+"/"+str(histoName)+str(etaRegion)+"_"+str(output_name)+str(suff)+".root")
 
 	c1.Close()
+
+
+
+
+def plotDataAndMCHistos(histoName, etaRegion, inputfile1, fileList, output_name, suff, zoomX, xRangeMin, xRangeMax, zoomY, yRangeMin, yRangeMax, leg1_name, legendList, leftLegends, log, doRebin, doRestrictedIntegral, colorList, title="", xTitle="", yTitle=""):
+
+	histoList = []
+
+	histo1 = TH1D()
+	inputfile1.GetObject(str(histoName)+str(etaRegion),histo1)
+	histo1.Sumw2()
+
+	if doRestrictedIntegral == "True" and zoomX:
+	# if zoomX:
+		integral_histo1 = histo1.Integral(histo1.FindBin(xRangeMin), histo1.FindBin(xRangeMax))
+	else:
+		integral_histo1 = histo1.Integral()   
+
+	histo1.Scale(1/integral_histo1)
+
+
+	for file in fileList: 
+		histo = TH1D()
+		file.GetObject(str(histoName)+str(etaRegion),histo)
+		histo.Sumw2()
+
+		if doRestrictedIntegral == "True" and zoomX:
+		# if zoomX:
+			integral_histo = histo.Integral(histo.FindBin(xRangeMin), histo.FindBin(xRangeMax))
+		else:
+			integral_histo = histo.Integral()   
+
+		# histo.Scale(1/integral_histo)
+		histo.Scale(1/integral_histo1)
+
+		histoList.append(histo)
+
+
+	c1 = TCanvas(str(histoName)+str(etaRegion)+" Comparison",str(histoName)+str(etaRegion)+" Comparison")
+	c1.cd()
+
+	if doRebin:
+		histo1.Rebin()
+		for histo in histoList:
+			histo.Rebin()
+
+	histo1.SetLineColor(1)
+	histo1.SetMarkerColor(1)
+	histo1.SetMarkerStyle(8)
+	histo1.SetMarkerSize(0.5) 
+	# histo1.GetXaxis().SetTitle(xTitle)
+	# histo1.GetYaxis().SetTitle(yTitle)
+	histo1.Draw("E1P") 
+
+	for histo,color in zip(histoList, colorList):
+		histo.SetLineColor(color)
+		histo.SetFillColor(color)
+		histo.Draw("HISTsame")
+
+	if zoomY:		
+		histo1.GetYaxis().SetRangeUser(yRangeMin,yRangeMax)
+
+	if zoomX:		
+		histo1.GetXaxis().SetRangeUser(xRangeMin,xRangeMax)
+	
+
+	if leftLegends:
+		CMS_lumi.CMS_lumi(c1, 4, 11)
+		leg = TLegend(0.15,0.6,0.35,0.8)
+	else:
+		CMS_lumi.CMS_lumi(c1, 4, 33)
+		leg = TLegend(0.65,0.6,0.85,0.8)
+
+	leg.AddEntry(histo1, leg1_name,'P')
+	for histo,leg_name in zip(histoList, legendList):
+		leg.AddEntry(histo, leg_name,'F')
+
+	leg.SetBorderSize(0)
+	leg.SetFillColor(0)
+	leg.SetTextSize(0.028) 
+	leg.SetTextColor(1)
+	leg.Draw('same')
+
+
+	if log:
+		c1.SetLogy()
+
+	c1.SaveAs(str(output_name)+str(suff)+"/"+str(histoName)+str(etaRegion)+".png")
+	c1.SaveAs(str(output_name)+str(suff)+"/"+str(histoName)+str(etaRegion)+".root")
+
+	c1.Close()
