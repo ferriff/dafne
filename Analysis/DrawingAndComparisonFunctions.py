@@ -679,11 +679,12 @@ def plotDataAndMCHistos(histoName, etaRegion, inputfile1, fileList, output_name,
 		integral_histo1 = histo1.Integral(histo1.FindBin(xRangeMin), histo1.FindBin(xRangeMax))
 	else:
 		integral_histo1 = histo1.Integral()   
-
+	print "integral_histo1 = ", integral_histo1
 	histo1.Scale(1/integral_histo1)
 
 
-	for file in fileList: 
+	# for file in fileList: 
+	for file,leg_name in zip(fileList, legendList):
 		histo = TH1D()
 		file.GetObject(str(histoName)+str(etaRegion),histo)
 		histo.Sumw2()
@@ -693,7 +694,7 @@ def plotDataAndMCHistos(histoName, etaRegion, inputfile1, fileList, output_name,
 			integral_histo = histo.Integral(histo.FindBin(xRangeMin), histo.FindBin(xRangeMax))
 		else:
 			integral_histo = histo.Integral()   
-
+		print "integral_histo ", leg_name, " = ", integral_histo
 		# histo.Scale(1/integral_histo)
 		histo.Scale(1/integral_histo1)
 
@@ -714,18 +715,24 @@ def plotDataAndMCHistos(histoName, etaRegion, inputfile1, fileList, output_name,
 	histo1.SetMarkerSize(0.5) 
 	# histo1.GetXaxis().SetTitle(xTitle)
 	# histo1.GetYaxis().SetTitle(yTitle)
-	histo1.Draw("E1P") 
 
 	for histo,color in zip(histoList, colorList):
-		histo.SetLineColor(color)
+		#histo.SetLineColor(color)
 		histo.SetFillColor(color)
 		histo.Draw("HISTsame")
+	histo1.Draw("E1Psame")
 
-	if zoomY:		
-		histo1.GetYaxis().SetRangeUser(yRangeMin,yRangeMax)
 
 	if zoomX:		
 		histo1.GetXaxis().SetRangeUser(xRangeMin,xRangeMax)
+	if zoomY:		
+		histo1.GetYaxis().SetRangeUser(yRangeMin,yRangeMax)
+
+	for histo in histoList:
+		if zoomX:	
+			histo.GetXaxis().SetRangeUser(xRangeMin,xRangeMax)
+		if zoomY:		
+			histo.GetYaxis().SetRangeUser(yRangeMin,yRangeMax)
 	
 
 	if leftLegends:
