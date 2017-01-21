@@ -339,9 +339,9 @@ class makePlots {
 
 		TH1D *muon_dxy_histo;
 
-		TH1D *pt_histo[9];
-		TH1D *eta_histo[9];
-		TH1D *phi_histo[9];
+		TH1D *pt_histo[11];
+		TH1D *eta_histo[11];
+		TH1D *phi_histo[11];
 
 		TH1D *etaSC_histo[9][3];
 		TH1D *isEcalDriven_histo[9][3];  
@@ -366,11 +366,11 @@ class makePlots {
 		TH1D *mass_dj_histo[4][5];
 		TH1D *mass_djLl_histo[4][5];
 		TH1D *mass_djSLl_histo[4][5];
-		TH1D *Zmass_histo[4][5];
+		TH1D *Zmass_histo[5][5];
 
 
 
-		makePlots(TString filename_, TString outputdir_, bool MC_,  bool MCpuReweighted_, bool signalEE_, bool signalMuMu_, bool eMuSideband_, bool TnPee_, bool TnPmumu_);
+		makePlots(TString filename_, TString outputdir_, bool MC_,  bool MCpuReweighted_, bool signalEE_, bool signalMuMu_, bool eMuSideband_, bool TnP_);
 
 		void     Init();  
 		Int_t    GetEntry(Long64_t entry);
@@ -408,7 +408,7 @@ class makePlots {
 		void saveHistosAndOutputFile(TString& outputdir);
 
 		TString filename, outputdir; 
-		bool MC, MCpuReweighted, signalEE, signalMuMu, eMuSideband, TnPee, TnPmumu;
+		bool MC, MCpuReweighted, signalEE, signalMuMu, eMuSideband, TnP;
 		vector<TH1*> listOfHistograms;
 
 		unsigned int nEvents=0, nEventsPassingTrigger=0;
@@ -421,9 +421,11 @@ class makePlots {
 		string etaMassName[5] = {"", "_EB-EB", "_EE-EE", "_EB-EE", "_noEB-EB"};
 
 		string eleName[9] = {"ele", "leadingEle", "subLeadingEle", "elePassingHeepId", "leadingElePassingHeepId", "subLeadingElePassingHeepId", "elePassingEleId", "leadingElePassingEleId", "subLeadingElePassingEleId"};
-		string objName[9] = {"ele", "leadingEle", "subLeadingEle", "muons", "leadingMu", "subLeadingMu", "jet", "leadingJet", "subLeadingJet"};
-		string dldjName[4] = {"dldj","dldjPreselected","dldjPassingHeepId","dldjPassingEleId"};
-		string Zname[4] = {"toEE", "toMuMu", "toEEpassingHeepId", "toEEpassingEleId"};
+
+		string objName[11] = {"ele", "muon", "jet", "leadingLepton", "subLeadingLepton", "leadingJet", "subLeadingJet", "leadingEle", "subLeadingEle", "leadingMu", "subLeadingMu"};
+
+		string dldjName[4] = {"signalRegion","lowMlljjCR","lowMllCR","eMuSidebandCR"};
+		string Zname[5] = {"toEE", "toEEpassingHeepId", "toEEpassingEleId", "toMuMu", "toMuMuHighPt"};
 
 };
 

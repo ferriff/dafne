@@ -392,45 +392,49 @@ void makePlots::SetHistos(){
 
 	muon_dxy_histo = newTH1D("muon_dxy_histo", "muon_dxy_histo", "|dxy| muons", 100, 0., 0.5);
 
-	for (unsigned short i(0); i < 9; i++) {
+	for (unsigned short i(0); i < 11; i++) {
 		pt_histo[i] = newTH1D("pt_"+objName[i]+"_histo", "pt_"+objName[i]+"_histo", "p_{T} [GeV] "+objName[i], 100, 0., 1000.);
 		eta_histo[i] = newTH1D("eta_"+objName[i]+"_histo", "eta_"+objName[i]+"_histo", "#eta "+objName[i], 100, -2.5, 2.5);
-		phi_histo[i] = newTH1D("phi_"+objName[i]+"_histo", "phi_"+objName[i]+"_histo", "#phi "+objName[i], 100, -3.5, 3.5);
-		// d0_histo[i] = newTH1D("d0_"+leptonName[i]+"_histo", "d0_"+leptonName[i]+"_histo", "|d0| "+leptonName[i], 100, 0., 0.5);
+		phi_histo[i] = newTH1D("phi_"+objName[i]+"_histo", "phi_"+objName[i]+"_histo", "#phi "+objName[i], 100, -3.5, 3.5);		
 	}
 
 	for (unsigned short j(0); j < 9; j++) {
 		for (unsigned short m(0); m < 3; m++) {
-			etaSC_histo[j][m] = newTH1D("etaSC_"+eleName[j]+"_histo"+etaName[m], "etaSC_"+eleName[j]+"_histo"+etaName[m], "#eta_{SC} "+eleName[j], 100, -2.5, 2.5);
-			isEcalDriven_histo[j][m] = newTH1D("isEcalDriven_"+eleName[j]+"_histo"+etaName[m], "isEcalDriven_"+eleName[j]+"_histo"+etaName[m], "isEcalDriven "+eleName[j], 2, 0., 2.);
-			dEtaIn_histo[j][m] = newTH1D("dEtaIn_"+eleName[j]+"_histo"+etaName[m], "dEtaIn_"+eleName[j]+"_histo"+etaName[m], "dEtaIn "+eleName[j], 100, -0.2, 0.2);
-			dPhiIn_histo[j][m] = newTH1D("dPhiIn_"+eleName[j]+"_histo"+etaName[m], "dPhiIn_"+eleName[j]+"_histo"+etaName[m], "dPhiIn "+eleName[j], 100, -0.2, 0.2);
-			hOverE_histo[j][m] = newTH1D("hOverE_"+eleName[j]+"_histo"+etaName[m], "hOverE_"+eleName[j]+"_histo"+etaName[m], "H/E "+eleName[j], 40, 0., 2.);
-			full5x5_r9_histo[j][m] = newTH1D("r9_"+eleName[j]+"_histo"+etaName[m], "r9_"+eleName[j]+"_histo"+etaName[m], "r9 "+eleName[j], 100, 0., 1.05);
-			full5x5_sigmaIetaIeta_histo[j][m] = newTH1D("sigmaIetaIeta_"+eleName[j]+"_histo"+etaName[m], "sigmaIetaIeta_"+eleName[j]+"_histo"+etaName[m], "sigmaIetaIeta "+eleName[j], 100, 0., 0.05);
+			etaSC_histo[j][m] = newTH1D("etaSC_"+eleName[j]+etaName[m]+"_histo", "etaSC_"+eleName[j]+etaName[m]+"_histo", "#eta_{SC} "+eleName[j], 100, -2.5, 2.5);
+			isEcalDriven_histo[j][m] = newTH1D("isEcalDriven_"+eleName[j]+etaName[m]+"_histo", "isEcalDriven_"+eleName[j]+etaName[m]+"_histo", "isEcalDriven "+eleName[j], 2, 0., 2.);
+			dEtaIn_histo[j][m] = newTH1D("dEtaIn_"+eleName[j]+etaName[m]+"_histo", "dEtaIn_"+eleName[j]+etaName[m]+"_histo", "dEtaIn "+eleName[j], 100, -0.2, 0.2);
+			dPhiIn_histo[j][m] = newTH1D("dPhiIn_"+eleName[j]+etaName[m]+"_histo", "dPhiIn_"+eleName[j]+etaName[m]+"_histo", "dPhiIn "+eleName[j], 100, -0.2, 0.2);
+			hOverE_histo[j][m] = newTH1D("hOverE_"+eleName[j]+etaName[m]+"_histo", "hOverE_"+eleName[j]+etaName[m]+"_histo", "H/E "+eleName[j], 40, 0., 2.);
+			full5x5_r9_histo[j][m] = newTH1D("r9_"+eleName[j]+etaName[m]+"_histo", "r9_"+eleName[j]+etaName[m]+"_histo", "r9 "+eleName[j], 100, 0., 1.05);
+			full5x5_sigmaIetaIeta_histo[j][m] = newTH1D("sigmaIetaIeta_"+eleName[j]+etaName[m]+"_histo", "sigmaIetaIeta_"+eleName[j]+etaName[m]+"_histo", "sigmaIetaIeta "+eleName[j], 100, 0., 0.05);
 			// full5x5_E5x5_ele_histo[j][m];
 			// full5x5_E1x5_ele_histo[j][m];
 			// full5x5_E2x5_ele_histo[j][m];
-			full5x5_E2x5_Over_E5x5_histo[j][m] = newTH1D("e2x5_e5x5_"+eleName[j]+"_histo"+etaName[m], "e2x5_e5x5_"+eleName[j]+"_histo"+etaName[m], "e2x5/e5x5 "+eleName[j], 60, 0.5, 1.1);
-			full5x5_E1x5_Over_E5x5_histo[j][m] = newTH1D("e1x5_e5x5_"+eleName[j]+"_histo"+etaName[m], "e1x5_e5x5_"+eleName[j]+"_histo"+etaName[m], "e1x5/e5x5 "+eleName[j], 100, 0., 1.1);
-			EmHadDepth1Iso_histo[j][m] = newTH1D("EmHadDepth1Iso_"+eleName[j]+"_histo"+etaName[m], "EmHadDepth1Iso_"+eleName[j]+"_histo"+etaName[m], "EmHadDepth1Iso "+eleName[j], 200, 0., 200.);
+			full5x5_E2x5_Over_E5x5_histo[j][m] = newTH1D("e2x5_e5x5_"+eleName[j]+etaName[m]+"_histo", "e2x5_e5x5_"+eleName[j]+etaName[m]+"_histo", "e2x5/e5x5 "+eleName[j], 60, 0.5, 1.1);
+			full5x5_E1x5_Over_E5x5_histo[j][m] = newTH1D("e1x5_e5x5_"+eleName[j]+etaName[m]+"_histo", "e1x5_e5x5_"+eleName[j]+etaName[m]+"_histo", "e1x5/e5x5 "+eleName[j], 100, 0., 1.1);
+			EmHadDepth1Iso_histo[j][m] = newTH1D("EmHadDepth1Iso_"+eleName[j]+etaName[m]+"_histo", "EmHadDepth1Iso_"+eleName[j]+etaName[m]+"_histo", "EmHadDepth1Iso "+eleName[j], 200, 0., 200.);
 			// ptTracksIso_histo[j][m];
-			innerLayerLostHits_histo[j][m] = newTH1D("missingHits_"+eleName[j]+"_histo"+etaName[m], "missingHits_"+eleName[j]+"_histo"+etaName[m], "missingHits "+eleName[j], 10, 0., 10.);
-			dxy_histo[j][m] = newTH1D("dxy_"+eleName[j]+"_histo"+etaName[m], "dxy_"+eleName[j]+"_histo"+etaName[m], "|dxy| "+eleName[j], 100, 0., 0.5);
-			eOverP[j][m] = newTH1D("eOverP_"+eleName[j]+"_histo"+etaName[m], "eOverP_"+eleName[j]+"_histo"+etaName[m], "E/p "+eleName[j], 100, 0., 100);
+			innerLayerLostHits_histo[j][m] = newTH1D("missingHits_"+eleName[j]+etaName[m]+"_histo", "missingHits_"+eleName[j]+etaName[m]+"_histo", "missingHits "+eleName[j], 10, 0., 10.);
+			dxy_histo[j][m] = newTH1D("dxy_"+eleName[j]+etaName[m]+"_histo", "dxy_"+eleName[j]+etaName[m]+"_histo", "|dxy| "+eleName[j], 100, 0., 0.5);
+			eOverP[j][m] = newTH1D("eOverP_"+eleName[j]+etaName[m]+"_histo", "eOverP_"+eleName[j]+etaName[m]+"_histo", "E/p "+eleName[j], 100, 0., 100);
 		}
 	}
 
-	for (unsigned short l(0); l < 4; l++) {
-		for (unsigned short n(0); n < 5; n++) {
-			mass_dldj_histo[l][n] = newTH1D("mass_dileptondijets_histo_"+dldjName[l]+etaMassName[n], "mass_dileptondijets_histo_"+dldjName[l]+etaMassName[n], "diLeptonDiJet mass "+dldjName[l], 100, 0., 4000.);
-			mass_dl_histo[l][n] = newTH1D("mass_dileptons_histo_"+dldjName[l]+etaMassName[n], "mass_dileptons_histo_"+dldjName[l]+etaMassName[n], "diLepton mass "+dldjName[l], 100, 0., 2000.);
-			mass_dj_histo[l][n] = newTH1D("mass_dijets_histo_"+dldjName[l]+etaMassName[n], "mass_dijets_histo_"+dldjName[l]+etaMassName[n], "diJet mass "+dldjName[l], 100, 0., 2000.);		
-			mass_djLl_histo[l][n] = newTH1D("mass_dijetsLeadingLepton_histo_"+dldjName[l]+etaMassName[n], "mass_dijetsLeadingLepton_histo_"+dldjName[l]+etaMassName[n], "diJetLeadingLepton mass "+dldjName[l], 100, 0., 4000.);	
-			mass_djSLl_histo[l][n] = newTH1D("mass_dijetsSubLeadingLepton_histo_"+dldjName[l]+etaMassName[n], "mass_dijetsSubLeadingLepton_histo_"+dldjName[l]+etaMassName[n], "diJetSubLeadingLepton mass "+dldjName[l], 100, 0., 4000.);
-			Zmass_histo[l][n] = newTH1D("Z"+Zname[l]+"_mass_histo"+etaMassName[n], "Z"+Zname[l]+"_mass_histo"+etaMassName[n], "m(Z"+Zname[l]+") [GeV/c^{2}]", 200, 0, 200); 
+	for (unsigned short n(0); n < 5; n++) {
+		for (unsigned short l(0); l < 4; l++) {
+			mass_dldj_histo[l][n] = newTH1D("mass_dileptondijets_"+dldjName[l]+etaMassName[n]+"_histo", "mass_dileptondijets_"+dldjName[l]+etaMassName[n]+"_histo", "m_{lljj} "+dldjName[l], 100, 0., 4000.);
+			mass_dl_histo[l][n] = newTH1D("mass_dileptons_"+dldjName[l]+etaMassName[n]+"_histo", "mass_dileptons_"+dldjName[l]+etaMassName[n]+"_histo", "m_{ll} "+dldjName[l], 100, 0., 2000.);
+			mass_dj_histo[l][n] = newTH1D("mass_dijets_"+dldjName[l]+etaMassName[n]+"_histo", "mass_dijets_"+dldjName[l]+etaMassName[n]+"_histo", "m_{jj} "+dldjName[l], 100, 0., 2000.);		
+			mass_djLl_histo[l][n] = newTH1D("mass_dijetsLeadingLepton_"+dldjName[l]+etaMassName[n]+"_histo", "mass_dijetsLeadingLepton_"+dldjName[l]+etaMassName[n]+"_histo", "m_{jjl_{L}} "+dldjName[l], 100, 0., 4000.);	
+			mass_djSLl_histo[l][n] = newTH1D("mass_dijetsSubLeadingLepton_"+dldjName[l]+etaMassName[n]+"_histo", "mass_dijetsSubLeadingLepton_"+dldjName[l]+etaMassName[n]+"_histo", "m_{jjl_{SL}} "+dldjName[l], 100, 0., 4000.);
+		}
+
+		for (unsigned short z(0); z < 5; z++) {
+			Zmass_histo[z][n] = newTH1D("Z"+Zname[z]+"_mass"+etaMassName[n]+"_histo", "Z"+Zname[z]+"_mass"+etaMassName[n]+"_histo", "m(Z"+Zname[z]+") [GeV/c^{2}]", 200, 0, 200); 
 		}
 	}
+
+
 }
 // ******************************************************************************************
 
@@ -821,8 +825,6 @@ void makePlots::Loop(){
 			if (signalEE) passesTrigger = passEEJJhlt;   
 			if (signalMuMu) passesTrigger = passMMJJhlt;
 			if (eMuSideband) passesTrigger = passEMJJhlt;
-			if (TnPee) passesTrigger = passTandPEEhlt;
-			if (TnPmumu) passesTrigger = passTandPMMhlt;
 		}
 
 		if (!passesTrigger) continue;  //se evento non passa il trigger passo a quello successivo
@@ -840,9 +842,9 @@ void makePlots::Loop(){
 
 
 		for (unsigned short i(0); i < nvtx; i++){
-			vtx_x_histo->Fill(	vtx_x->at(i) );
-			vtx_y_histo->Fill(	vtx_y->at(i) );
-			vtx_z_histo->Fill(	vtx_z->at(i) );
+			vtx_x_histo->Fill(vtx_x->at(i),w);
+			vtx_y_histo->Fill(vtx_y->at(i),w);
+			vtx_z_histo->Fill(vtx_z->at(i),w);
 		}
 
 
@@ -923,14 +925,14 @@ void makePlots::Loop(){
 	// --muons
 		// unsigned short nMuons(mu_e->size());
 		for (unsigned short i(0); i < nMuons; i++){
-			doMuonDistributionsPlots(muons,i,3);
+			doMuonDistributionsPlots(muons,i,1);
 			muon_dxy_histo->Fill( mu_dxy->at(i) );
 		}
 
 
 	// --jets
 		for (unsigned short l(0); l < nJets; l++){
-			doJetsDistributionsPlots(jets,l,6);
+			doJetsDistributionsPlots(jets,l,2);
 		}
 
 
@@ -939,7 +941,8 @@ void makePlots::Loop(){
 			// cout << "leadingEle " << j << endl;
 			if ( diLeptonDiJets[j].isEEJJ || (diLeptonDiJets[j].isEMJJ && leadingElectrons[j].etaSC != -999) ) {  
 
-				doEleDistributionsPlots(leadingElectrons,j,1);
+				doEleDistributionsPlots(leadingElectrons,j,3);
+				doEleDistributionsPlots(leadingElectrons,j,7);
 
 				bool lInEB = isInEB(leadingElectrons[j].v.Eta());  
 				bool lInEE = isInEE(leadingElectrons[j].v.Eta());
@@ -948,7 +951,7 @@ void makePlots::Loop(){
 				if (lInEB) doElePlots(leadingElectrons,j,1,1);
 				if (lInEE) doElePlots(leadingElectrons,j,1,2);
 
-				if (leadingElectrons[j].v.Pt() < 35) continue;    
+				if (leadingElectrons[j].v.Pt() < 60) continue;    
 
 				if (leadingElectrons[j].passHEEPId) {
 					doElePlots(leadingElectrons,j,4,0);
@@ -970,7 +973,8 @@ void makePlots::Loop(){
 			// cout << "subLeadingEle " << j << endl;
 			if ( diLeptonDiJets[j].isEEJJ || (diLeptonDiJets[j].isEMJJ && subLeadingElectrons[j].etaSC != -999) ) {  
 
-				doEleDistributionsPlots(subLeadingElectrons,j,2);
+				doEleDistributionsPlots(subLeadingElectrons,j,4);
+				doEleDistributionsPlots(subLeadingElectrons,j,8);
 
 				bool slInEB = isInEB(subLeadingElectrons[j].v.Eta());  
 				bool slInEE = isInEE(subLeadingElectrons[j].v.Eta());
@@ -979,7 +983,7 @@ void makePlots::Loop(){
 				if (slInEB) doElePlots(subLeadingElectrons,j,2,1);
 				if (slInEE) doElePlots(subLeadingElectrons,j,2,2);
 
-				if (subLeadingElectrons[j].v.Pt() < 35) continue;     
+				if (subLeadingElectrons[j].v.Pt() < 50) continue;     
  
 				if (subLeadingElectrons[j].passHEEPId) {
 					doElePlots(subLeadingElectrons,j,5,0);
@@ -999,8 +1003,9 @@ void makePlots::Loop(){
 	// --leadingMuon
 		for (unsigned short j(0); j < nDiLeptonDiJets; j++){
 			// cout << "leadingMuon " << j << endl;
-			if ( diLeptonDiJets[j].isMMJJ || (diLeptonDiJets[j].isEMJJ && leadingMuons[j].isHighPt = -999) ) {  
-				doMuonDistributionsPlots(leadingMuons,j,4);
+			if ( diLeptonDiJets[j].isMMJJ || (diLeptonDiJets[j].isEMJJ && subLeadingElectrons[j].etaSC != -999) ) {  
+				doMuonDistributionsPlots(leadingMuons,j,3);
+				doMuonDistributionsPlots(leadingMuons,j,9);
 			}
 		}
 
@@ -1008,64 +1013,65 @@ void makePlots::Loop(){
 	// --subLeadingMuon
 		for (unsigned short j(0); j < nDiLeptonDiJets; j++){
 			// cout << "subLeadingMuon " << j << endl;
-			if ( diLeptonDiJets[j].isMMJJ || (diLeptonDiJets[j].isEMJJ && subLeadingMuons[j].isHighPt = -999) ) { 
-				doMuonDistributionsPlots(subLeadingMuons,j,5);
+			if ( diLeptonDiJets[j].isMMJJ || (diLeptonDiJets[j].isEMJJ && leadingElectrons[j].etaSC != -999) ) { 
+				doMuonDistributionsPlots(subLeadingMuons,j,4);
+				doMuonDistributionsPlots(subLeadingMuons,j,10);
 			}
 		}
 
 
 
 	// --dldj
-		int nEEJJ=0, nMMJJ=0;
-		// bool signalRegion=0, flavourSidebandCR=0, lowMllCR=0, lowMlljjCR=0, TnP_CR=0;
-
 		for (unsigned short j(0); j < nDiLeptonDiJets; j++){
 			// cout << "dldj " << j << endl;
+			bool signalRegion=0, flavourSidebandCR=0, lowMlljjCR=0, lowMllCR=0;
 
-			// //-- definition of signal/contro regions
-			// if (diLeptonDiJets[j].passPreselections) {
-			// 	if (diLeptonDiJets[j].isEEJJ || diLeptonDiJets[j].isMMJJ) {
-			// 		if (diLeptonDiJets[j].isSignalRegion) signalRegion=true;
-			// 		if (diLeptonDiJets[j].isLowMllCR) lowMllCR=true;
-			// 		if (diLeptonDiJets[j].isLowMlljjCR) lowMlljjCR=true;
-			// 	}
-			// 	if (diLeptonDiJets[j].isEMJJ && diLeptonDiJets[j].isSignalRegion) flavourSidebandCR=true;
-			// }
-			// if (TnPee || TnPmumu) TnP_CR=true; //eventi hanno passato il trigger (vedi sopra) 
-			// //--
+			if (diLeptonDiJets[j].isEEJJ || diLeptonDiJets[j].isMMJJ || diLeptonDiJets[j].isEMJJ) { 
+				doJetsDistributionsPlots(leadingJets,j,5);
+				doJetsDistributionsPlots(subLeadingJets,j,6);
+			}
+
+			//-- definition of signal/control regions
+			if (diLeptonDiJets[j].passPreselections) {
+				if (diLeptonDiJets[j].isEEJJ || diLeptonDiJets[j].isMMJJ) {
+					if (diLeptonDiJets[j].isSignalRegion) signalRegion=true;
+					if (diLeptonDiJets[j].isLowMlljjCR) lowMlljjCR=true;
+					if (diLeptonDiJets[j].isLowMllCR) lowMllCR=true;
+				}
+				if (diLeptonDiJets[j].isEMJJ && diLeptonDiJets[j].isSignalRegion) flavourSidebandCR=true;
+			}
+			//--
 					
 			bool isInEBEB = inEBEB(leadingLepton_eta->at(j), subLeadingLepton_eta->at(j));  //usare eta jets per djets mass ?
 			bool isInEEEE = inEEEE(leadingLepton_eta->at(j), subLeadingLepton_eta->at(j));
 			bool isInEBEE = inEBEE(leadingLepton_eta->at(j), subLeadingLepton_eta->at(j)); 
 
-			if (diLeptonDiJets[j].isEEJJ || diLeptonDiJets[j].isMMJJ || diLeptonDiJets[j].isEMJJ) { 
-				doJetsDistributionsPlots(leadingJets,j,7);
-				doJetsDistributionsPlots(subLeadingJets,j,8);
-			}
-
-			doMassPlots(diLeptonDiJets,j,0,0);
-
-			if (isInEBEB) doMassPlots(diLeptonDiJets,j,0,1);
-			if (isInEEEE) doMassPlots(diLeptonDiJets,j,0,2);
-			if (isInEBEE) doMassPlots(diLeptonDiJets,j,0,3);
-			if (isInEEEE || isInEBEE) doMassPlots(diLeptonDiJets,j,0,4);
-
-			if (diLeptonDiJets[j].passPreselections) {
-				doMassPlots(diLeptonDiJets,j,1,0);
-				if (isInEBEB) doMassPlots(diLeptonDiJets,j,1,1);
-				if (isInEEEE) doMassPlots(diLeptonDiJets,j,1,2);
-				if (isInEBEE) doMassPlots(diLeptonDiJets,j,1,3);
-				if (isInEEEE || isInEBEE) doMassPlots(diLeptonDiJets,j,1,4);
-
-				if (diLeptonDiJets[j].isEEJJ && leadingElectrons[j].passHEEPId && subLeadingElectrons[j].passHEEPId) {
+			if ((diLeptonDiJets[j].isEEJJ && leadingElectrons[j].passHEEPId && subLeadingElectrons[j].passHEEPId) || (diLeptonDiJets[j].isMMJJ && leadingMuons[j].isHighPt && subLeadingMuons[j].isHighPt)) {
+				if (signalRegion) {			
+					doMassPlots(diLeptonDiJets,j,0,0);
+					if (isInEBEB) doMassPlots(diLeptonDiJets,j,0,1);
+					if (isInEEEE) doMassPlots(diLeptonDiJets,j,0,2);
+					if (isInEBEE) doMassPlots(diLeptonDiJets,j,0,3);
+					if (isInEEEE || isInEBEE) doMassPlots(diLeptonDiJets,j,0,4);
+				}
+				if (lowMlljjCR) {
+					doMassPlots(diLeptonDiJets,j,1,0);
+					if (isInEBEB) doMassPlots(diLeptonDiJets,j,1,1);
+					if (isInEEEE) doMassPlots(diLeptonDiJets,j,1,2);
+					if (isInEBEE) doMassPlots(diLeptonDiJets,j,1,3);
+					if (isInEEEE || isInEBEE) doMassPlots(diLeptonDiJets,j,1,4);
+				}
+				if (lowMllCR) {
 					doMassPlots(diLeptonDiJets,j,2,0);
 					if (isInEBEB) doMassPlots(diLeptonDiJets,j,2,1);
 					if (isInEEEE) doMassPlots(diLeptonDiJets,j,2,2);
 					if (isInEBEE) doMassPlots(diLeptonDiJets,j,2,3);
 					if (isInEEEE || isInEBEE) doMassPlots(diLeptonDiJets,j,2,4);
 				}
+			}
 
-				if (diLeptonDiJets[j].isEEJJ && leadingElectrons[j].passCutBasedEleId && subLeadingElectrons[j].passCutBasedEleId) {
+			if (flavourSidebandCR) {
+				if ((leadingElectrons[j].passHEEPId && subLeadingMuons[j].isHighPt) || (subLeadingElectrons[j].passHEEPId && leadingMuons[j].isHighPt)){
 					doMassPlots(diLeptonDiJets,j,3,0);
 					if (isInEBEB) doMassPlots(diLeptonDiJets,j,3,1);
 					if (isInEEEE) doMassPlots(diLeptonDiJets,j,3,2);
@@ -1074,55 +1080,67 @@ void makePlots::Loop(){
 				}
 			}
 
+		}
 
-			if (diLeptonDiJets[j].isEEJJ) {  //ho 2 ele
-				nEEJJ++;
-				if (leadingElectrons[j].v.Pt() < 35 || subLeadingElectrons[j].v.Pt() < 35) continue;
 
-				//Z->ee
-				if (leadingElectrons[j].charge * subLeadingElectrons[j].charge < 0 ) {	// & TnP_CR		
-					doZmassPlots(diLeptonDiJets,j,0,0);
-					if (isInEBEB) doZmassPlots(diLeptonDiJets,j,0,1);
-					if (isInEEEE) doZmassPlots(diLeptonDiJets,j,0,2);
-					if (isInEBEE) doZmassPlots(diLeptonDiJets,j,0,3);
-					if (isInEEEE || isInEBEE) doZmassPlots(diLeptonDiJets,j,0,4);
+	// --Zmass
+		if (TnP) {
+			for (unsigned short j(0); j < nDiLeptonDiJets; j++){
 
-					if (leadingElectrons[j].passHEEPId && subLeadingElectrons[j].passHEEPId) {
-						doZmassPlots(diLeptonDiJets,j,2,0);
-						if (isInEBEB) doZmassPlots(diLeptonDiJets,j,2,1);
-						if (isInEEEE) doZmassPlots(diLeptonDiJets,j,2,2);
-						if (isInEBEE) doZmassPlots(diLeptonDiJets,j,2,3);
-						if (isInEEEE || isInEBEE) doZmassPlots(diLeptonDiJets,j,2,4);
+				bool isInEBEB = inEBEB(leadingLepton_eta->at(j), subLeadingLepton_eta->at(j));  
+				bool isInEEEE = inEEEE(leadingLepton_eta->at(j), subLeadingLepton_eta->at(j));
+				bool isInEBEE = inEBEE(leadingLepton_eta->at(j), subLeadingLepton_eta->at(j)); 
+
+				if (diLeptonDiJets[j].isEEJJ && passTandPEEhlt) {  				//Z->ee
+					if (leadingElectrons[j].v.Pt() < 35 || subLeadingElectrons[j].v.Pt() < 35) continue;
+
+					if (leadingElectrons[j].charge * subLeadingElectrons[j].charge < 0 ) {			
+						doZmassPlots(diLeptonDiJets,j,0,0);
+						if (isInEBEB) doZmassPlots(diLeptonDiJets,j,0,1);
+						if (isInEEEE) doZmassPlots(diLeptonDiJets,j,0,2);
+						if (isInEBEE) doZmassPlots(diLeptonDiJets,j,0,3);
+						if (isInEEEE || isInEBEE) doZmassPlots(diLeptonDiJets,j,0,4);
+
+						if (leadingElectrons[j].passHEEPId && subLeadingElectrons[j].passHEEPId) {
+							doZmassPlots(diLeptonDiJets,j,1,0);
+							if (isInEBEB) doZmassPlots(diLeptonDiJets,j,1,1);
+							if (isInEEEE) doZmassPlots(diLeptonDiJets,j,1,2);
+							if (isInEBEE) doZmassPlots(diLeptonDiJets,j,1,3);
+							if (isInEEEE || isInEBEE) doZmassPlots(diLeptonDiJets,j,1,4);
+						}
+
+						if (leadingElectrons[j].passCutBasedEleId && subLeadingElectrons[j].passCutBasedEleId) {
+							doZmassPlots(diLeptonDiJets,j,2,0);
+							if (isInEBEB) doZmassPlots(diLeptonDiJets,j,2,1);
+							if (isInEEEE) doZmassPlots(diLeptonDiJets,j,2,2);
+							if (isInEBEE) doZmassPlots(diLeptonDiJets,j,2,3);
+							if (isInEEEE || isInEBEE) doZmassPlots(diLeptonDiJets,j,2,4);
+						}
 					}
+				}
+				
+				if (diLeptonDiJets[j].isMMJJ && passTandPMMhlt) { 					//Z->mumu
+					if (leadingMuons[j].v.Pt() < 35 || subLeadingMuons[j].v.Pt() < 35) continue; 
 
-					if (leadingElectrons[j].passCutBasedEleId && subLeadingElectrons[j].passCutBasedEleId) {
+					if (leadingMuons[j].charge * subLeadingMuons[j].charge < 0 ) { 
 						doZmassPlots(diLeptonDiJets,j,3,0);
 						if (isInEBEB) doZmassPlots(diLeptonDiJets,j,3,1);
 						if (isInEEEE) doZmassPlots(diLeptonDiJets,j,3,2);
 						if (isInEBEE) doZmassPlots(diLeptonDiJets,j,3,3);
 						if (isInEEEE || isInEBEE) doZmassPlots(diLeptonDiJets,j,3,4);
+
+						if (leadingMuons[j].isHighPt && subLeadingMuons[j].isHighPt) {
+							doZmassPlots(diLeptonDiJets,j,4,0);
+							if (isInEBEB) doZmassPlots(diLeptonDiJets,j,4,1);
+							if (isInEEEE) doZmassPlots(diLeptonDiJets,j,4,2);
+							if (isInEBEE) doZmassPlots(diLeptonDiJets,j,4,3);
+							if (isInEEEE || isInEBEE) doZmassPlots(diLeptonDiJets,j,4,4);
+						}
 					}
 				}
 			}
-
-
-			if (diLeptonDiJets[j].isMMJJ) {  //ho 2 muons
-				nMMJJ++;
-				if (leadingMuons[j].v.Pt() < 35 || subLeadingMuons[j].v.Pt() < 35) continue; 
-
-				//Z->mumu
-				if (leadingMuons[j].charge * subLeadingMuons[j].charge < 0 ) {  // & TnP_CR	
-					doZmassPlots(diLeptonDiJets,j,1,0);
-					if (isInEBEB) doZmassPlots(diLeptonDiJets,j,1,1);
-					if (isInEEEE) doZmassPlots(diLeptonDiJets,j,1,2);
-					if (isInEBEE) doZmassPlots(diLeptonDiJets,j,1,3);
-					if (isInEEEE || isInEBEE) doZmassPlots(diLeptonDiJets,j,1,4);
-
-				}
-			}
-
 		}
-		// cout << "nEEJJ = " << nEEJJ << endl;
+
 
 	} //fine loop su eventi
 	
@@ -1168,8 +1186,8 @@ void makePlots::saveHistosAndOutputFile(TString& ouputdir){
 
 
 
-makePlots::makePlots(TString filename_, TString outputdir_, bool MC_, bool MCpuReweighted_, bool signalEE_, bool signalMuMu_, bool eMuSideband_, bool TnPee_, bool TnPmumu_):
-	filename(filename_), outputdir(outputdir_), MC(MC_), MCpuReweighted(MCpuReweighted_), signalEE(signalEE_), signalMuMu(signalMuMu_), eMuSideband(eMuSideband_), TnPee(TnPee_), TnPmumu(TnPmumu_)
+makePlots::makePlots(TString filename_, TString outputdir_, bool MC_, bool MCpuReweighted_, bool signalEE_, bool signalMuMu_, bool eMuSideband_, bool TnP_):
+	filename(filename_), outputdir(outputdir_), MC(MC_), MCpuReweighted(MCpuReweighted_), signalEE(signalEE_), signalMuMu(signalMuMu_), eMuSideband(eMuSideband_), TnP(TnP_)
 {
 	fChain = new TChain("", "");
 
@@ -1196,26 +1214,26 @@ void runMakePlots() {
 	string inputDir = "root://node12.datagrid.cea.fr//dpm/datagrid.cea.fr/home/cms/trivcat/store/user/gnegro/miniTrees/";
 	string outputDir = "distributions_lumiReweighted"; //distributions
 
-	// makePlots("root://node12.datagrid.cea.fr//dpm/datagrid.cea.fr/home/cms/trivcat/store/user/gnegro/miniTrees/output_DoubleEG_Run2016B-ReReco-v3_miniTrees.root", "Analysis/miniTrees/DoubleEG_Run2016B-ReReco-v3/distributions", false, false, true, false, false, false, false);
+	// makePlots("root://node12.datagrid.cea.fr//dpm/datagrid.cea.fr/home/cms/trivcat/store/user/gnegro/miniTrees/output_DoubleEG_Run2016B-ReReco-v3_miniTrees.root", "Analysis/miniTrees/DoubleEG_Run2016B-ReReco-v3/distributions", false, false, true, false, false, true);
 
-	// makePlots("root://node12.datagrid.cea.fr//dpm/datagrid.cea.fr/home/cms/trivcat/store/user/gnegro/miniTrees/output_DYJetsToLL-amcatnloFXFX_miniTrees.root", "Analysis/miniTrees/DYJetsToLL-amcatnlo/distributions", true, true, false, false, false, false, false);
+	// makePlots("root://node12.datagrid.cea.fr//dpm/datagrid.cea.fr/home/cms/trivcat/store/user/gnegro/miniTrees/output_DYJetsToLL-amcatnloFXFX_miniTrees.root", "Analysis/miniTrees/DYJetsToLL-amcatnlo/distributions", true, true, false, false, false, true);
 
-	// makePlots("root://node12.datagrid.cea.fr//dpm/datagrid.cea.fr/home/cms/trivcat/store/user/gnegro/miniTrees/output_WRToEEJJ_1600_miniTrees.root", "Analysis/miniTrees/WR-1600_ToLNu-800_ToEEJJ/distributions", true, false, true, false, false, false, false); //no ripesato per fare contronto con official MC
-	// makePlots("root://node12.datagrid.cea.fr//dpm/datagrid.cea.fr/home/cms/trivcat/store/user/gnegro/miniTrees/output_WRToMuMuJJ_1600_miniTrees.root", "Analysis/miniTrees/WR-1600_ToLNu-800_ToMuMuJJ/distributions", true, true, false, true, false, false, false);
+	// makePlots("root://node12.datagrid.cea.fr//dpm/datagrid.cea.fr/home/cms/trivcat/store/user/gnegro/miniTrees/output_WRToEEJJ_1600_miniTrees.root", "Analysis/miniTrees/WR-1600_ToLNu-800_ToEEJJ/distributions", true, false, true, false, false, false); //no ripesato per fare contronto con official MC
+	// makePlots("root://node12.datagrid.cea.fr//dpm/datagrid.cea.fr/home/cms/trivcat/store/user/gnegro/miniTrees/output_WRToMuMuJJ_1600_miniTrees.root", "Analysis/miniTrees/WR-1600_ToLNu-800_ToMuMuJJ/distributions", true, true, false, true, false, false);
 
-	// makePlots("root://node12.datagrid.cea.fr//dpm/datagrid.cea.fr/home/cms/trivcat/store/user/gnegro/miniTrees/output_officialWRToEEJJ_1600_miniTrees.root", "Analysis/miniTrees/WR-1600_ToLNu-800_ToEEJJ_official/distributions", true, false, true, false, false, false, false); //no ripesato per fare contronto con miei MC
+	// makePlots("root://node12.datagrid.cea.fr//dpm/datagrid.cea.fr/home/cms/trivcat/store/user/gnegro/miniTrees/output_officialWRToEEJJ_1600_miniTrees.root", "Analysis/miniTrees/WR-1600_ToLNu-800_ToEEJJ_official/distributions", true, false, true, false, false, false); //no ripesato per fare contronto con miei MC
 
 
-	// makePlots(inputDir+"output_ZToEE_miniTrees.root", "Analysis/miniTrees/ZToEE/"+outputDir, true, true, false, false, false, false, false);
+	// makePlots(inputDir+"output_ZToEE_miniTrees.root", "Analysis/miniTrees/ZToEE/"+outputDir, true, true, false, false, false, true);
 
-	// makePlots(inputDir+"output_ZToMuMu_miniTrees.root", "Analysis/miniTrees/ZToMuMu/"+outputDir, true, true, false, false, false, false, false);
+	// makePlots(inputDir+"output_ZToMuMu_miniTrees.root", "Analysis/miniTrees/ZToMuMu/"+outputDir, true, true, false, false, false, true);
 
-	makePlots(inputDir+"output_ZZ_miniTrees.root", "Analysis/miniTrees/ZZ/"+outputDir, true, true, false, false, false, false, false);
+	makePlots(inputDir+"output_ZZ_miniTrees.root", "Analysis/miniTrees/ZZ/"+outputDir, true, true, false, false, false, false);
 
-	// makePlots(inputDir+"output_WZ_miniTrees.root", "Analysis/miniTrees/WZ/"+outputDir, true, true, false, false, false, false, false);
+	// makePlots(inputDir+"output_WZ_miniTrees.root", "Analysis/miniTrees/WZ/"+outputDir, true, true, false, false, false, false);
 
-	// makePlots(inputDir+"output_WJetsToLNu_miniTrees.root", "Analysis/miniTrees/WJetsToLNu/"+outputDir, true, true, false, false, false, false, false);
+	// makePlots(inputDir+"output_WJetsToLNu_miniTrees.root", "Analysis/miniTrees/WJetsToLNu/"+outputDir, true, true, false, false, false, false);
 
-	// makePlots(inputDir+"output_TTJets-v4_miniTrees.root", "Analysis/miniTrees/TTJets/"+outputDir, true, true, false, false, false, false, false);
+	// makePlots(inputDir+"output_TTJets-v4_miniTrees.root", "Analysis/miniTrees/TTJets/"+outputDir, true, true, false, false, false, false);
 
 }
