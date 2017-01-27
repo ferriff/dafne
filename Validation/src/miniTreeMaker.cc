@@ -164,6 +164,7 @@ void miniTreeMaker::beginJob()
 	eventTree->Branch( "diLeptonDiJet_sumPt", &evInfo.diLeptonDiJet_sumPt );
 	eventTree->Branch( "diLeptonDiJet_invMass", &evInfo.diLeptonDiJet_invMass ); 
 	eventTree->Branch( "diLepton_invMass", &evInfo.diLepton_invMass ); 
+	eventTree->Branch( "diLepton_pt", &evInfo.diLepton_pt ); 
 	eventTree->Branch( "diJet_invMass", &evInfo.diJet_invMass ); 
 	eventTree->Branch( "diJetLeadingLepton_invMass", &evInfo.diJetLeadingLepton_invMass ); 
 	eventTree->Branch( "diJetSubLeadingLepton_invMass", &evInfo.diJetSubLeadingLepton_invMass ); 
@@ -765,6 +766,7 @@ void miniTreeMaker::analyze(const EventBase& evt)
 		evInfo.diLeptonDiJet_sumPt.push_back(diLeptonDiJet->sumPt());
 		evInfo.diLeptonDiJet_invMass.push_back(diLeptonDiJet->invMass());
 		evInfo.diLepton_invMass.push_back(diLeptonDiJet->diLeptonInvMass());
+		evInfo.diLepton_pt.push_back( diLeptonPt(diLeptonDiJet) );
 		evInfo.diJet_invMass.push_back( diJetInvMass(diLeptonDiJet) );
 		evInfo.diJetLeadingLepton_invMass.push_back( diJetLeadingLeptonInvMass(diLeptonDiJet) );
 		evInfo.diJetSubLeadingLepton_invMass.push_back( diJetSubLeadingLeptonInvMass(diLeptonDiJet) );
@@ -992,6 +994,7 @@ void miniTreeMaker::initEventStructure() {
 	evInfo.diLeptonDiJet_sumPt .clear();
 	evInfo.diLeptonDiJet_invMass .clear();
 	evInfo.diLepton_invMass .clear();
+	evInfo.diLepton_pt .clear();
 	evInfo.diJet_invMass .clear();
 	evInfo.diJetLeadingLepton_invMass .clear();
 	evInfo.diJetSubLeadingLepton_invMass .clear();

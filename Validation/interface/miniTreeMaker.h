@@ -160,6 +160,7 @@ struct eventInfo {
 	vector<float> diLeptonDiJet_sumPt;
 	vector<float> diLeptonDiJet_invMass;
 	vector<float> diLepton_invMass;
+	vector<float> diLepton_pt;
 	vector<float> diJet_invMass;
 	vector<float> diJetLeadingLepton_invMass;
 	vector<float> diJetSubLeadingLepton_invMass;
@@ -792,6 +793,27 @@ bool isLowMllCR(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 bool isLowMlljjCR(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 	if (dldj->invMass() < 600. && dldj->diLeptonInvMass() > 200.) return true;
 	return false;
+}
+// **************** 
+
+
+
+// **************** 
+float diLeptonPt(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
+	TLorentzVector l1, l2;  
+	l1.SetPxPyPzE( 0., 0., 0., 0. );
+	l2.SetPxPyPzE( 0., 0., 0., 0. );
+	if (dldj->isEEJJ() || dldj->isEETT() ) {
+		l1.SetPxPyPzE( dldj->electron1()->px(), dldj->electron1()->py(), dldj->electron1()->pz(), dldj->electron1()->energy() );
+		l2.SetPxPyPzE( dldj->electron2()->px(), dldj->electron2()->py(), dldj->electron2()->pz(), dldj->electron2()->energy() );
+	} else if (dldj->isMMJJ() || dldj->isMMTT()) {
+		l1.SetPxPyPzE( dldj->muon1()->px(), dldj->muon1()->py(), dldj->muon1()->pz(), dldj->muon1()->energy() );
+		l2.SetPxPyPzE( dldj->muon2()->px(), dldj->muon2()->py(), dldj->muon2()->pz(), dldj->muon2()->energy() );		
+	} else if (dldj->isEMJJ()) {
+		l1.SetPxPyPzE( dldj->electron()->px(), dldj->electron()->py(), dldj->electron()->pz(), dldj->electron()->energy() );
+		l2.SetPxPyPzE( dldj->muon()->px(), dldj->muon()->py(), dldj->muon()->pz(), dldj->muon()->energy() );	
+	}
+	return (l1+l2).Pt();
 }
 // **************** 
 
