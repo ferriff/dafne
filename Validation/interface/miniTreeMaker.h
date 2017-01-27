@@ -711,7 +711,7 @@ bool passCutBasedEleId(const flashgg::Electron* electron, double rho){
 bool passDiLeptonDiJetPreselection(Ptr<flashgg::DiLeptonDiJetCandidate> dldj){
 
 	if (dldj->leadingLeptonPt() < 60.) return false;
-	if (dldj->subLeadingLeptonPt() < 50.) return false;
+	if (dldj->subLeadingLeptonPt() < 53.) return false;
   	if (dldj->leadingJet()->pt() < 40.) return false;
 	if (dldj->subLeadingJet()->pt() < 40.) return false;
 
