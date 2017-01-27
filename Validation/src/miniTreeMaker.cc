@@ -521,7 +521,14 @@ void miniTreeMaker::analyze(const EventBase& evt)
 			ndldj++;
 			if ( passDiLeptonDiJetPreselection(diLeptonDiJet) ) npre++; 
 		}
-				
+
+	
+		if (diLeptonDiJet->leadingLeptonPt() < 35 || diLeptonDiJet->subLeadingLeptonPt() < 35) continue;
+		if (fabs(diLeptonDiJet->leadingLeptonEta()) > 2.4 || fabs(diLeptonDiJet->subLeadingLeptonEta()) > 2.4) continue;
+
+		if (diLeptonDiJet->leadingJet()->pt() < 40 || diLeptonDiJet->subLeadingJet()->pt() < 40) continue;
+		if (fabs(diLeptonDiJet->leadingJet()->eta()) > 2.4 || fabs(diLeptonDiJet->subLeadingJet()->eta()) > 2.4) continue;
+
 
 		float leadingLeptonCharge    = -999.;
 		float subLeadingLeptonCharge = -999.;
