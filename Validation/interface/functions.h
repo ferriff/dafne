@@ -64,7 +64,7 @@ struct diLeptonDiJetStruct{
 		bool isSignalRegion_, bool isLowMllCR_, bool isLowMlljjCR_, bool isBB_, bool isEE_, bool isEB_, 
 		bool passPreselections_, float dRLeadLeptonLeadJet_, float dRLeadLeptonSubLeadJet_, 
 		float dRSubLeadLeptonLeadJet_, float dRSubLeadLeptonSubLeadJet_, int diLeptonDiJet_vtxIndex_, 
-		float diLeptonDiJet_sumPt_, float diLeptonDiJet_invMass_, float diLepton_invMass_, 
+		float diLeptonDiJet_sumPt_, float diLeptonDiJet_invMass_, float diLepton_invMass_, float diLepton_pt_, 
 		float diJet_invMass_, float diJetLeadingLepton_invMass_, float diJetSubLeadingLepton_invMass_){
 		isEEJJ = isEEJJ_;
 		isEETT = isEETT_;
@@ -86,6 +86,7 @@ struct diLeptonDiJetStruct{
 		diLeptonDiJet_sumPt = diLeptonDiJet_sumPt_;
 		diLeptonDiJet_invMass = diLeptonDiJet_invMass_;
 		diLepton_invMass = diLepton_invMass_;
+		diLepton_pt = diLepton_pt_;
 		diJet_invMass = diJet_invMass_;
 		diJetLeadingLepton_invMass = diJetLeadingLepton_invMass_;
 		diJetSubLeadingLepton_invMass = diJetSubLeadingLepton_invMass_;		
@@ -93,8 +94,8 @@ struct diLeptonDiJetStruct{
 	bool isEEJJ, isEETT, isMMJJ, isMMTT, isEMJJ, isSignalRegion, isLowMllCR, isLowMlljjCR, isBB, isEE, isEB, 
 	passPreselections; 
 	float dRLeadLeptonLeadJet, dRLeadLeptonSubLeadJet, dRSubLeadLeptonLeadJet, dRSubLeadLeptonSubLeadJet, 
-	diLeptonDiJet_sumPt, diLeptonDiJet_invMass, diLepton_invMass, diJet_invMass, diJetLeadingLepton_invMass, 
-	diJetSubLeadingLepton_invMass;
+	diLeptonDiJet_sumPt, diLeptonDiJet_invMass, diLepton_invMass, diLepton_pt, diJet_invMass, 
+	diJetLeadingLepton_invMass, diJetSubLeadingLepton_invMass;
 	int diLeptonDiJet_vtxIndex; 
 };
 
