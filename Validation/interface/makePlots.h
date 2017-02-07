@@ -131,6 +131,7 @@ class makePlots {
 		vector<float>   *diLeptonDiJet_sumPt;
 		vector<float>   *diLeptonDiJet_invMass;
 		vector<float>   *diLepton_invMass;
+		vector<float>   *diLepton_pt;
 		vector<float>   *diJet_invMass;
 		vector<float>   *diJetLeadingLepton_invMass;
 		vector<float>   *diJetSubLeadingLepton_invMass;
@@ -283,6 +284,7 @@ class makePlots {
 		TBranch        *b_diLeptonDiJet_sumPt;   //!
 		TBranch        *b_diLeptonDiJet_invMass;   //!
 		TBranch        *b_diLepton_invMass;   //!
+		TBranch        *b_diLepton_pt;   //!
 		TBranch        *b_diJet_invMass;   //!
 		TBranch        *b_diJetLeadingLepton_invMass;   //!
 		TBranch        *b_diJetSubLeadingLepton_invMass;   //!
@@ -339,6 +341,9 @@ class makePlots {
 
 		TH1D *muon_dxy_histo;
 
+		TH1D *nLeadingLeptons_histo;
+		TH1D *nSubLeadingLeptons_histo;
+
 		TH1D *pt_histo[11];
 		TH1D *eta_histo[11];
 		TH1D *phi_histo[11];
@@ -367,6 +372,8 @@ class makePlots {
 		TH1D *mass_djLl_histo[4][5];
 		TH1D *mass_djSLl_histo[4][5];
 		TH1D *Zmass_histo[5][5];
+
+		TH1D *pt_dl_histo[4];
 
 
 
@@ -413,7 +420,7 @@ class makePlots {
 
 		unsigned int nEvents=0, nEventsPassingTrigger=0;
 
-		float w=1,lumiData=1;
+		float w=1, sumWeights = 0; 
 
 		string suff = "";  
 
