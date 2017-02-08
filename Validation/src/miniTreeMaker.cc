@@ -336,23 +336,32 @@ void miniTreeMaker::analyze(const EventBase& evt)
 
 	// -- event weight (Lumi x cross section x gen weight)
 	float w = 1.;
+	// cout << "w = " << w << endl;
 	if( ! iEvent.isRealData() ) {
 		w = lumiWeight_;
+		// cout << "lumiWeight = " << w << endl;
 		if( genInfo.isValid() ) {
 			const auto &weights = genInfo->weights();
 			if( ! weights.empty() ) {
 				w *= weights[0];
+				// cout << "genWeight*lumiWeight = " << w << endl;
 			}
 		}
+
+		if( globalVarsDumper_->puReWeight() ) {
+			w *= globalVarsDumper_->cache().puweight;
+		}
+
 	}
 	evInfo.weight = w;
+	// cout << "weight = " << w << endl;
 
 
 	// -- pileup weight
 	if( globalVarsDumper_->puReWeight() ) {
 		evInfo.puweight = globalVarsDumper_->cache().puweight;
 	}
-
+	// cout << "puweight = " << evInfo.puweight << endl;
 
 	// -- number of reco vertices
 	evInfo.nvtx = vertices->size() ;
