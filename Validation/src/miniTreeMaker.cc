@@ -16,7 +16,7 @@ miniTreeMaker::miniTreeMaker( const ParameterSet &iConfig, TFileDirectory& fs, C
 	rhoToken_(cc.consumes<double>(iConfig.getParameter <InputTag>("rhoFixedGridCollection" ) ) )
 {
 	bTag_ = iConfig.getUntrackedParameter<string> ( "bTag", "pfCombinedInclusiveSecondaryVertexV2BJetTags" );
-	lumiWeight_ = iConfig.getUntrackedParameter<double>( "lumiWeight", 1000. ); //pb                                                                                                                              
+	lumiWeight_ = iConfig.getUntrackedParameter<double>( "lumiWeight", 1. ); //1000. ); //pb                                                                                                                              
   
 	globalVarsDumper_ = new GlobalVariablesDumper( iConfig.getParameter<ParameterSet>( "globalVariables" ), forward<ConsumesCollector>(cc) );
   
@@ -334,7 +334,7 @@ void miniTreeMaker::analyze(const EventBase& evt)
 	evInfo.lumi = globalVarsDumper_->cache().lumi;
 	evInfo.rho = rho;
 
-	// -- event weight (Lumi x cross section x gen weight)
+	// -- event weight (gen weight x lumi x cross section x pu /nTotEvents) with nTotEvents=sumWeights if genWeight != 1
 	float w = 1.;
 	// cout << "w = " << w << endl;
 	if( ! iEvent.isRealData() ) {
