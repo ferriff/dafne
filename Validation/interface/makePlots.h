@@ -377,7 +377,7 @@ class makePlots {
 
 
 
-		makePlots(TString filename_, TString outputdir_, bool MC_,  bool MCpuReweighted_, bool signalEE_, bool signalMuMu_, bool eMuSideband_, bool TnP_);
+		makePlots(TString filename_, TString outputdir_, bool MC_,  bool MCpuReweighted_, bool signalEE_, bool signalMuMu_, bool eMuSideband_, bool TnPEE_, bool TnPMM_);
 
 		void     Init();  
 		Int_t    GetEntry(Long64_t entry);
@@ -415,11 +415,22 @@ class makePlots {
 		void saveHistosAndOutputFile(TString& outputdir);
 
 		TString filename, outputdir; 
-		bool MC, MCpuReweighted, signalEE, signalMuMu, eMuSideband, TnP;
+		bool MC, MCpuReweighted, signalEE, signalMuMu, eMuSideband, TnPEE, TnPMM;
 		vector<TH1*> listOfHistograms;
 
-		unsigned int nEvents=0, nEventsPassingTrigger=0;
-
+		unsigned int nEvents=0, nDataEventsPassingTrigger=0, nMCEventsPassingTrigger=0;
+		unsigned int nEventsPassingEEJJhlt=0, nEventsPassingMMJJhlt=0, nEventsPassingEMJJhlt=0, nEventsPassingTandPEEhlt=0, nEventsPassingTandPMMhlt=0;
+		unsigned int nEventsWithAtLeast1DLDJ=0, nEventsWithRightLeptonPair=0, nEventsWithDLDJpassingPreselections=0;
+		unsigned int nEventsWithDLDJpassingPreselectionsInSignalRegion=0, nEventsWithDLDJpassingPreselectionsInLowMlljjCR=0, nEventsWithDLDJpassingPreselectionsInLowMllCR=0, nEventsWithDLDJpassingPreselectionsInFlavourSidebandCR=0;
+		unsigned int nEventsWithDLDJpassingSelections=0, nEventsWithDLDJpassingSelectionsInSignalRegion=0, nEventsWithDLDJpassingSelectionsInLowMlljjCR=0, nEventsWithDLDJpassingSelectionsInLowMllCR=0, nEventsWithDLDJpassingSelectionsInFlavourSidebandCR=0;
+		unsigned int nLeadingEle=0, nLeadingElePassingHEEPId=0, nLeadingElePassingEleId=0;
+		unsigned int nSubLeadingEle=0, nSubLeadingElePassingHEEPId=0, nSubLeadingElePassingEleId=0;
+		unsigned int nLeadingMuon=0, nLeadingMuonPassingHighPt=0, nSubLeadingMuon=0, nSubLeadingMuonPassingHighPt=0;
+		unsigned int nLeadingJet=0, nSubLeadingJet=0;
+		unsigned int nEventsWithEEJJpassingLoosePreselections=0, nEventsWithMMJJpassingLoosePreselections=0, nEventsWithEEJJpassingLoosePreselectionsAndCharge=0, nEventsWithMMJJpassingLoosePreselectionsAndCharge=0;
+		unsigned int nEventsWithEEJJpassingLoosePreselectionsAndChargeAndHEEPId=0, nEventsWithEEJJpassingLoosePreselectionsAndChargeAndEleId=0, nEventsWithMMJJpassingLoosePreselectionsAndChargeAndHighPt=0;
+		unsigned int nEventsWith2elePassingLoosePreselections=0, nEventsWith2elePassingLoosePreselectionsAndCharge=0, nEventsWith2elePassingLoosePreselectionsAndChargeAndEleId=0; 
+		
 		float w=1, sumWeights = 0; 
 
 		string suff = "";  
