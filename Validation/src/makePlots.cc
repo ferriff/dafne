@@ -1466,3 +1466,12 @@ void runMakePlots() {
 
 
 }
+
+
+
+#ifndef __CLING__
+int main() {
+  runMakePlots();
+  return 0;
+}
+#endif
