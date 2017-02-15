@@ -137,16 +137,16 @@ namespace flashgg {
         unsigned int idx = 0;        
 
         vector<Electron_ptr> goodElectrons;
-        if( !useStdLeptonID_ ) {
-             // goodElectrons = selectAllElectrons( theElectrons->ptrs(), vertices->ptrs(), electronPtThreshold_, 
-             //                                     TransverseImpactParam_, LongitudinalImpactParam_, nonTrigMVAThresholds_, nonTrigMVAEtaCuts_,
-             //                                     electronIsoThreshold_, electronNumOfHitsThreshold_, electronEtaThresholds_ );
-            goodElectrons = selectAllElectronsSum16( theElectrons->ptrs(), vertices->ptrs(), electronPtThreshold_, electronEtaThresholds_,
-                                                     true, true, elMiniIsoEBThreshold_, elMiniIsoEEThreshold_);
-        } else {
-            goodElectrons = selectStdAllElectrons(theElectrons->ptrs(), vertices->ptrs(), electronPtThreshold_, electronEtaThresholds_,
-                                                  useElectronMVARecipe_, useElectronLooseID_);
-        }  // -> da controllare
+        // if( !useStdLeptonID_ ) {
+        //      // goodElectrons = selectAllElectrons( theElectrons->ptrs(), vertices->ptrs(), electronPtThreshold_, 
+        //      //                                     TransverseImpactParam_, LongitudinalImpactParam_, nonTrigMVAThresholds_, nonTrigMVAEtaCuts_,
+        //      //                                     electronIsoThreshold_, electronNumOfHitsThreshold_, electronEtaThresholds_ );
+        //     goodElectrons = selectAllElectronsSum16( theElectrons->ptrs(), vertices->ptrs(), electronPtThreshold_, electronEtaThresholds_,
+        //                                              true, true, elMiniIsoEBThreshold_, elMiniIsoEEThreshold_);
+        // } else {
+        //     goodElectrons = selectStdAllElectrons(theElectrons->ptrs(), vertices->ptrs(), electronPtThreshold_, electronEtaThresholds_,
+        //                                           useElectronMVARecipe_, useElectronLooseID_);
+        // }  // -> da controllare
         
         
         for( unsigned int diLeptonDiJetIndex = 0; diLeptonDiJetIndex < diLeptonDiJets->size(); diLeptonDiJetIndex++ ) {
