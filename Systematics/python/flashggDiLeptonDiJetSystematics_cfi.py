@@ -144,15 +144,16 @@ MCScaleLowR9EE_EGM = cms.PSet( ElectronMethodName = cms.string("FlashggElectronS
 
 flashggDiLeptonDiJetSystematics = cms.EDProducer('FlashggDiLeptonDiJetSystematicProducer',
 		src = cms.InputTag("flashggDiLeptonDiJet"),
-		SystMethods2D = cms.VPSet(),
+		SystMethods2D = cms.VPSet(
+				MCSmearHighR9EB_EGM,
+				MCSmearLowR9EB_EGM,
+				MCSmearHighR9EE_EGM,
+				MCSmearLowR9EE_EGM			
+		),
 		# the number of syst methods matches the number of nuisance parameters
 		# assumed for a given systematic uncertainty and is NOT required
 		# to match 1-to-1 the number of bins above.
 		SystMethods = cms.VPSet(
-				MCSmearHighR9EB_EGM,
-				MCSmearLowR9EB_EGM,
-				MCSmearHighR9EE_EGM,
-				MCSmearLowR9EE_EGM,
 				MCScaleHighR9EB_EGM,
 				MCScaleLowR9EB_EGM,
 				MCScaleHighR9EE_EGM,
