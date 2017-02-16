@@ -17,10 +17,12 @@
 <use   name="flashgg/DataFormats"/>
 <use   name="flashgg/MicroAOD"/>
 <use   name="flashgg/Taggers"/>
+<use   name="flashgg/Systematics"/>
 <use   name="flashgg/Validation"/>
 <use   name="dafne/DataFormats"/>
 <use   name="dafne/MicroAOD"/>
 <use   name="dafne/Taggers"/>
+<use   name="dafne/Systematics"/>
 <export>
   <lib   name="1"/>
 </export>
