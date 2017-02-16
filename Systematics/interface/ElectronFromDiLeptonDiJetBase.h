@@ -1,10 +1,10 @@
-#ifndef FLASHgg_DiLeptonDiJetBase_h
-#define FLASHgg_DiLeptonDiJetBase_h
+#ifndef FLASHgg_ElectronFromDiLeptonDiJetBase_h
+#define FLASHgg_ElectronFromDiLeptonDiJetBase_h
 
 #include "dafne/Systematics/interface/BaseSystMethod_DiLeptonDiJet.h"
 #include "DataFormats/Common/interface/Handle.h"
 #include "DataFormats/Common/interface/PtrVector.h"
-#include "flashgg/DataFormats/interface/DiLeptonDiJetCandidate.h"
+#include "dafne/DataFormats/interface/DiLeptonDiJetCandidate.h"
 #include "CommonTools/CandUtils/interface/AddFourMomenta.h"
 #include <memory>
 
@@ -80,8 +80,9 @@ namespace flashgg {
     {
         if( debug_ ) {
             std::cout << "START OF ElectronFromDiLeptonDiJet::makeWeight M PT E1 E2 ETA1 ETA2 "
-                      // << y.mass() << " " << y.pt() << " " << y.leadingPhoton()->energy() << " " << y.subLeadingPhoton()->energy() << " "
-                      // << y.leadingPhoton()->eta() << " " << y.subLeadingPhoton()->eta() 
+                      // << y.mass() << " " << y.pt() << " " 
+                      // << y.leadingEle()->energy() << " " << y.subLeadingEle()->energy() << " "
+                      // << y.leadingEle()->eta() << " " << y.subLeadingEle()->eta() 
                       << std::endl;
         }
 
@@ -93,7 +94,7 @@ namespace flashgg {
             weight2 = electron_corr2_->makeWeight( *(y.subLeadingEle()), syst_shift );
         }
 
-        if (o.isEMJJ()) weight1 = electron_corr_->makeWeight( *(y.electron()), syst_shift );
+        if (y.isEMJJ()) weight1 = electron_corr_->makeWeight( *(y.electron()), syst_shift );
 
         float dieleweight = weight1*weight2;
         if( debug_ ) {
@@ -103,29 +104,37 @@ namespace flashgg {
         return dieleweight;
     }
 
-    template<class param_var>
+
+    template<class param_var> 
     void ElectronFromDiLeptonDiJetBase<param_var>::applyCorrection( DiLeptonDiJetCandidate &y, param_var syst_shift )
     {
         if( debug_ ) {
             std::cout << "START OF ElectronFromDiLeptonDiJet::applyCorrection M PT E1 E2 ETA1 ETA2 "
-                      // << y.mass() << " " << y.pt() << " " << y.leadingPhoton()->energy() << " " << y.subLeadingPhoton()->energy() << " "
-                      // << y.leadingPhoton()->eta() << " " << y.subLeadingPhoton()->eta() 
+                      // << y.mass() << " " << y.pt() << " " 
+                      // << y.leadingEle()->energy() << " " << y.subLeadingEle()->energy() << " "
+                      // << y.leadingEle()->eta() << " " << y.subLeadingEle()->eta() 
                       << std::endl;
         }
-        // y.makePhotonsPersistent();
         
         if (y.isEEJJ() || y.isEETT()) {      
-            electron_corr_->applyCorrection( *(y.leadingEle()), syst_shift );
-            electron_corr2_->applyCorrection( *(y.subLeadingEle()), syst_shift );
+            auto ele1 = flashgg::Electron(*(y.leadingEle()));
+            auto ele2 = flashgg::Electron(*(y.subLeadingEle()));
+
+            electron_corr_->applyCorrection( ele1, syst_shift );
+            electron_corr2_->applyCorrection( ele2, syst_shift );
         }
 
-        if (o.isEMJJ()) electron_corr_->applyCorrection( *(y.electron()), syst_shift );
+        if (y.isEMJJ()) {
+            auto ele = flashgg::Electron(*(y.electron()));
+            electron_corr_->applyCorrection( ele, syst_shift );
+        }
 
-        y.computeP4AndOrder();
+        // y.computeP4AndOrder();
         if( debug_ ) {
             std::cout << "END OF ElectronFromDiLeptonDiJet::applyCorrection M PT E1 E2 ETA1 ETA2 "
-                      // << y.mass() << " " << y.pt() << " " << y.leadingPhoton()->energy() << " " << y.subLeadingPhoton()->energy() << " "
-                      // << y.leadingPhoton()->eta() << " " << y.subLeadingPhoton()->eta() 
+                      // << y.mass() << " " << y.pt() << " " 
+                      // << y.leadingEle()->energy() << " " << y.subLeadingEle()->energy() << " "
+                      // << y.leadingEle()->eta() << " " << y.subLeadingEle()->eta() 
                       << std::endl;
         }
     }
