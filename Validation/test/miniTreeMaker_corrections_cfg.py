@@ -133,6 +133,19 @@ if (electronsNotRandomized):
 print "input to flashggDiLeptonDiJetSystematics = ", process.flashggDiLeptonDiJetSystematics.src
 
 
+debug = True
+
+if debug: 
+	if customize.processType == "data":
+		for pset in process.flashggEleSystematics.SystMethods:
+			pset.Debug = True
+			pset.ExaggerateShiftUp = True
+	else:
+		for pset2 in process.flashggEleSystematics.SystMethods2D:
+			pset2.Debug = True
+			pset2.ExaggerateShiftUp = True
+
+
 ## if data apply only energy scale corrections, if MC apply only energy smearings
 if customize.processType == "data":
     print 'data' 
