@@ -20,12 +20,10 @@ microAODmassiveNuOutputCommand = cms.untracked.vstring("drop *",
 													"keep *_offlineBeamSpot_*_*",
 													"keep *_TriggerResults_*_*",
 													"keep *_eventCount_*_*",
-													#"keep *CaloClusters_*_*_*",
 													"keep *_weightsCount_*_*",
 													"keep *_generator_*_*",
 													"keep *_slimmedGenJets_*_*",
-													"keep *_flashggDiPhotons_*_*", # STILL NEEDED
-													"keep *_slimmedAddPileupInfo_*_*", # Was huge in old MiniAod - hopefully better now
+													"keep *_slimmedAddPileupInfo_*_*", 
 													"keep *GsfElectronCore*_*_*_*", # needed by at least one Tag
 
 													"keep *_flashggSelected*_*_*",
