@@ -64,6 +64,10 @@ namespace flashgg {
         void embedElectrons();
 		std::vector<Electron_t> & embeddedElectrons();
 
+		const std::vector<Muon_ptr>  & muons()  const { return ptrMuon_; }
+		const std::vector<Jet_ptr>   & jets()   const { return ptrJet_; }
+		const std::vector<Track_ptr> & tracks() const { return ptrTrack_; }
+
 		const reco::Candidate * leadingLepton() const; 
 		const reco::Candidate * subLeadingLepton() const; 
 
