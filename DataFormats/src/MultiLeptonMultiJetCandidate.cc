@@ -14,11 +14,10 @@ MultiLeptonMultiJetCandidate::MultiLeptonMultiJetCandidate( Electron_ptr electro
 	type_ = kEEJJ;
 	vertex_ = vertex;
 
-    // FIXME: order in pt()
-
-    //if (electron1->pt() < electron2->pt()) std::swap(electron1, electron2);
+    if (electron1->pt() < electron2->pt()) std::swap(electron1, electron2);
 	ptrEle_.push_back(electron1);
 	ptrEle_.push_back(electron2);
+    if (jet1->pt() < jet2->pt()) std::swap(jet1, jet2);
 	ptrJet_.push_back(jet1);
 	ptrJet_.push_back(jet2);
 
@@ -31,10 +30,10 @@ MultiLeptonMultiJetCandidate::MultiLeptonMultiJetCandidate( Muon_ptr muon1, Muon
 	type_ = kMMJJ;
 	vertex_ = vertex;
 
-    // FIXME: order in pt()
-
+    if (muon1->pt() < muon2->pt()) std::swap(muon1, muon2);
 	ptrMuon_.push_back(muon1);
 	ptrMuon_.push_back(muon2);
+    if (jet1->pt() < jet2->pt()) std::swap(jet1, jet2);
 	ptrJet_.push_back(jet1);
 	ptrJet_.push_back(jet2);
 
@@ -47,14 +46,14 @@ MultiLeptonMultiJetCandidate::MultiLeptonMultiJetCandidate( Electron_ptr electro
 	type_ = kEETT;
 	vertex_ = vertex;
 
-    // FIXME: order in pt()
-
+    if (electron1->pt() < electron2->pt()) std::swap(electron1, electron2);
 	ptrEle_.push_back(electron1);
 	ptrEle_.push_back(electron2);
+    if (track1->pt() < track2->pt()) std::swap(track1, track2);
 	ptrTrack_.push_back(track1);
 	ptrTrack_.push_back(track2);
 
-    this->setP4(ptrEle_[0]->p4() + ptrEle_[1]->p4() + ptrJet_[0]->p4() + ptrJet_[1]->p4());
+    this->setP4(ptrEle_[0]->p4() + ptrEle_[1]->p4() + ptrTrack_[0]->p4() + ptrTrack_[1]->p4());
 }
 
 
@@ -63,12 +62,14 @@ MultiLeptonMultiJetCandidate::MultiLeptonMultiJetCandidate( Muon_ptr muon1, Muon
 	type_ = kMMTT;
 	vertex_ = vertex;
 
+    if (muon1->pt() < muon2->pt()) std::swap(muon1, muon2);
 	ptrMuon_.push_back(muon1);
 	ptrMuon_.push_back(muon2);
+    if (track1->pt() < track2->pt()) std::swap(track1, track2);
 	ptrTrack_.push_back(track1);
 	ptrTrack_.push_back(track2);
 
-    this->setP4(ptrMuon_[0]->p4() + ptrMuon_[1]->p4() + ptrJet_[0]->p4() + ptrJet_[1]->p4());
+    this->setP4(ptrMuon_[0]->p4() + ptrMuon_[1]->p4() + ptrTrack_[0]->p4() + ptrTrack_[1]->p4());
 }
 
 
@@ -77,10 +78,9 @@ MultiLeptonMultiJetCandidate::MultiLeptonMultiJetCandidate( Electron_ptr electro
 	type_ = kEMJJ;
 	vertex_ = vertex;
 
-    // FIXME: order in pt()
-
 	ptrEle_.push_back(electron);
 	ptrMuon_.push_back(muon);
+    if (jet1->pt() < jet2->pt()) std::swap(jet1, jet2);
 	ptrJet_.push_back(jet1);
 	ptrJet_.push_back(jet2);
 
@@ -104,46 +104,6 @@ std::vector<Electron_t> & MultiLeptonMultiJetCandidate::embeddedElectrons()
 }
 
 
-//const Electron_t * MultiLeptonMultiJetCandidate::electron1() const
-//{
-//	if (type_ == kEEJJ || type_ == kEETT) return dynamic_cast<const Electron_t *>( daughter( 0 ) );  //electrons_[0] 
-//	else return nullptr;
-//}
-//
-//
-//const Electron_t *MultiLeptonMultiJetCandidate::electron2() const
-//{
-//	if (type_ == kEEJJ || type_ == kEETT) return dynamic_cast<const Electron_t *>( daughter( 1 ) );
-//	else return nullptr;
-//}
-//
-//const Electron_t *MultiLeptonMultiJetCandidate::electron() const
-//{
-//	if (type_ == kEMJJ) return dynamic_cast<const Electron_t *>( daughter( 0 ) ); //electron_ 
-//	else return nullptr;
-//}
-//
-//
-//const Muon_t *MultiLeptonMultiJetCandidate::muon1() const
-//{
-//	if (type_ == kMMJJ || type_ == kMMTT) return dynamic_cast<const Muon_t *>( daughter( 0 ) );
-//	else return nullptr;	
-//}
-//
-//
-//const Muon_t *MultiLeptonMultiJetCandidate::muon2() const
-//{
-//	if (type_ == kMMJJ || type_ == kMMTT) return dynamic_cast<const Muon_t *>( daughter( 1 ) );
-//	else return nullptr;
-//}
-//
-//const Muon_t *MultiLeptonMultiJetCandidate::muon() const
-//{
-//	if (type_ == kEMJJ) return dynamic_cast<const Muon_t *>( daughter( 1 ) ); //muon_ 
-//	else return nullptr;	
-//}
-//
-//
 const Electron_t * MultiLeptonMultiJetCandidate::leadingEle() const
 {
 	if (ele_.size()) {
@@ -273,8 +233,9 @@ float MultiLeptonMultiJetCandidate::sumPt() const
     for (auto & e : ptrJet_)   ptsum += e->pt();
     for (auto & e : ptrTrack_) ptsum += e->pt();
 
-    // assume that if embedded, the pointers are empty
-    // so that there is no double counting...
+    // assume that, if candidate are embedded,
+    // the pointers are empty so that there is
+    // no double counting...
     for (auto & e : ele_)   ptsum += e.pt();
     for (auto & e : muon_)  ptsum += e.pt();
     for (auto & e : jet_)   ptsum += e.pt();
@@ -282,106 +243,6 @@ float MultiLeptonMultiJetCandidate::sumPt() const
 
     return ptsum;
 }  
-
-
-//float MultiLeptonMultiJetCandidate::diLeptonInvMass() const
-//{ 
-//	TLorentzVector l1, l2;  
-//	l1.SetPxPyPzE( 0., 0., 0., 0. );
-//	l2.SetPxPyPzE( 0., 0., 0., 0. );
-//	if (type_ == kEEJJ || type_ == kEETT) {
-//		l1.SetPxPyPzE( electron1()->px(), electron1()->py(), electron1()->pz(), electron1()->energy() );
-//		l2.SetPxPyPzE( electron2()->px(), electron2()->py(), electron2()->pz(), electron2()->energy() );
-//	} else if (type_ == kMMJJ || type_ == kMMTT) {
-//		l1.SetPxPyPzE( muon1()->px(), muon1()->py(), muon1()->pz(), muon1()->energy() );
-//		l2.SetPxPyPzE( muon2()->px(), muon2()->py(), muon2()->pz(), muon2()->energy() );		
-//	} else if (type_ == kEMJJ) {
-//		l1.SetPxPyPzE( electron()->px(), electron()->py(), electron()->pz(), electron()->energy() );
-//		l2.SetPxPyPzE( muon()->px(), muon()->py(), muon()->pz(), muon()->energy() );	
-//	}
-//	return (l1+l2).M();
-//}
-
-
-//float MultiLeptonMultiJetCandidate::leadingLeptonPt() const {
-//	if (type_ == kEEJJ || type_ == kEETT) return (leadingEle()->pt());
-//	else if (type_ == kMMJJ || type_ == kMMTT) return (leadingMuon()->pt());
-//	else if (type_ == kEMJJ) {
-//		if( electron()->pt() > muon()->pt() ) return electron()->pt(); 
-//		else return muon()->pt(); 
-//	} 
-//	else return 0.;
-//}
-//
-//float MultiLeptonMultiJetCandidate::subLeadingLeptonPt() const {
-//	if (type_ == kEEJJ || type_ == kEETT) return (subLeadingEle()->pt());
-//	else if (type_ == kMMJJ || type_ == kMMTT) return (subLeadingMuon()->pt());
-//	else if (type_ == kEMJJ) {
-//		if( electron()->pt() > muon()->pt() ) return muon()->pt(); 
-//		else return electron()->pt(); 
-//	} 	
-//	else return 0.;
-//}
-//
-//float MultiLeptonMultiJetCandidate::leadingLeptonEta() const {
-//	if (type_ == kEEJJ || type_ == kEETT) return (leadingEle()->eta());
-//	else if (type_ == kMMJJ || type_ == kMMTT) return (leadingMuon()->eta());
-//	else if (type_ == kEMJJ) {
-//		if( electron()->pt() > muon()->pt() ) return electron()->eta(); 
-//		else return muon()->eta(); 
-//	} 	
-//	else return 0.;
-//}
-//
-//float MultiLeptonMultiJetCandidate::subLeadingLeptonEta() const {
-//	if (type_ == kEEJJ || type_ == kEETT) return (subLeadingEle()->eta());
-//	else if (type_ == kMMJJ || type_ == kMMTT) return (subLeadingMuon()->eta());
-//	else if (type_ == kEMJJ) {
-//		if( electron()->pt() > muon()->pt() ) return muon()->eta(); 
-//		else return electron()->eta(); 
-//	} 	
-//	else return 0.;
-//}
-//
-//float MultiLeptonMultiJetCandidate::leadingLeptonPhi() const {
-//	if (type_ == kEEJJ || type_ == kEETT) return (leadingEle()->phi());
-//	else if (type_ == kMMJJ || type_ == kMMTT) return (leadingMuon()->phi());
-//	else if (type_ == kEMJJ) {
-//		if( electron()->pt() > muon()->pt() ) return electron()->phi(); 
-//		else return muon()->phi(); 
-//	} 
-//	else return 0.;
-//}
-//
-//float MultiLeptonMultiJetCandidate::subLeadingLeptonPhi() const {
-//	if (type_ == kEEJJ || type_ == kEETT) return (subLeadingEle()->phi());
-//	else if (type_ == kMMJJ || type_ == kMMTT) return (subLeadingMuon()->phi());
-//	else if (type_ == kEMJJ) {
-//		if( electron()->pt() > muon()->pt() ) return muon()->phi(); 
-//		else return electron()->phi(); 
-//	} 	
-//	else return 0.;
-//}
-//
-//float MultiLeptonMultiJetCandidate::leadingLeptonCharge() const {
-//	if (type_ == kEEJJ || type_ == kEETT) return (leadingEle()->charge());
-//	else if (type_ == kMMJJ || type_ == kMMTT) return (leadingMuon()->charge());
-//	else if (type_ == kEMJJ) {
-//		if( electron()->pt() > muon()->pt() ) return electron()->charge(); 
-//		else return muon()->charge(); 
-//	} 
-//	else return 0.;
-//}
-//
-//float MultiLeptonMultiJetCandidate::subLeadingLeptonCharge() const {
-//	if (type_ == kEEJJ || type_ == kEETT) return (subLeadingEle()->charge());
-//	else if (type_ == kMMJJ || type_ == kMMTT) return (subLeadingMuon()->charge());
-//	else if (type_ == kEMJJ) {
-//		if( electron()->pt() > muon()->pt() ) return muon()->charge(); 
-//		else return electron()->charge(); 
-//	} 	
-//	else return 0.;
-//}
 
 
 bool MultiLeptonMultiJetCandidate::operator <( const MultiLeptonMultiJetCandidate &b ) const
