@@ -47,8 +47,8 @@ namespace flashgg {
 	private:
 		void produce( Event &, const EventSetup & ) override;
 		EDGetTokenT<View<Electron_t> > electronToken_;
-		EDGetTokenT<View<Muon_t> > muonToken_;      
-		EDGetTokenT<View<Jet_t> > jetToken_;  		
+		EDGetTokenT<View<Muon_t> > muonToken_;      	
+		EDGetTokenT<View<vector<flashgg::Jet>> > jetToken_;	
 		EDGetTokenT<View<Track_t> > trackToken_;	
 		EDGetTokenT<View<Vertex_t> > vertexToken_;
 
@@ -66,7 +66,7 @@ namespace flashgg {
 	DiLeptonDiJetProducer::DiLeptonDiJetProducer( const ParameterSet &iConfig ) :
 		electronToken_( consumes<View<Electron_t> >( iConfig.getParameter<InputTag> ( "ElectronTag" ) ) ),
 		muonToken_( consumes<View<Muon_t> >( iConfig.getParameter<InputTag> ( "MuonTag" ) ) ),
-		jetToken_( consumes<View<Jet_t> >( iConfig.getParameter<InputTag> ( "JetTag" ) ) ),
+		jetToken_( consumes<View<vector<flashgg::Jet> > >( iConfig.getParameter<InputTag> ( "JetTag" ) ) ),
 		trackToken_( consumes<View<Track_t> >( iConfig.getParameter<InputTag> ( "TrackTag" ) ) ),
 		vertexToken_( consumes<View<Vertex_t> >( iConfig.getParameter<InputTag> ( "VertexTag" ) ) )
 
@@ -98,9 +98,9 @@ namespace flashgg {
 		evt.getByToken( muonToken_, muons );
 		const vector<Muon_ptr > &muonPointers = muons->ptrs();
 
-		Handle<View<Jet_t> > jets;
+		Handle<View<vector<flashgg::Jet> > > jets;
 		evt.getByToken( jetToken_, jets );
-		const vector<Jet_ptr > &jetPointers = jets->ptrs();
+		const vector<Ptr<vector<flashgg::Jet> > > &jetPointers = jets->ptrs();  
 
 		Handle<View<Track_t> > tracks;
 		evt.getByToken( trackToken_, tracks );
@@ -128,17 +128,22 @@ namespace flashgg {
 
 					if (jetPointers.size() > 1) {
 						for ( unsigned int l = 0 ; l < jetPointers.size() ; l++ ) {
-							Jet_ptr jet1 = jetPointers[l];
-							double pt_jet1 = jet1->pt();
-							double eta_jet1 = jet1->eta();
+							auto jet1 = jetPointers[l]->at(0);
+							double pt_jet1 = jet1.pt();
+							double eta_jet1 = jet1.eta();							
+
 							if( pt_jet1 < minJetPt_ || fabs( eta_jet1 ) > maxJetEta_ ) { continue; }
 							for( unsigned int h = l + 1 ; h < jetPointers.size() ; h++ ) {		
-								Jet_ptr jet2 = jetPointers[h];
-								double pt_jet2 = jet2->pt();
-								double eta_jet2 = jet2->eta();
+								auto jet2 = jetPointers[h]->at(0);
+								double pt_jet2 = jet2.pt();
+								double eta_jet2 = jet2.eta();								
+
 								if( pt_jet2 < minJetPt_ || fabs( eta_jet2 ) > maxJetEta_ ) { continue; }
 
-								DiLeptonDiJetCandidate DiEleDiJet( electron1, electron2, jet1, jet2, pvx);  //create DiLeptonDiJetCandidate with 2ele and 2jets
+								Jet_t Jet1 = static_cast<Jet_t>(jet1);
+								Jet_t Jet2 = static_cast<Jet_t>(jet2);
+
+								DiLeptonDiJetCandidate DiEleDiJet( electron1, electron2, Jet1, Jet2, pvx);  //create DiLeptonDiJetCandidate with 2ele and 2jets
 
 								DiEleDiJet.setVtx( pvx );  
 
@@ -209,17 +214,22 @@ namespace flashgg {
 
 					if (jetPointers.size() > 1) {
 						for ( unsigned int l = 0 ; l < jetPointers.size() ; l++ ) {
-							Jet_ptr jet1 = jetPointers[l];
-							double pt_jet1 = jet1->pt();
-							double eta_jet1 = jet1->eta();
+							auto jet1 = jetPointers[l]->at(0);
+							double pt_jet1 = jet1.pt();
+							double eta_jet1 = jet1.eta();		
+
 							if( pt_jet1 < minJetPt_ || fabs( eta_jet1 ) > maxJetEta_ ) { continue; }
 							for( unsigned int h = l + 1 ; h < jetPointers.size() ; h++ ) {		
-								Jet_ptr jet2 = jetPointers[h];
-								double pt_jet2 = jet2->pt();
-								double eta_jet2 = jet2->eta();
+								auto jet2 = jetPointers[h]->at(0);
+								double pt_jet2 = jet2.pt();
+								double eta_jet2 = jet2.eta();	
+
 								if( pt_jet2 < minJetPt_ || fabs( eta_jet2 ) > maxJetEta_ ) { continue; }
 
-								DiLeptonDiJetCandidate DiMuonDiJet( muon1, muon2, jet1, jet2, pvx);  //create DiLeptonDiJetCandidate with 2muons and 2jets
+								Jet_t Jet1 = static_cast<Jet_t>(jet1);
+								Jet_t Jet2 = static_cast<Jet_t>(jet2);
+
+								DiLeptonDiJetCandidate DiMuonDiJet( muon1, muon2, Jet1, Jet2, pvx);  //create DiLeptonDiJetCandidate with 2muons and 2jets
 
 								DiMuonDiJet.setVtx( pvx );
 
@@ -289,18 +299,23 @@ namespace flashgg {
 					if( pt_mu < minMuPt_ || fabs( eta_mu ) > maxMuEta_ ) { continue; }
 
 					for ( unsigned int l = 0 ; l < jetPointers.size() ; l++ ) {
-						Jet_ptr jet1 = jetPointers[l];
-						double pt_jet1 = jet1->pt();
-						double eta_jet1 = jet1->eta();
+						auto jet1 = jetPointers[l]->at(0);
+						double pt_jet1 = jet1.pt();
+						double eta_jet1 = jet1.eta();		
+
 						if( pt_jet1 < minJetPt_ || fabs( eta_jet1 ) > maxJetEta_ ) { continue; }
 
 						for( unsigned int h = l + 1 ; h < jetPointers.size() ; h++ ) {		
-							Jet_ptr jet2 = jetPointers[h];
-							double pt_jet2 = jet2->pt();
-							double eta_jet2 = jet2->eta();
+							auto jet2 = jetPointers[h]->at(0);
+							double pt_jet2 = jet2.pt();
+							double eta_jet2 = jet2.eta();	
+
 							if( pt_jet2 < minJetPt_ || fabs( eta_jet2 ) > maxJetEta_ ) { continue; }
 
-							DiLeptonDiJetCandidate EleMuDiJet( electron, muon, jet1, jet2, pvx);  //create DiLeptonDiJetCandidate with 1ele, 1mu and 2jets
+							Jet_t Jet1 = static_cast<Jet_t>(jet1);
+							Jet_t Jet2 = static_cast<Jet_t>(jet2);
+
+							DiLeptonDiJetCandidate EleMuDiJet( electron, muon, Jet1, Jet2, pvx);  //create DiLeptonDiJetCandidate with 1ele, 1mu and 2jets
 
 							EleMuDiJet.setVtx( pvx );  
 

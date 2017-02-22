@@ -9,43 +9,45 @@ DiLeptonDiJetCandidate::DiLeptonDiJetCandidate() {}
 DiLeptonDiJetCandidate::~DiLeptonDiJetCandidate() {}
 
 
-DiLeptonDiJetCandidate::DiLeptonDiJetCandidate( Electron_ptr electron1, Electron_ptr electron2, Jet_ptr jet1, Jet_ptr jet2, Vertex_ptr vertex )
+
+DiLeptonDiJetCandidate::DiLeptonDiJetCandidate( Electron_ptr electron1, Electron_ptr electron2, const Jet_t &jet1, const Jet_t &jet2, Vertex_ptr vertex )
 {
 	vertex_ = vertex;
 
 	addDaughter( *electron1 );
 	addDaughter( *electron2 );
-	addDaughter( *jet1 );
-	addDaughter( *jet2 );
+	addDaughter( jet1 );
+	addDaughter( jet2 );
 
 	type_ = kEEJJ;
 	electrons_[0] = electron1;
 	electrons_[1] = electron2;
-	jets_[0] = jet1;
-	jets_[1] = jet2;
+	jet1_ = jet1;
+	jet2_ = jet2;
 
 	AddFourMomenta addP4;  
 	addP4.set( *this );
 }
 
-DiLeptonDiJetCandidate::DiLeptonDiJetCandidate( Muon_ptr muon1, Muon_ptr muon2, Jet_ptr jet1, Jet_ptr jet2, Vertex_ptr vertex )
+DiLeptonDiJetCandidate::DiLeptonDiJetCandidate( Muon_ptr muon1, Muon_ptr muon2, const Jet_t &jet1, const Jet_t &jet2, Vertex_ptr vertex )
 {
 	vertex_ = vertex;
 
 	addDaughter( *muon1 );
 	addDaughter( *muon2 );
-	addDaughter( *jet1 );
-	addDaughter( *jet2 );
+	addDaughter( jet1 );
+	addDaughter( jet2 );
 
 	type_ = kMMJJ;
 	muons_[0] = muon1;
 	muons_[1] = muon2;
-	jets_[0] = jet1;
-	jets_[1] = jet2;
+	jet1_ = jet1;
+	jet2_ = jet2;
 
 	AddFourMomenta addP4;  
 	addP4.set( *this );
 }
+
 
 DiLeptonDiJetCandidate::DiLeptonDiJetCandidate( Electron_ptr electron1, Electron_ptr electron2, Track_ptr track1, Track_ptr track2, Vertex_ptr vertex )
 {
@@ -85,24 +87,26 @@ DiLeptonDiJetCandidate::DiLeptonDiJetCandidate( Muon_ptr muon1, Muon_ptr muon2, 
 	addP4.set( *this );
 }
 
-DiLeptonDiJetCandidate::DiLeptonDiJetCandidate( Electron_ptr electron, Muon_ptr muon, Jet_ptr jet1, Jet_ptr jet2, Vertex_ptr vertex )
+
+DiLeptonDiJetCandidate::DiLeptonDiJetCandidate( Electron_ptr electron, Muon_ptr muon, const Jet_t &jet1, const Jet_t &jet2, Vertex_ptr vertex )
 {
 	vertex_ = vertex;
 
 	addDaughter( *electron );
 	addDaughter( *muon );
-	addDaughter( *jet1 );
-	addDaughter( *jet2 );
+	addDaughter( jet1 );
+	addDaughter( jet2 );
 
 	type_ = kEMJJ;
 	electronPtr_ = electron;
 	muonPtr_ = muon;
-	jets_[0] = jet1;
-	jets_[1] = jet2;
+	jet1_ = jet1;
+	jet2_ = jet2;
 
 	AddFourMomenta addP4;  
 	addP4.set( *this );
 }
+
 
 
 
@@ -200,6 +204,7 @@ DiLeptonDiJetCandidate::DiLeptonDiJetCandidate(const Electron_t &electron, const
 	AddFourMomenta addP4;  
 	addP4.set( *this );
 }
+
 
 
 
