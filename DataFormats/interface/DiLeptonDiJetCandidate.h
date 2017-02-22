@@ -51,11 +51,11 @@ namespace flashgg {
 	public:
 		DiLeptonDiJetCandidate();
 
-		DiLeptonDiJetCandidate( Electron_ptr, Electron_ptr, Jet_ptr, Jet_ptr, Vertex_ptr );
+		DiLeptonDiJetCandidate( Electron_ptr, Electron_ptr, const Jet_t &, const Jet_t &, Vertex_ptr );
 		DiLeptonDiJetCandidate( Electron_ptr, Electron_ptr, Track_ptr, Track_ptr, Vertex_ptr );
-		DiLeptonDiJetCandidate( Muon_ptr, Muon_ptr, Jet_ptr, Jet_ptr, Vertex_ptr );
+		DiLeptonDiJetCandidate( Muon_ptr, Muon_ptr, const Jet_t &, const Jet_t &, Vertex_ptr );
 		DiLeptonDiJetCandidate( Muon_ptr, Muon_ptr, Track_ptr, Track_ptr, Vertex_ptr );
-		DiLeptonDiJetCandidate( Electron_ptr, Muon_ptr, Jet_ptr, Jet_ptr, Vertex_ptr );
+		DiLeptonDiJetCandidate( Electron_ptr, Muon_ptr, const Jet_t &, const Jet_t &, Vertex_ptr );
 
 		DiLeptonDiJetCandidate( const Electron_t &, const Electron_t &, Jet_ptr, Jet_ptr, Vertex_ptr );
 		DiLeptonDiJetCandidate( const Electron_t &, const Electron_t &, Track_ptr, Track_ptr, Vertex_ptr );
@@ -172,6 +172,7 @@ namespace flashgg {
 
 		Electron_t electron1_, electron2_, electron_;
 		Muon_t muon1_, muon2_, muon_;
+		Jet_t jet1_, jet2_;
 
 		Electron_ptr electrons_[2], electronPtr_;
 		Muon_ptr muons_[2], muonPtr_;
